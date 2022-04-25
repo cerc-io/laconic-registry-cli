@@ -1,0 +1,7 @@
+services:
+  cns:
+    restEndpoint: 'http://localhost:1317'
+    gqlEndpoint: 'http://localhost:9473/api'
+    userKey:
+    bondId:
+    chainId: chibaclonk_9000-1
