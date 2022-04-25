@@ -13,9 +13,11 @@ exports.builder = (yargs: yargs.Argv) => {
       'chain-id': { type: 'string' },
       'filename': { alias: 'f' },
       'id': { type: 'string' },
+      'address': { type: 'string' },
       'gas': { type: 'string' },
       'fees': { type: 'string' }
     })
     .commandDir('cns-cmds')
+    .demandCommand()
     .help()
 }
