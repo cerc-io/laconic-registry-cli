@@ -721,9 +721,9 @@ chalk@^2.4.1:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-"chiba-clonk-client@https://github.com/vulcanize/chiba-clonk-client.git#945672d15a4adf1cde8bbca290689aafa6de9f42":
+"chiba-clonk-client@https://github.com/vulcanize/chiba-clonk-client.git#416c06deeb8e6cec685e75590728b6d5258d4adc":
   version "0.1.0"
-  resolved "https://github.com/vulcanize/chiba-clonk-client.git#945672d15a4adf1cde8bbca290689aafa6de9f42"
+  resolved "https://github.com/vulcanize/chiba-clonk-client.git#416c06deeb8e6cec685e75590728b6d5258d4adc"
   dependencies:
     "@cosmjs/amino" "^0.28.1"
     "@cosmjs/crypto" "^0.28.1"
