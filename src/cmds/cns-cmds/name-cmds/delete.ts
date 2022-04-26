@@ -2,17 +2,15 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from 'chiba-clonk-client';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees } from '../../../util';
 
-export const command = 'set [name] [bond-id]';
+export const command = 'delete [name]';
 
-export const desc = 'Set bond for authority.';
+export const desc = 'Delete name (remove name to record ID mapping).';
 
 export const handler = async (argv: Arguments) => {
   const name = argv.name as string;
-  const bondId = argv.bondId as string;
-  assert(name, 'Invalid authority name.');
-  assert(bondId, 'Invalid Bond ID.');
+  assert(name, 'Invalid Name.');
 
   const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
@@ -23,6 +21,7 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
-  const result = await registry.setAuthorityBond({ name, bondId }, privateKey, fee);
+  const result = await registry.deleteName({ crn: name }, privateKey, fee);
+
   console.log(JSON.stringify(result, undefined, 2));
 }
