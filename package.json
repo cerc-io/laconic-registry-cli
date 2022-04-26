@@ -14,7 +14,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "chiba-clonk-client": "https://github.com/vulcanize/chiba-clonk-client.git#ec31da8cdea79170a87caf6124d9c12cd54dfbe4",
+    "chiba-clonk-client": "https://github.com/vulcanize/chiba-clonk-client.git#945672d15a4adf1cde8bbca290689aafa6de9f42",
     "fs-extra": "^10.1.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
