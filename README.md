@@ -1,5 +1,29 @@
 # chiba-clonk-sdk
 
+## Setup
+
+* Run `yarn` to install all dependencies.
+
+* This repo uses chiba-clonk-client. We will need to use this locally.
+
+  * Run the following in [chiba-clonk-client repo](https://github.com/vulcanize/chiba-clonk-client):
+
+    ```bash
+    $ yarn
+
+    $ yarn build
+
+    $ yarn link
+    ```
+
+  * In chiba-clonk-sdk repo run:
+
+    ```bash
+    $ yarn link chiba-clonk-client
+    ```
+
+* Create a `config.yml` file from [config.example.yml](./config.example.yml) file.
+
 ## Account Setup
 
 Registering records in CNS requires an account. To get account private key run:
@@ -8,7 +32,7 @@ Registering records in CNS requires an account. To get account private key run:
 $ chibaclonkd keys export mykey --unarmored-hex --unsafe
 ```
 
-Create a `config.yml` file from [config.example.yml](./config.example.yml) file and assign the account private key to `userKey`.
+In `config.yml` file assign the account private key to `userKey`.
 
 ## Gas and Fees
 
@@ -27,7 +51,7 @@ $ chiba cns bond create --type aphoton --quantity 1000000000 --gas 200000 --fees
 
 ## Operations
 
-These commands require a `config.yml` file present in the current worknig directory when using the CLI.
+These commands require a `config.yml` file present in the current working directory when using the CLI.
 
 Get node status:
 
