@@ -1,12 +1,12 @@
-# chiba-clonk-sdk
+# laconic-sdk
 
 ## Setup
 
 * Run `yarn` to install all dependencies.
 
-* This repo uses chiba-clonk-client. We will need to use this locally.
+* This repo uses laconic-client. We will need to use this locally.
 
-  * Run the following in [chiba-clonk-client repo](https://github.com/vulcanize/chiba-clonk-client):
+  * Run the following in [laconic-client repo](https://github.com/vulcanize/laconic-client):
 
     ```bash
     $ yarn
@@ -16,10 +16,10 @@
     $ yarn link
     ```
 
-  * In chiba-clonk-sdk repo run:
+  * In laconic-sdk repo run:
 
     ```bash
-    $ yarn link chiba-clonk-client
+    $ yarn link laconic-client
     ```
 
 * Create a `config.yml` file from [config.example.yml](./config.example.yml) file.
@@ -29,7 +29,7 @@
 Registering records in CNS requires an account. To get account private key run:
 
 ```bash
-$ chibaclonkd keys export mykey --unarmored-hex --unsafe
+$ laconicd keys export mykey --unarmored-hex --unsafe
 ```
 
 In `config.yml` file assign the account private key to `userKey`.
@@ -46,7 +46,7 @@ The `gas` and `fees` can be set to some default values in the config, and can be
 Example:
 
 ```bash
-$ chiba cns bond create --type aphoton --quantity 1000000000 --gas 200000 --fees 200000aphoton
+$ laconic cns bond create --type aphoton --quantity 1000000000 --gas 200000 --fees 200000aphoton
 ```
 
 ## Operations
@@ -56,7 +56,7 @@ These commands require a `config.yml` file present in the current working direct
 Get node status:
 
 ```bash
-$ chiba cns status
+$ laconic cns status
 {
   "version": "0.3.0",
   "node": {
@@ -90,7 +90,7 @@ $ chiba cns status
 Get account details:
 
 ```bash
-$ chiba cns account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
+$ laconic cns account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
 [
   {
     "address": "ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52",
@@ -110,7 +110,7 @@ $ chiba cns account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
 Send tokens:
 
 ```bash
-$ chiba cns tokens send --address ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu --type aphoton --quantity 1000000000
+$ laconic cns tokens send --address ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu --type aphoton --quantity 1000000000
 [
   {
     "address": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
@@ -163,7 +163,7 @@ record:
 Publish record (see below for commands to create/query bonds):
 
 ```bash
-$ chiba cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 
 { id: 'bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba' }
 ```
@@ -171,7 +171,7 @@ $ chiba cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18e0
 Get record:
 
 ```bash
-$ chiba cns record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic cns record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 [
   {
     "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -212,19 +212,19 @@ $ chiba cns record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g
 List records:
 
 ```bash
-$ chiba cns record list
+$ laconic cns record list
 ```
 
 Reserve authority:
 
 ```bash
-$ chiba cns authority reserve chiba-clonk
+$ laconic cns authority reserve laconic
 ```
 
 Check authority information:
 
 ```bash
-$ chiba cns authority whois chiba-clonk
+$ laconic cns authority whois laconic
 [
   {
     "ownerAddress": "",
@@ -270,7 +270,7 @@ $ chiba cns authority whois chiba-clonk
 Get authority auction info:
 
 ```bash
-$ chiba cns auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48
+$ laconic cns auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48
 [
   {
     "id": "0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48",
@@ -308,7 +308,7 @@ $ chiba cns auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d6
 Commit an auction bid:
 
 ```bash
-$ chiba cns auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 aphoton
+$ laconic cns auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 aphoton
 
 Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
@@ -316,37 +316,37 @@ Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.j
 Reveal an auction bid:
 
 ```bash
-$ chiba cns auction bid reveal 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
+$ laconic cns auction bid reveal 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
 
 Set authority bond (after winning auction):
 
 ```bash
-$ chiba cns authority bond set chiba-clonk 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic cns authority bond set laconic 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 ```
 
 Create sub-authority (same owner as parent authority):
 
 ```bash
-$ chiba cns authority reserve echo.chiba-clonk
+$ laconic cns authority reserve echo.laconic
 ```
 
 Create sub-authority (custom owner for sub-authority):
 
 ```bash
-$ chiba cns authority reserve kube.chiba-clonk --owner ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu
+$ laconic cns authority reserve kube.laconic --owner ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu
 ```
 
 Set name:
 
 ```bash
-$ chiba cns name set crn://chiba-clonk/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic cns name set crn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Lookup name information:
 
 ```bash
-$ chiba cns name lookup crn://chiba-clonk/watcher/erc20
+$ laconic cns name lookup crn://laconic/watcher/erc20
 [
   {
     "latest": {
@@ -360,7 +360,7 @@ $ chiba cns name lookup crn://chiba-clonk/watcher/erc20
 Resolve name:
 
 ```bash
-$ chiba cns name resolve crn://chiba-clonk/watcher/erc20
+$ laconic cns name resolve crn://laconic/watcher/erc20
 [
     {
         "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -401,9 +401,9 @@ $ chiba cns name resolve crn://chiba-clonk/watcher/erc20
 Delete name:
 
 ```bash
-$ chiba cns name delete crn://chiba-clonk/watcher/erc20
+$ laconic cns name delete crn://laconic/watcher/erc20
 
-$ chiba cns name resolve crn://chiba-clonk/watcher/erc20
+$ laconic cns name resolve crn://laconic/watcher/erc20
 [
     null
 ]
@@ -412,13 +412,13 @@ $ chiba cns name resolve crn://chiba-clonk/watcher/erc20
 Create bond:
 
 ```bash
-$ chiba cns bond create --type aphoton --quantity 1000
+$ laconic cns bond create --type aphoton --quantity 1000
 ```
 
 List bonds:
 
 ```bash
-$ chiba cns bond list
+$ laconic cns bond list
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
@@ -446,7 +446,7 @@ $ chiba cns bond list
 Get bond:
 
 ```bash
-$ chiba cns bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic cns bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
@@ -464,7 +464,7 @@ $ chiba cns bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4
 Query bonds by owner:
 
 ```bash
-$ chiba cns bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
+$ laconic cns bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
@@ -492,41 +492,41 @@ $ chiba cns bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
 Refill bond:
 
 ```bash
-$ chiba cns bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type aphoton --quantity 1000
+$ laconic cns bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type aphoton --quantity 1000
 ```
 
 Withdraw funds from bond:
 
 ```bash
-$ chiba cns bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type aphoton --quantity 500
+$ laconic cns bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type aphoton --quantity 500
 ```
 
 Cancel bond:
 
 ```bash
-$ chiba cns bond cancel --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic cns bond cancel --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 ```
 
 Associate bond (with record):
 
 ```bash
-$ chiba cns bond associate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
+$ laconic cns bond associate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
 ```
 
 Disassociate bond (from record):
 
 ```bash
-$ chiba cns bond dissociate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic cns bond dissociate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Dissociate all records from bond:
 
 ```bash
-$ chiba cns bond records dissociate --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
+$ laconic cns bond records dissociate --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
 ```
 
 Reassociate records (switch bond):
 
 ```bash
-$ chiba cns bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
+$ laconic cns bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
 ```

@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import { Registry } from 'chiba-clonk-client';
+import { Registry } from 'laconic-client';
 
 import { getConfig, getConnectionInfo, getGasAndFees } from '../../../../util';
 

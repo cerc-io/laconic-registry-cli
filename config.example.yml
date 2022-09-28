@@ -4,4 +4,4 @@ services:
     gqlEndpoint: 'http://localhost:9473/api'
     userKey:
     bondId:
-    chainId: chibaclonk_9000-1
+    chainId: laconic_9000-1
