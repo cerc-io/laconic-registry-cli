@@ -1128,9 +1128,9 @@ keccak@^3.0.0:
     node-gyp-build "^4.2.0"
     readable-stream "^3.6.0"
 
-"laconic-client@https://github.com/cerc-io/laconic-client.git#27a176fbade406a9c89599b6a0c81c1f0ca6e7cc":
+"laconic-client@https://github.com/cerc-io/laconic-client.git#dboreham/release":
   version "0.1.0"
-  resolved "https://github.com/cerc-io/laconic-client.git#27a176fbade406a9c89599b6a0c81c1f0ca6e7cc"
+  resolved "https://github.com/cerc-io/laconic-client.git#9176bb1a5a5ba225f021c9e6cca2ccc5dc24f7f2"
   dependencies:
     "@cosmjs/amino" "^0.28.1"
     "@cosmjs/crypto" "^0.28.1"
