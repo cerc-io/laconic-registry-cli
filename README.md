@@ -61,7 +61,7 @@ $ laconic cns status
   "version": "0.3.0",
   "node": {
     "id": "de88d9400eea3040ee7e12dfc4b08d513d9781e2",
-    "network": "chibaclonk_9000-1",
+    "network": "laconic_9000-1",
     "moniker": "localtestnet"
   },
   "sync": {
