@@ -3,7 +3,7 @@ import assert from 'assert';
 import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs';
-import { Registry } from 'chiba-clonk-client';
+import { Registry } from 'laconic-client';
 
 import { getConfig, getGasAndFees, getConnectionInfo } from '../../../util';
 

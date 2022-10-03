@@ -1,8 +1,8 @@
 {
-  "name": "chiba-clonk-sdk",
+  "name": "laconic-sdk",
   "version": "0.1.0",
   "main": "index.js",
-  "repository": "git@github.com:vulcanize/chiba-clonk-sdk.git",
+  "repository": "git@github.com:cerc-io/laconic-sdk.git",
   "author": "",
   "license": "UNLICENSED",
   "devDependencies": {
@@ -14,8 +14,8 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "chiba-clonk-client": "https://github.com/vulcanize/chiba-clonk-client.git#27a176fbade406a9c89599b6a0c81c1f0ca6e7cc",
     "fs-extra": "^10.1.0",
+    "laconic-client": "https://github.com/cerc-io/laconic-client.git#dboreham/release",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",
     "lodash-clean": "^2.2.3",
@@ -27,6 +27,6 @@
     "build": "tsc"
   },
   "bin": {
-    "chiba": "bin/chiba"
+    "laconic": "bin/laconic"
   }
 }
