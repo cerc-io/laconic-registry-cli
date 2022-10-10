@@ -1,7 +1,7 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
 import path from 'path';
-import { Account, createBid, Registry } from 'laconic-client';
+import { Account, createBid, Registry } from 'laconic-sdk';
 import { ensureDir } from 'fs-extra';
 import fs from 'fs';
 

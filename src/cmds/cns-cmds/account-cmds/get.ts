@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import { Account, Registry } from 'laconic-client';
+import { Account, Registry } from 'laconic-sdk';
 
 import { getConfig, getConnectionInfo } from '../../../util';
 
