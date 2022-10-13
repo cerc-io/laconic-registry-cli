@@ -1,12 +1,12 @@
-# laconic-sdk
+# laconic-cns-client
 
 ## Setup
 
 * Run `yarn` to install all dependencies.
 
-* This repo uses laconic-client. We will need to use this locally.
+* This repo uses laconic-sdk. We will need to use this locally.
 
-  * Run the following in [laconic-client repo](https://github.com/vulcanize/laconic-client):
+  * Run the following in [laconic-sdk repo](https://github.com/vulcanize/laconic-sdk):
 
     ```bash
     $ yarn
@@ -16,10 +16,10 @@
     $ yarn link
     ```
 
-  * In laconic-sdk repo run:
+  * In laconic-cns-cli repo run:
 
     ```bash
-    $ yarn link laconic-client
+    $ yarn link laconic-sdk
     ```
 
 * Create a `config.yml` file from [config.example.yml](./config.example.yml) file.

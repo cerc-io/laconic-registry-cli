@@ -3,7 +3,7 @@ import assert from 'assert';
 import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs';
-import { Registry } from 'laconic-client';
+import { Registry } from 'laconic-sdk';
 
 import { getConfig, getGasAndFees, getConnectionInfo } from '../../../util';
 
