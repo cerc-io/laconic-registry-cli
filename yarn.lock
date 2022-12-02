@@ -2,6 +2,33 @@
 # yarn lockfile v1
 
 
+"@cerc/laconic-sdk@^0.1.2":
+  version "0.1.2"
+  resolved "http://localhost:3000/api/packages/cerc/npm/%40cerc%2Flaconic-sdk/-/0.1.2/laconic-sdk-0.1.2.tgz#1b2ed6ea9afd2fa71e801157f84c2fbf44aa4976"
+  integrity sha512-7N1m6of1ineFCBM9H2RazrkS+h6IJM5jYi4wrlWYNTjunVosRcL4RMNdjLPzADimQjnyMK+DVYu7J6cac5qbBQ==
+  dependencies:
+    "@cosmjs/amino" "^0.28.1"
+    "@cosmjs/crypto" "^0.28.1"
+    "@cosmjs/encoding" "^0.28.1"
+    "@ipld/dag-cbor" "^7.0.1"
+    "@ipld/dag-json" "^8.0.9"
+    "@metamask/eth-sig-util" "^4.0.0"
+    axios "^0.26.1"
+    bip32 "^3.0.1"
+    bip39 "^3.0.4"
+    canonical-json "^0.0.4"
+    ethers "^5.6.2"
+    evmosjs "^0.2.5"
+    graphql.js "^0.6.8"
+    is-url "^1.2.4"
+    js-sha256 "^0.9.0"
+    js-yaml "^3.14.1"
+    jsonschema "^1.4.0"
+    lodash "^4.17.21"
+    node-yaml "^4.0.1"
+    semver "^7.3.5"
+    tiny-secp256k1 "^2.2.1"
+
 "@cosmjs/amino@^0.28.1":
   version "0.28.4"
   resolved "https://registry.yarnpkg.com/@cosmjs/amino/-/amino-0.28.4.tgz#9315f6876dba80148cf715ced44d1dc7a9b68b94"
@@ -574,11 +601,6 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-argparse@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
-  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
-
 axios@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
@@ -1113,13 +1135,6 @@ js-yaml@^3.14.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
-js-yaml@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
-  integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
-  dependencies:
-    argparse "^2.0.1"
-
 jsonfile@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-6.1.0.tgz#bc55b2634793c679ec6403094eb13698a6ec0aae"
@@ -1147,32 +1162,6 @@ keccak@^3.0.0:
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
     readable-stream "^3.6.0"
-
-"laconic-client@https://github.com/cerc-io/laconic-client.git#dboreham/release":
-  version "0.1.0"
-  resolved "https://github.com/cerc-io/laconic-client.git#9176bb1a5a5ba225f021c9e6cca2ccc5dc24f7f2"
-  dependencies:
-    "@cosmjs/amino" "^0.28.1"
-    "@cosmjs/crypto" "^0.28.1"
-    "@cosmjs/encoding" "^0.28.1"
-    "@ipld/dag-cbor" "^7.0.1"
-    "@ipld/dag-json" "^8.0.9"
-    "@metamask/eth-sig-util" "^4.0.0"
-    axios "^0.26.1"
-    bip32 "^3.0.1"
-    bip39 "^3.0.4"
-    canonical-json "^0.0.4"
-    ethers "^5.6.2"
-    evmosjs "^0.2.5"
-    graphql.js "^0.6.8"
-    is-url "^1.2.4"
-    js-sha256 "^0.9.0"
-    js-yaml "^4.1.0"
-    jsonschema "^1.4.0"
-    lodash "^4.17.21"
-    node-yaml "^4.0.1"
-    semver "^7.3.5"
-    tiny-secp256k1 "^2.2.1"
 
 libsodium-wrappers@^0.7.6:
   version "0.7.10"

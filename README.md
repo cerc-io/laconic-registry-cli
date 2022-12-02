@@ -4,7 +4,7 @@
 
 * Run `yarn` to install all dependencies.
 
-* This repo uses laconic-sdk. We will need to use this locally.
+* This repo uses @cerc/laconic-sdk. TODO: add doc on buiding or using `yarn link` in development mode.
 
   * Run the following in [laconic-sdk repo](https://github.com/vulcanize/laconic-sdk):
 
