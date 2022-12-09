@@ -39,7 +39,7 @@ export const handler = async (argv: Arguments) => {
   await ensureDir(outDirPath);
   fs.writeFileSync(revealFilePath, JSON.stringify(reveal, undefined, 2));
 
-  const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
 
   const result = await registry.commitBid({ auctionId, commitHash }, privateKey, fee);

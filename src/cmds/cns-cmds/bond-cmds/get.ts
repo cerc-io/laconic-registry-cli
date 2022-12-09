@@ -18,7 +18,7 @@ export const handler = async (argv: Arguments) => {
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
   assert(chainId, 'Invalid CNS Chain ID.');
 
-  const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 
   const result = await registry.getBondsByIds([id as string]);
   console.log(JSON.stringify(result, undefined, 2));
