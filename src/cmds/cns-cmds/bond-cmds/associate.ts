@@ -27,7 +27,7 @@ export const handler = async (argv: Arguments) => {
   assert(privateKey, 'Invalid Transaction Key.');
   assert(chainId, 'Invalid CNS Chain ID.');
 
-  const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.associateBond({ recordId: id, bondId }, privateKey, fee);
   console.log(JSON.stringify(result, undefined, 2));

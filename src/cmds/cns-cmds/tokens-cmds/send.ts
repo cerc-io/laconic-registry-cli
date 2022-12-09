@@ -36,7 +36,7 @@ export const handler = async (argv: Arguments) => {
   const account = new Account(Buffer.from(privateKey, 'hex'));
   const fromAddress = account.formattedCosmosAddress;
 
-  const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
   const result = await registry.getAccounts([fromAddress, destinationAddress]);

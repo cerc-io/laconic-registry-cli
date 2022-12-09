@@ -36,7 +36,7 @@ export const handler = async (argv: Arguments) => {
   }
 
   const { record } = await yaml.load(fs.readFileSync(file, 'utf-8')) as any;
-  const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
 

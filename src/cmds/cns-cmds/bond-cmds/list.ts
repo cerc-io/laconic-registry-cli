@@ -21,7 +21,7 @@ export const handler = async (argv: Arguments) => {
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
   assert(chainId, 'Invalid CNS Chain ID.');
 
-  const registry = new Registry(restEndpoint, gqlEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 
   const { owner } = argv;
   const result = await registry.queryBonds({ owner });
