@@ -1,5 +1,7 @@
 # laconic-cns-client
 
+CLI utility written in TS, used to interact with laconicd. Depends on [laconic-sdk](https://github.com/cerc-io/laconic-sdk).
+
 ## Setup
 
 * Run `yarn` to install all dependencies.
