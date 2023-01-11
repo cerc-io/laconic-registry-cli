@@ -20,8 +20,13 @@ export const handler = async (argv: Arguments) => {
   assert(chainId, 'Invalid Registry Chain ID.');
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+<<<<<<< HEAD
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.deleteName({ crn: name }, privateKey, fee);
+=======
+  const fee = getGasAndFees(argv, registryConfig);
+  const result = await registry.deleteName({ lrn: name }, privateKey, fee);
+>>>>>>> 10b20d7 (sed s/crn/lrn/g)
 
   console.log(JSON.stringify(result, undefined, 2));
 }
