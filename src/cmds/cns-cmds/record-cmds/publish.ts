@@ -22,11 +22,11 @@ export const handler = async (argv: Arguments) => {
   const { services: { cns: cnsConfig } } = getConfig(config as string)
   const { restEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, cnsConfig);
 
-  assert(restEndpoint, 'Invalid CNS REST endpoint.');
-  assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
+  assert(restEndpoint, 'Invalid Registry REST endpoint.');
+  assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(userKey, 'Invalid User Key.');
   assert(bondId, 'Invalid Bond ID.');
-  assert(chainId, 'Invalid CNS Chain ID.');
+  assert(chainId, 'Invalid Registry Chain ID.');
 
   let file = null;
   if (filename) {

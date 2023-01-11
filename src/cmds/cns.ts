@@ -2,7 +2,7 @@ import yargs from 'yargs';
 
 export const command = 'cns';
 
-export const desc = 'CNS tools';
+export const desc = 'Laconic Registry Tools';
 
 exports.builder = (yargs: yargs.Argv) => {
   return yargs

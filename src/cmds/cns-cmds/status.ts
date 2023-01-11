@@ -6,14 +6,14 @@ import { getConfig, getConnectionInfo } from '../../util';
 
 export const command = 'status';
 
-export const desc = 'Get CNS status.';
+export const desc = 'Get Registry status.';
 
 export const handler = async (argv: Arguments) => {
   const { services: { cns } } = getConfig(argv.config as string)
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cns);
-  assert(restEndpoint, 'Invalid CNS REST endpoint.');
-  assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
-  assert(chainId, 'Invalid CNS Chain ID.');
+  assert(restEndpoint, 'Invalid Registry REST endpoint.');
+  assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
+  assert(chainId, 'Invalid Registry Chain ID.');
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 

@@ -29,9 +29,9 @@ export const handler = async (argv: Arguments) => {
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
   const { type, name, bondId, all } = argv;
 
-  assert(restEndpoint, 'Invalid CNS REST endpoint.');
-  assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
-  assert(chainId, 'Invalid CNS Chain ID.');
+  assert(restEndpoint, 'Invalid Registry REST endpoint.');
+  assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
+  assert(chainId, 'Invalid Registry Chain ID.');
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 

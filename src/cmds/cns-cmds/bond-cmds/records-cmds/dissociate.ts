@@ -20,10 +20,10 @@ export const handler = async (argv: Arguments) => {
 
   const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
-  assert(restEndpoint, 'Invalid CNS REST endpoint.');
-  assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
+  assert(restEndpoint, 'Invalid Registry REST endpoint.');
+  assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(privateKey, 'Invalid Transaction Key.');
-  assert(chainId, 'Invalid CNS Chain ID.');
+  assert(chainId, 'Invalid Registry Chain ID.');
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
