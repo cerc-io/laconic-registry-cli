@@ -11,8 +11,8 @@ export const desc = 'Get account.';
 export const handler = async (argv: Arguments) => {
   let address = argv.address as string;
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
-  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
+  const { services: { lns: lnsConfig } } = getConfig(argv.config as string)
+  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, lnsConfig);
   assert(restEndpoint, 'Invalid Registry REST endpoint.');
   assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(chainId, 'Invalid Registry Chain ID.');

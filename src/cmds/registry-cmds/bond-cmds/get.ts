@@ -12,8 +12,8 @@ export const handler = async (argv: Arguments) => {
   const { id, config } = argv;
   console.assert(id, 'Bond Id is required.');
 
-  const { services: { cns: cnsConfig } } = getConfig(config as string)
-  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
+  const { services: { lns: lnsConfig } } = getConfig(config as string)
+  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, lnsConfig);
   assert(restEndpoint, 'Invalid Registry REST endpoint.');
   assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(chainId, 'Invalid Registry Chain ID.');

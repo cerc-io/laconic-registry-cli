@@ -9,8 +9,8 @@ export const command = 'status';
 export const desc = 'Get Registry status.';
 
 export const handler = async (argv: Arguments) => {
-  const { services: { cns } } = getConfig(argv.config as string)
-  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cns);
+  const { services: { lns } } = getConfig(argv.config as string)
+  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, lns);
   assert(restEndpoint, 'Invalid Registry REST endpoint.');
   assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(chainId, 'Invalid Registry Chain ID.');

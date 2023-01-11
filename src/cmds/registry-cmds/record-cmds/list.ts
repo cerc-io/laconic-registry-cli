@@ -25,8 +25,8 @@ export const builder = {
 }
 
 export const handler = async (argv: Arguments) => {
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
-  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
+  const { services: { lns: lnsConfig } } = getConfig(argv.config as string)
+  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, lnsConfig);
   const { type, name, bondId, all } = argv;
 
   assert(restEndpoint, 'Invalid Registry REST endpoint.');

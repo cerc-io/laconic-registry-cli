@@ -26,8 +26,8 @@ export const handler = async (argv: Arguments) => {
   assert(denom, 'Invalid Type.');
   assert(amount, 'Invalid Quantity.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
-  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
+  const { services: { lns: lnsConfig } } = getConfig(argv.config as string)
+  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, lnsConfig);
   assert(restEndpoint, 'Invalid Registry REST endpoint.');
   assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(privateKey, 'Invalid Transaction Key.');
@@ -37,7 +37,7 @@ export const handler = async (argv: Arguments) => {
   const fromAddress = account.formattedCosmosAddress;
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
-  const fee = getGasAndFees(argv, cnsConfig);
+  const fee = getGasAndFees(argv, lnsConfig);
   await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
   const result = await registry.getAccounts([fromAddress, destinationAddress]);
   console.log(JSON.stringify(result, undefined, 2));

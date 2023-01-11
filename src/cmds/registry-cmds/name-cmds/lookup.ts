@@ -18,8 +18,8 @@ export const handler = async (argv: Arguments) => {
   const name = argv.name as string;
   assert(name, 'Invalid Name.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
-  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
+  const { services: { lns: lnsConfig } } = getConfig(argv.config as string)
+  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, lnsConfig);
   assert(restEndpoint, 'Invalid Registry REST endpoint.');
   assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
   assert(chainId, 'Invalid Registry Chain ID.');

@@ -19,8 +19,8 @@ export const builder = {
 
 export const handler = async (argv: Arguments) => {
   const { txKey, filename, verbose, config } = argv;
-  const { services: { cns: cnsConfig } } = getConfig(config as string)
-  const { restEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, cnsConfig);
+  const { services: { lns: lnsConfig } } = getConfig(config as string)
+  const { restEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, lnsConfig);
 
   assert(restEndpoint, 'Invalid Registry REST endpoint.');
   assert(gqlEndpoint, 'Invalid Registry GQL endpoint.');
@@ -37,7 +37,7 @@ export const handler = async (argv: Arguments) => {
 
   const { record } = await yaml.load(fs.readFileSync(file, 'utf-8')) as any;
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
-  const fee = getGasAndFees(argv, cnsConfig);
+  const fee = getGasAndFees(argv, lnsConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
 
   console.log(verbose ? JSON.stringify(result, undefined, 2) : result.data);
