@@ -10,7 +10,7 @@ CLI utility written in TS, used to interact with laconicd. Depends on [laconic-s
 
 ## Account Setup
 
-Registering records in CNS requires an account. To get account private key run:
+Registering records in the Laconic Registry requires an account. To get account private key run:
 
 ```bash
 $ laconicd keys export mykey --unarmored-hex --unsafe
