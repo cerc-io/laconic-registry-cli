@@ -324,13 +324,13 @@ $ laconic registry authority reserve kube.laconic --owner ethm1vc62ysqu504at932j
 Set name:
 
 ```bash
-$ laconic registry name set lrn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic registry name set crn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Lookup name information:
 
 ```bash
-$ laconic registry name lookup lrn://laconic/watcher/erc20
+$ laconic registry name lookup crn://laconic/watcher/erc20
 [
   {
     "latest": {
@@ -344,7 +344,7 @@ $ laconic registry name lookup lrn://laconic/watcher/erc20
 Resolve name:
 
 ```bash
-$ laconic registry name resolve lrn://laconic/watcher/erc20
+$ laconic registry name resolve crn://laconic/watcher/erc20
 [
     {
         "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -385,9 +385,9 @@ $ laconic registry name resolve lrn://laconic/watcher/erc20
 Delete name:
 
 ```bash
-$ laconic registry name delete lrn://laconic/watcher/erc20
+$ laconic registry name delete crn://laconic/watcher/erc20
 
-$ laconic registry name resolve lrn://laconic/watcher/erc20
+$ laconic registry name resolve crn://laconic/watcher/erc20
 [
     null
 ]
