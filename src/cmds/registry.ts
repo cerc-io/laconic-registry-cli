@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 
-export const command = 'cns';
+export const command = 'registry';
 
 export const desc = 'Laconic Registry Tools';
 
@@ -17,7 +17,7 @@ exports.builder = (yargs: yargs.Argv) => {
       'gas': { type: 'string' },
       'fees': { type: 'string' }
     })
-    .commandDir('cns-cmds')
+    .commandDir('registry-cmds')
     .demandCommand()
     .help()
 }
