@@ -4,3 +4,6 @@ dist/*
 out
 
 config.yml
+*~
+
+.idea
