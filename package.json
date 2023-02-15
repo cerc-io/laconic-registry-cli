@@ -17,6 +17,7 @@
     "fs-extra": "^10.1.0",
     "@cerc-io/laconic-sdk": "0.1.6",
     "js-yaml": "^3.14.1",
+    "lerna": "^3.19.0",
     "lodash": "^4.17.21",
     "lodash-clean": "^2.2.3",
     "yargs": "^17.4.1"
