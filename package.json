@@ -5,6 +5,12 @@
   "repository": "git@github.com:cerc-io/laconic-registry-cli.git",
   "author": "",
   "license": "UNLICENSED",
+  "workspaces": {
+    "packages": [
+      "src/*"
+    ]
+  },
+
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
