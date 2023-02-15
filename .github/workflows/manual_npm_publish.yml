@@ -35,7 +35,6 @@ jobs:
       - name: Authenticate to git.vdb.to registry
         run: |
           npm config set -- '//git.vdb.to/api/packages/cerc-io/npm/:_authToken' "${{ secrets.GITEA_PUBLISH_TOKEN }}"
-      - name: yarn lerna publish
-        run: |
-          yarn lerna publish from-package --no-git-tag-version --yes
+      - name: npm publish
+        run: npm publish
     
