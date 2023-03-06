@@ -4,7 +4,9 @@ CLI utility written in TS, used to interact with laconicd. Depends on [laconic-s
 
 ## Setup
 
-* Run `yarn` to install all dependencies.
+`npm config set registry https://git.vdb.to/api/packages/cerc-io/npm/`
+
+* Run `yarn && yarn build` to install all dependencies.
 
 * Create a `config.yml` file from [config.example.yml](./config.example.yml) file.
 
