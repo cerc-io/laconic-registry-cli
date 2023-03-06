@@ -10,6 +10,14 @@ CLI utility written in TS, used to interact with laconicd. Depends on [laconic-s
 
 ## Account Setup
 
+Run the chain:
+
+  - In laconicd repo run:
+
+    ```bash
+    TEST_AUCTION_ENABLED=true ./init.sh
+    ```
+
 Registering records in CNS requires an account. To get account private key run:
 
 ```bash
