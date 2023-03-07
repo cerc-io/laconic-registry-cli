@@ -34,6 +34,7 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
+  const bondId = await registry.getNextBondId(privateKey);
   const result = await registry.createBond({ denom, amount }, privateKey, fee);
-  console.log(verbose ? JSON.stringify(result, undefined, 2) : result.data);
+  console.log(true ? JSON.stringify(result, undefined, 2)+"\nBondId:"+bondId : bondId);
 }
