@@ -21,6 +21,7 @@ jobs:
           ref: main
 
       - name: Run registry-cli demo commands in registry-cli container
+        working-directory: ./scripts
         run : ./cli-commands-test.sh
 
       - name: Environment
