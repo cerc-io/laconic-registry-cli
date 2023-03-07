@@ -19,6 +19,10 @@ jobs:
           repository: cerc-io/laconicd
           fetch-depth: 0
           ref: main
+
+      - name: Run registry-cli demo commands in registry-cli container
+        run : ./cli-commands-test.sh
+
       - name: Environment
         run: ls -tlh && env
       - name: build registry-cli container
@@ -31,7 +35,6 @@ jobs:
         run: docker compose up laconicd -d
 
       - name: Run registry-cli demo commands in registry-cli container
-        working-directory: laconic-registry-cli/scripts
         run : ./cli-commands-test.sh
       - name: stop containers
         working-directory: laconicd/tests/sdk_tests
