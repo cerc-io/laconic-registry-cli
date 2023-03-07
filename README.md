@@ -136,26 +136,18 @@ Create record (generic):
 ```yaml
 # watcher.yml
 record:
-  name: ERC20 Watcher
-  type: watcher
-  version: 1.0.0
-  protocol:
-    /: QmbQiRpLX5djUsfc2yDswHvTkHTGd9uQEy6oUJfxkBYwRq
-  package:
-    linux:
-      x64:
-        /: QmVRmLrQeLZS8Xee7YVzYYAQANWmXqsNgNkaPMxM8MtPLA
-      arm:
-        /: QmX3DDmeFunX5aVmaTNnViwQUe15Wa4UbZYcC3AwFwoWcg
-    macos:
-      x64:
-        /: QmXogCVZZ867qZfS3CYjYdDEziPb4ARiDfgwqbd7urVKkr
+  type: WebsiteRegistrationRecord
+  url: 'https://cerc.io'
+  repo_registration_record_cid: QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D
+  build_artifact_cid: QmP8jTG1m9GSDJLCbeWhVSVgEzCPPwXRdCRuJtQ5Tz9Kc9
+  tls_cert_cid: QmbWqxBEKC3P8tqsKc98xmWNzrzDtRLMiMPL8wBuTGsMnR
+  version: 1.0.23
 ```
 
 Publish record (see below for commands to create/query bonds):
 
 ```bash
-$ laconic cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000
 
 { id: 'bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba' }
 ```
