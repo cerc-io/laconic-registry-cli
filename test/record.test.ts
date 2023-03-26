@@ -1,15 +1,16 @@
-import {cliTest} from './helper';
+import {cliTest,createBond} from './helper';
 
 const args= "record "
+const filename = "./test/examples/watcher.yml"
 
 var recordId: string;
-var filename: string;
 var bondId: string;
 
-describe("test names",() => {
+describe("test record",() => {
     
     beforeAll(async () => {
-        // get bond id
+        // get bondId
+        bondId=createBond("aphoton","1000000000")
     });
 
     it("publish record",async ()=>{

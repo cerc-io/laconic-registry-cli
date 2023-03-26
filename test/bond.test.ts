@@ -1,7 +1,7 @@
-import {cliTest} from './helper';
+import {cliTest,createBond,createRecord} from './helper';
 
 const args= "bond "
-const quantity=1000000000
+const quantity="1000000000"
 const refillQuantity=100
 const withdrawQuantity=100
 const type="aphoton"
@@ -15,10 +15,7 @@ describe("test bond",() => {
     beforeAll(async () => {
         const resp=JSON.parse(cliTest("account get"));
         expect(resp).toBeDefined;
-        address=resp[0].address
-
-        // get 2 bondids (old, new)
-        // get record id
+        address=resp[0].address        
     });
     
 
@@ -59,6 +56,11 @@ describe("test bond",() => {
     });
 
     it("associate bond with record",async ()=>{
+        // get new bond Id
+        bondId=createBond(type,quantity)
+        // get record Id
+        recordId=createRecord("./test/examples/watcher.yml",bondId)
+
         const resp=cliTest(args+"associate --id "+recordId+" --bond-id "+bondId);
         expect(resp).toBeDefined;
     });
@@ -74,6 +76,8 @@ describe("test bond",() => {
     });
 
     it("reassociate all records from bond",async ()=>{
+        // TODO: get 2 bondids (old, new)
+
         const resp=cliTest(args+"records reassociate --old-bond-id "+bondId+" --new-bond-id "+bondId);
         expect(resp).toBeDefined;
     });

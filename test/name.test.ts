@@ -1,4 +1,4 @@
-import {cliTest} from './helper';
+import {cliTest,createBond,createRecord} from './helper';
 
 const args= "name "
 
@@ -8,7 +8,11 @@ var name: string;
 describe("test names",() => {
     
     beforeAll(async () => {
+        // get bond id
+        const bondId = createBond("aphoton","10000000")
+
         // get record id
+        recordId=createRecord("./test/examples/watcher.yml",bondId)
     });
     
 
