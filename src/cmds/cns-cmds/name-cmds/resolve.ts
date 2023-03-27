@@ -21,5 +21,6 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 
   const result = await registry.resolveNames([name]);
-  console.log(JSON.stringify(result, undefined, 4));
+  const success = `{"success":${result.code==0}}`
+  console.log(argv.verbose ? JSON.stringify(result, undefined, 2): JSON.stringify(JSON.parse(success)));
 }
