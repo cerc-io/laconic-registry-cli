@@ -1,9 +1,10 @@
 import {cliTest,createBond,createRecord} from './helper';
 
-const args= "name "
+const args= "name ";
+const name="laconic-name";
+const crn=`crn://${name}/app/test`;
 
 var recordId: string;
-var name: string;
 
 describe("test names",() => {
     
@@ -13,26 +14,32 @@ describe("test names",() => {
 
         // get record id
         recordId=createRecord("./test/examples/watcher.yml",bondId)
+
+        // reserve authority
+        cliTest("authority reserve "+name);
+
+        // set authority bond
+        cliTest(args+"bond set "+name+" "+bondId);
     });
     
 
     it("set name",async ()=>{
-        const resp=cliTest(args+"set "+name+" "+recordId);
+        const resp=cliTest(args+"set "+crn+" "+recordId);
         expect(resp).toBeDefined;
     });
 
     it("lookup name",async ()=>{
-        const resp=cliTest(args+"lookup "+ name);
+        const resp=cliTest(args+"lookup "+ crn);
         expect(resp).toBeDefined;
     });
 
     it("resolve name",async ()=>{
-        const resp=cliTest(args+"resolve "+name);
+        const resp=cliTest(args+"resolve "+crn);
         expect(resp).toBeDefined;
     });
 
     it("delelte name",async ()=>{
-        const resp=cliTest(args+"delete "+name);
+        const resp=cliTest(args+"delete "+crn);
         expect(resp).toBeDefined;
     });
 });

@@ -1,9 +1,9 @@
 import {cliTest,createBond} from './helper';
 
 const args= "authority "
+const name="laconic"
 
 var bondId: string;
-var name: string;
 
 describe("test authority",() => {
     
@@ -14,7 +14,6 @@ describe("test authority",() => {
     
 
     it("reserve authority",async ()=>{
-        name="laconic"
         const resp=cliTest(args+"reserve "+name);
         expect(resp).toBeDefined;
     });
