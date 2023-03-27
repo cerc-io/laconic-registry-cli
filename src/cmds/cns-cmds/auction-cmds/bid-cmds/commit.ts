@@ -45,4 +45,10 @@ export const handler = async (argv: Arguments) => {
   const result = await registry.commitBid({ auctionId, commitHash }, privateKey, fee);
   const revealFile = `{"reveal_file":"${revealFilePath}"}`
   console.log(argv.verbose ? JSON.stringify(result, undefined, 2)+ JSON.stringify(JSON.parse(revealFile)) : JSON.stringify(JSON.parse(revealFile)));
+
+  if (argv.output=="json"){
+    console.log(argv.verbose ? JSON.stringify(result, undefined, 2)+"\n"+JSON.stringify(JSON.parse(revealFile)) : JSON.stringify(JSON.parse(revealFile)));
+  } else {
+    console.log(argv.verbose ? result+"\n"+revealFile:revealFile)
+  }
 }

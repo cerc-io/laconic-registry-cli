@@ -29,5 +29,10 @@ export const handler = async (argv: Arguments) => {
   const reveal = fs.readFileSync(path.resolve(filePath));
   const result = await registry.revealBid({ auctionId, reveal: reveal.toString('hex') }, privateKey, fee);
   const success = `{"success":${result.code==0}}`
-  console.log(argv.verbose ? JSON.stringify(result, undefined, 2): JSON.stringify(JSON.parse(success)));
+  
+  if (argv.output=="json"){
+    console.log(argv.verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(JSON.parse(success)));
+  } else {
+    console.log(argv.verbose ? result : success);
+  }
 }

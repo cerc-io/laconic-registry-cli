@@ -37,5 +37,9 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.withdrawBond({ id, denom, amount }, privateKey, fee);
   const success = `{"success":${result.code==0}}`
-  console.log(argv.verbose ? JSON.stringify(result, undefined, 2): JSON.stringify(JSON.parse(success)));
+  if (argv.output=="json"){
+    console.log(argv.verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(JSON.parse(success)));
+  } else {
+    console.log(argv.verbose ? result : success);
+  }
 }

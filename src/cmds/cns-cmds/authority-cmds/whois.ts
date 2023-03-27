@@ -21,5 +21,9 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const result = await registry.lookupAuthorities([name], true);
 
-  console.log(JSON.stringify(result, undefined, 2));
+  if (argv.output=="json"){
+    console.log(JSON.stringify(result, undefined, 2));
+  } else {
+    console.log(result)
+  }
 }

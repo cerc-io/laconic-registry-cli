@@ -40,5 +40,9 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
   const result = await registry.getAccounts([fromAddress, destinationAddress]);
-  console.log(JSON.stringify(result, undefined, 2));
+  if (argv.output=="json"){
+    console.log(JSON.stringify(result, undefined, 2));
+  } else {
+    console.log(result)
+  }
 }

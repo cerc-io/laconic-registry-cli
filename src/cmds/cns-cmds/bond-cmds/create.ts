@@ -37,5 +37,10 @@ export const handler = async (argv: Arguments) => {
   const bondId = await registry.getNextBondId(privateKey);
   const result = await registry.createBond({ denom, amount }, privateKey, fee);
   const jsonString=`{"bondId":"${bondId}"}`
-  console.log(verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(JSON.parse(jsonString),null,2));
+  
+  if (argv.output=="json"){
+    console.log(argv.verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(JSON.parse(jsonString)));
+  } else {
+    console.log(argv.verbose ? result : jsonString);
+  }
 }

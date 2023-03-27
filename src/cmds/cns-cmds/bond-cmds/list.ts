@@ -25,5 +25,10 @@ export const handler = async (argv: Arguments) => {
 
   const { owner } = argv;
   const result = await registry.queryBonds({ owner });
-  console.log(JSON.stringify(result, undefined, 2));
+  
+  if (argv.output=="json"){
+    console.log(JSON.stringify(result, undefined, 2));
+  } else {
+    console.log(result)
+  }
 }
