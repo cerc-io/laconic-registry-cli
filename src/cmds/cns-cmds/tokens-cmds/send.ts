@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Account, Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, queryOutput } from '../../../util';
 
 export const command = 'send';
 
@@ -40,9 +40,5 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
   const result = await registry.getAccounts([fromAddress, destinationAddress]);
-  if (argv.output=="json"){
-    console.log(JSON.stringify(result, undefined, 2));
-  } else {
-    console.log(result)
-  }
+  queryOutput(result,argv.output)
 }
