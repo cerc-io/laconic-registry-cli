@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Account, Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo } from '../../../util';
+import { getConfig, getConnectionInfo, queryOutput } from '../../../util';
 
 export const command = 'get';
 
@@ -23,10 +23,6 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const result = await registry.getAccounts([address]);
-  
-  if (argv.output=="json"){
-    console.log(JSON.stringify(result, undefined, 2));
-  } else {
-    console.log(result)
-  }
+
+  queryOutput(result,argv.output);
 }

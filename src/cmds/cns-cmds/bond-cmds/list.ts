@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo } from '../../../util';
+import { getConfig, getConnectionInfo ,queryOutput} from '../../../util';
 
 export const command = 'list';
 
@@ -25,10 +25,6 @@ export const handler = async (argv: Arguments) => {
 
   const { owner } = argv;
   const result = await registry.queryBonds({ owner });
-  
-  if (argv.output=="json"){
-    console.log(JSON.stringify(result, undefined, 2));
-  } else {
-    console.log(result)
-  }
+
+  queryOutput(result,argv.output)
 }

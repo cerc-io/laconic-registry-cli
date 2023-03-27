@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees ,txOutput} from '../../../util';
 import { isNil } from 'lodash';
 
 export const command = 'refill';
@@ -38,9 +38,6 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.refillBond({ id, denom, amount }, privateKey, fee);
   const success = `{"success":${result.code==0}}`
-  if (argv.output=="json"){
-    console.log(argv.verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(JSON.parse(success)));
-  } else {
-    console.log(argv.verbose ? result : success);
-  }
+  txOutput(result,success,argv.output,argv.verbose)
+
 }

@@ -4,7 +4,7 @@ import path from 'path';
 import { Registry } from '@cerc-io/laconic-sdk';
 import fs from 'fs';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
 
 export const command = 'reveal [auction-id] [file-path]';
 
@@ -30,9 +30,5 @@ export const handler = async (argv: Arguments) => {
   const result = await registry.revealBid({ auctionId, reveal: reveal.toString('hex') }, privateKey, fee);
   const success = `{"success":${result.code==0}}`
   
-  if (argv.output=="json"){
-    console.log(argv.verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(JSON.parse(success)));
-  } else {
-    console.log(argv.verbose ? result : success);
-  }
+  txOutput(result,success,argv.output,argv.verbose)
 }
