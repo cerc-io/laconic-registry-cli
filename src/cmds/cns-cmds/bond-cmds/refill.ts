@@ -3,6 +3,7 @@ import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
 import { getConfig, getConnectionInfo, getGasAndFees } from '../../../util';
+import { isNil } from 'lodash';
 
 export const command = 'refill';
 
@@ -36,5 +37,6 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.refillBond({ id, denom, amount }, privateKey, fee);
-  console.log(JSON.stringify(result, undefined, 2));
+  const success = `{"success":${result.code==0}}`
+  console.log(argv.verbose ? JSON.stringify(result, undefined, 2): JSON.stringify(JSON.parse(success)));
 }

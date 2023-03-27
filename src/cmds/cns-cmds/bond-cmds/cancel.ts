@@ -22,5 +22,6 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.cancelBond({ id }, privateKey, fee);
-  console.log(JSON.stringify(result, undefined, 2));
+  const success = `{"success":${result.code==0}}`
+  console.log(argv.verbose ? JSON.stringify(result, undefined, 2): JSON.stringify(JSON.parse(success)));
 }

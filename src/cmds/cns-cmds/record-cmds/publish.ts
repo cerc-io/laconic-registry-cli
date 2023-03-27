@@ -40,5 +40,5 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
 
-  console.log(verbose ? JSON.stringify(result, undefined, 2) : result.data);
+  console.log(verbose ? JSON.stringify(result, undefined, 2) : JSON.stringify(result.data,undefined,2));
 }
