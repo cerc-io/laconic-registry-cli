@@ -5,7 +5,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getGasAndFees, getConnectionInfo } from '../../../util';
+import { getConfig, getGasAndFees, getConnectionInfo, txOutput } from '../../../util';
 
 export const command = 'publish';
 
@@ -40,5 +40,5 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
 
-  console.log(verbose ? JSON.stringify(result, undefined, 2) : result.data);
+  txOutput(result,JSON.stringify(result.data,undefined,2),argv.output,argv.verbose)
 }

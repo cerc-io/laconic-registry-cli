@@ -5,7 +5,7 @@ import { Account, createBid, Registry } from '@cerc-io/laconic-sdk';
 import { ensureDir } from 'fs-extra';
 import fs from 'fs';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
 
 const OUT_DIR = 'out';
 
@@ -43,7 +43,7 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
 
   const result = await registry.commitBid({ auctionId, commitHash }, privateKey, fee);
-  console.log(JSON.stringify(result, undefined, 2));
+  const revealFile = `{"reveal_file":"${revealFilePath}"}`
 
-  console.log(`\nReveal file: ${revealFilePath}`);
+  txOutput(result,revealFile,argv.output,argv.verbose)
 }
