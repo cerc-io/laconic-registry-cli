@@ -10,19 +10,14 @@ export const cliTest = (args: any) => {
 
 export function createBond(type: string, quantity: string):string{
   const resp=cliTest("bond create --type aphoton --quantity 1000000000");
-  expect(resp).toBeDefined;
-
-  // refactor to get bondId from create resp
-  const list=cliTest("bond list");
-  const bondId=JSON.parse(list)[0].id
-  expect(resp).toBeDefined;
-  return bondId
+  expect(resp.bondId).toBeDefined();
+  return resp.bondId
 };
 
 export function createRecord(filepath: string, bondId: string):string{
   const resp=cliTest("record publish --filename "+filepath+" --bond-id "+bondId);
-  const recordId = resp.substring(resp.indexOf(":")+3,resp.indexOf("}")-2)
-  return recordId
+  expect(resp.id).toBeDefined();
+  return resp.id
 }
 
 export function createAuthority(name:string):string{
