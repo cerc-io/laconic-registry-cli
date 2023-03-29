@@ -19,7 +19,7 @@ describe("test account",() => {
     
         // send tokens to account
         const sendResp=cliTest(args+"send --address "+address+" --type "+type+" --quantity "+quantity)
-        expect(sendResp).toBeDefined;
+        expect(sendResp).toBeDefined();
         
         // balance after
         var balanceAfter;
