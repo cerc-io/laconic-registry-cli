@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees ,txOutput} from '../../../util';
 
 export const command = 'create';
 
@@ -36,5 +36,8 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const bondId = await registry.getNextBondId(privateKey);
   const result = await registry.createBond({ denom, amount }, privateKey, fee);
-  console.log(true ? JSON.stringify(result, undefined, 2)+"\nBondId:"+bondId : bondId);
+  const jsonString=`{"bondId":"${bondId}"}`
+
+  txOutput(result,jsonString,argv.output,argv.verbose)
+
 }

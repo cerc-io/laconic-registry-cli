@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees } from '../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../util';
 
 export const command = 'reserve [name]';
 
@@ -31,5 +31,6 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.reserveAuthority({ name, owner }, privateKey, fee);
 
-  console.log(JSON.stringify(result, undefined, 2));
+  const success = `{"success":${result.code==0}}`
+  txOutput(result,success,argv.output,argv.verbose)
 }

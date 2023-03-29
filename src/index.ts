@@ -15,6 +15,11 @@ yargs(hideBin(process.argv))
       default: 'config.yml',
       describe: 'Config file path.',
       type: 'string'
+    },
+    output: {
+      alias: 'o',
+      describe: 'Gives output in json format when specified.',
+      type: 'string'
     }
   })
   .commandDir('cmds')
