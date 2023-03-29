@@ -1,7 +1,7 @@
 const { execSync } = require("child_process");
 
 export const cliTest = (args: any) => {
-  return execSync(`./bin/laconic cns ${args} -o json`).toString();
+  return JSON.parse(execSync(`./bin/laconic cns ${args}`));
 };
 
 export function createBond(type: string, quantity: string):string{
