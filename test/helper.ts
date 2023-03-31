@@ -20,12 +20,15 @@ export function createRecord(filepath: string, bondId: string):string{
   return resp.id
 }
 
-export function createAuthority(name:string):string{
+export function createAuthority(name:string):any{
   const resp=cliTest("authority reserve "+name);
   expect(resp).toBeDefined;
+  expect(resp.success).toBeTruthy();
+  return resp
+}
 
-  const jsonResp = JSON.parse(cliTest("authority whois "+name))
+export function getAuctionId(name:string):string{
+  const jsonResp = cliTest("authority whois "+name)
   expect(jsonResp).toBeDefined;
-
   return jsonResp[0].auction.id
 }
