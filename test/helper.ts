@@ -9,8 +9,7 @@ export const updateRecord = (filePath: string) => {
   const resolvedFilePath = path.resolve(process.cwd(), filePath);
   const file = fs.readFileSync(resolvedFilePath, 'utf-8')
   const data = yaml.load(file) as any;
-  console.log("Data====",data)
-
+  
   data.record.version=semver.inc(data.record.version, 'patch');
 
   fs.writeFileSync(resolvedFilePath, yaml.dump(data));
