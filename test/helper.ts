@@ -1,4 +1,20 @@
+import yaml from 'js-yaml'
+import fs from 'fs'
+import path from 'path'
+import semver from 'semver';
+
 const { execSync } = require("child_process");
+
+export const updateRecord = (filePath: string) => {
+  const resolvedFilePath = path.resolve(process.cwd(), filePath);
+  const file = fs.readFileSync(resolvedFilePath, 'utf-8')
+  const data = yaml.load(file) as any;
+  console.log("Data====",data)
+
+  data.record.version=semver.inc(data.record.version, 'patch');
+
+  fs.writeFileSync(resolvedFilePath, yaml.dump(data));
+};
 
 export const cliTest = (args: any) => {
   try{
