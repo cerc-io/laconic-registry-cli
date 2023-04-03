@@ -28,7 +28,8 @@
     "lint": "eslint .",
     "clean": "rm -rf ./dist",
     "build": "tsc",
-    "test": "jest --runInBand --verbose"
+    "test": "jest --runInBand --verbose",
+    "test:auctions": "TEST_AUCTIONS_ENABLED=1 jest --runInBand --verbose test/auction.test.ts"
   },
   "bin": {
     "laconic": "bin/laconic"
