@@ -514,3 +514,53 @@ Reassociate records (switch bond):
 ```bash
 $ laconic cns bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
 ```
+
+## Run tests
+
+Follow these steps to run the tests:
+
+- After cloning this repo run:
+
+  ```bash
+  yarn
+  ```
+
+- Copy [config.example.yml](./config.example.yml) file and create a `config.yml` file.
+
+- Clone the [laconicd repo](https://github.com/cerc-io/laconicd) and change to repo directory.
+
+- Run the chain using `./init.sh`.
+
+- Export the private key using:
+
+  ```bash
+  laconicd keys export mykey --unarmored-hex --unsafe
+  ```
+
+- Copy the private key and assign it to variable `PRIVATE_KEY` in the `config.yml` file.
+
+- Run the tests in laconic-sdk repo:
+
+  ```bash
+  yarn test
+  ```
+
+- Run the tests with auctions enabled
+
+  - In laconicd repo run:
+
+    ```bash
+    TEST_AUCTION_ENABLED=true ./init.sh
+    ```
+
+  - Export the private key and change it in `config.yml` file again using:
+
+    ```bash
+    laconicd keys export mykey --unarmored-hex --unsafe
+    ```
+
+  - Run tests:
+
+    ```bash
+    yarn test:auctions
+    ```
