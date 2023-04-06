@@ -30,7 +30,11 @@ jobs:
         run: docker compose up laconicd -d
 
       - name: Run registry-cli demo commands in registry-cli container
-        run : ls -tla
+        run : |
+        laconicd_key=$( docker compose exec laconicd echo y | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe )
+        ./create-config $laconicd_key
+        echo ./config.yml
+        ls -tla
       - name: stop containers
         working-directory: laconicd/tests/sdk_tests
         run: docker compose down
