@@ -36,6 +36,14 @@ export const handler = async (argv: Arguments) => {
   }
 
   const { record } = await yaml.load(fs.readFileSync(file, 'utf-8')) as any;
+
+  // Convert sub-objects (other than arrays) to a JSON automatically.
+  for (const [k, v] of Object.entries(record)) {
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      record[k] = JSON.stringify(v);
+    }
+  }
+
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
