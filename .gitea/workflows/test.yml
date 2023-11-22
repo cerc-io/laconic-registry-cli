@@ -1,0 +1,45 @@
+name: Tests
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - main
+      - release/**
+
+env:
+  DOCKER_HOST: unix:///var/run/dind.sock
+
+jobs:
+  sdk_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Checkout laconicd
+        uses: actions/checkout@v3
+        with:
+          path: "./laconicd/"
+          repository: cerc-io/laconicd
+          fetch-depth: 0
+          ref: main
+      - name: Environment
+        run: ls -tlh && env
+      - name: Start dockerd
+        run: |
+          dockerd -H $DOCKER_HOST --userland-proxy=false &
+          sleep 5
+      - name: build registry-cli container
+        run: docker build -t cerc/laconic-registry-cli:local-test --build-arg CERC_NPM_URL=https://git.vdb.to/api/packages/cerc-io/npm/ --build-arg CERC_NPM_AUTH_TOKEN="${{ secrets.CICD_PUBLISH_TOKEN }}" .
+      - name: build containers scripts
+        working-directory: laconicd/tests/sdk_tests
+        run: ./build-laconicd-container.sh
+      - name: start laconicd container
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose up laconicd -d
+
+      - name: Run registry-cli demo commands in registry-cli container
+        run : ls -tla
+      - name: stop containers
+        working-directory: laconicd/tests/sdk_tests
+        run: docker compose down
