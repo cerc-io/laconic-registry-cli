@@ -12,6 +12,9 @@ export const builder = {
   'bond-id': {
     type: 'string'
   },
+  owner: {
+    type: 'string'
+  },
   type: {
     type: 'string'
   },
@@ -27,7 +30,13 @@ export const builder = {
 export const handler = async (argv: Arguments) => {
   const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
-  const { type, name, bondId, all } = argv;
+  const { type, name, bondId, owner, all } = argv;
+  const filters: any = {};
+
+  const filterArgs = argv._.slice(3);
+  for (let i = 0; i < filterArgs.length-1; i+=2) {
+    filters[String(filterArgs[i]).replace(/^-+/,"")] = filterArgs[i+1];
+  }
 
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -35,6 +44,16 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 
-  const result = await registry.queryRecords({ bondId, type, name }, all as boolean);
-  queryOutput(result,argv.output)
+  let result = await registry.queryRecords({...filters,  type, name}, all as boolean);
+
+  // Apply ex post filters.
+  if (bondId) {
+    result = result.filter(v => v.bondId === bondId);
+  }
+
+  if (owner) {
+    result = result.filter(v => v.owners?.find((e: string) => e === owner));
+  }
+
+  queryOutput(result, argv.output)
 }
