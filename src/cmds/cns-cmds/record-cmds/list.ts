@@ -48,11 +48,11 @@ export const handler = async (argv: Arguments) => {
 
   // Apply ex post filters.
   if (bondId) {
-    result = result.filter(v => v.bondId === bondId);
+    result = result.filter((v: any) => v.bondId === bondId);
   }
 
   if (owner) {
-    result = result.filter(v => v.owners?.find((e: string) => e === owner));
+    result = result.filter((v: any) => v.owners?.find((e: string) => e === owner));
   }
 
   queryOutput(result, argv.output)

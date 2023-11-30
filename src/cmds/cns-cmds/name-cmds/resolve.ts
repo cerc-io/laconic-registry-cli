@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo,txOutput } from '../../../util';
+import { getConfig, getConnectionInfo, queryOutput } from '../../../util';
 
 export const command = 'resolve [name]';
 
@@ -20,8 +20,8 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
 
-  const result = await registry.resolveNames([name]);
-  const success = `{"success":${result.code==0}}`
-  txOutput(result,success,argv.output,argv.verbose)
+  let result = await registry.resolveNames([name]);
+  result = result.filter((v: any) => v);
 
+  queryOutput(result, argv.output);
 }
