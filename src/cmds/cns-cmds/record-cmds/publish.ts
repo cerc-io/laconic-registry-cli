@@ -30,7 +30,7 @@ export const handler = async (argv: Arguments) => {
 
   let file = null;
   if (filename) {
-    file = path.join(process.cwd(), filename as string);
+    file = filename as string;
   } else {
     file = 0; // stdin
   }
