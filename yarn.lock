@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@cerc-io/laconic-sdk@^0.1.10":
-  version "0.1.10"
-  resolved "https://git.vdb.to/api/packages/cerc-io/npm/%40cerc-io%2Flaconic-sdk/-/0.1.10/laconic-sdk-0.1.10.tgz#e706f3ad980df1e27c28dc1729d207b1419c6311"
-  integrity sha512-vS7WxTpSa7x+uraW920DJV/7MSHxPBKtOFUWg4nj+6r2llx2pCGiVa/FoPQsvLfAPKRy2Uju/I12EhvTYKXqfg==
+"@cerc-io/laconic-sdk@^0.1.11":
+  version "0.1.11"
+  resolved "https://git.vdb.to/api/packages/cerc-io/npm/%40cerc-io%2Flaconic-sdk/-/0.1.11/laconic-sdk-0.1.11.tgz#a93c99c2e80ad7f41bbf69549126234c8690d093"
+  integrity sha512-whNSXv0K5nZnDJACGMx66QY6Kewq7scaxqrl5/94NRxDfBLGRAVvqJa6z2ZoZjySB6f2T2Dsez7znAHt9x2oUg==
   dependencies:
     "@cosmjs/amino" "^0.28.1"
     "@cosmjs/crypto" "^0.28.1"
