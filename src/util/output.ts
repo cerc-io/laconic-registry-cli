@@ -11,6 +11,12 @@ export const queryOutput = (result: any, output: unknown) => {
     if (output=="json"){
         console.log(JSON.parse(JSON.stringify(result)));
     } else {
-        console.log(JSON.stringify(result,undefined,2));
+        console.log(JSON.stringify(result, (key, value) => {
+            try {
+                return JSON.parse(value)
+            } catch (e) {
+                return value;
+            }
+        }, 2));
     }
 }
