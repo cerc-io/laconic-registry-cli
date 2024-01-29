@@ -1,6 +1,5 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import path from 'path';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import { Registry } from '@cerc-io/laconic-sdk';
@@ -14,12 +13,12 @@ export const desc = 'Register record.';
 export const builder = {
   'bond-id': {
     type: 'string'
-  },
-}
+  }
+};
 
 export const handler = async (argv: Arguments) => {
-  const { txKey, filename, verbose, config } = argv;
-  const { services: { cns: cnsConfig } } = getConfig(config as string)
+  const { txKey, filename, config } = argv;
+  const { services: { cns: cnsConfig } } = getConfig(config as string);
   const { restEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, cnsConfig);
 
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
@@ -39,7 +38,7 @@ export const handler = async (argv: Arguments) => {
 
   // Convert sub-objects (other than arrays) to a JSON automatically.
   for (const [k, v] of Object.entries(record)) {
-    if (v && typeof v === "object" && !Array.isArray(v)) {
+    if (v && typeof v === 'object' && !Array.isArray(v)) {
       record[k] = JSON.stringify(v);
     }
   }
@@ -48,5 +47,5 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
 
-  txOutput(result,JSON.stringify(result.data,undefined,2),argv.output,argv.verbose)
-}
+  txOutput(result, JSON.stringify(result.data, undefined, 2), argv.output, argv.verbose);
+};

@@ -21,7 +21,7 @@ export const handler = async (argv: Arguments) => {
   assert(quantity, 'Invalid token quantity.');
   assert(denom, 'Invalid token type.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -43,7 +43,7 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
 
   const result = await registry.commitBid({ auctionId, commitHash }, privateKey, fee);
-  const revealFile = `{"reveal_file":"${revealFilePath}"}`
+  const revealFile = `{"reveal_file":"${revealFilePath}"}`;
 
-  txOutput(result,revealFile,argv.output,argv.verbose)
-}
+  txOutput(result, revealFile, argv.output, argv.verbose);
+};

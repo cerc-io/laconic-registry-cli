@@ -9,7 +9,7 @@ export const command = 'status';
 export const desc = 'Get CNS status.';
 
 export const handler = async (argv: Arguments) => {
-  const { services: { cns } } = getConfig(argv.config as string)
+  const { services: { cns } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cns);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -19,4 +19,4 @@ export const handler = async (argv: Arguments) => {
 
   const result = await registry.getStatus();
   console.log(JSON.stringify(result, undefined, 2));
-}
+};

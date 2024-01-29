@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import assert from 'assert';
 import { Arguments } from 'yargs';
 

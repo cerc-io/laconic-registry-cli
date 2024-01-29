@@ -11,7 +11,7 @@ export const desc = 'Get account.';
 export const handler = async (argv: Arguments) => {
   let address = argv.address as string;
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -24,5 +24,5 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const result = await registry.getAccounts([address]);
 
-  queryOutput(result,argv.output);
-}
+  queryOutput(result, argv.output);
+};

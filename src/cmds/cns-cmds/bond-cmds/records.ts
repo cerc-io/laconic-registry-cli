@@ -7,4 +7,4 @@ export const desc = 'Bond records operations.';
 exports.builder = (yargs: yargs.Argv) => {
   return yargs.commandDir('records-cmds')
     .demandCommand();
-}
+};

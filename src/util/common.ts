@@ -1,4 +1,4 @@
-import { Arguments } from "yargs";
+import { Arguments } from 'yargs';
 import clean from 'lodash-clean';
 
 export const getConnectionInfo = (argv: Arguments, config: any) => {

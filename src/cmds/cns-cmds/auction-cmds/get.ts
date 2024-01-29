@@ -12,7 +12,7 @@ export const handler = async (argv: Arguments) => {
   const { id, config } = argv;
   assert(id, 'Invalid auction ID.');
 
-  const { services: { cns: cnsConfig } } = getConfig(config as string)
+  const { services: { cns: cnsConfig } } = getConfig(config as string);
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -21,5 +21,5 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const result = await registry.getAuctionsByIds([id as string]);
 
-  queryOutput(result,argv.output)
-}
+  queryOutput(result, argv.output);
+};

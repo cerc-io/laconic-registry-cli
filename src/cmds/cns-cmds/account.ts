@@ -7,4 +7,4 @@ export const desc = 'Account operations.';
 exports.builder = (yargs: yargs.Argv) => {
   return yargs.commandDir('account-cmds')
     .demandCommand();
-}
+};

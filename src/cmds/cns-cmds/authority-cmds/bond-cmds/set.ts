@@ -14,7 +14,7 @@ export const handler = async (argv: Arguments) => {
   assert(name, 'Invalid authority name.');
   assert(bondId, 'Invalid Bond ID.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -24,7 +24,7 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.setAuthorityBond({ name, bondId }, privateKey, fee);
-  const success = `{"success":${result.code==0}}`
+  const success = `{"success":${result.code === 0}}`;
 
-  txOutput(result,success,argv.output,argv.verbose)
-}
+  txOutput(result, success, argv.output, argv.verbose);
+};

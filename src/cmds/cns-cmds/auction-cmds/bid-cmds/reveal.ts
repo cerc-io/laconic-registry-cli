@@ -16,7 +16,7 @@ export const handler = async (argv: Arguments) => {
   assert(auctionId, 'Invalid auction ID.');
   assert(filePath, 'Invalid reveal file path.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -28,7 +28,7 @@ export const handler = async (argv: Arguments) => {
 
   const reveal = fs.readFileSync(path.resolve(filePath));
   const result = await registry.revealBid({ auctionId, reveal: reveal.toString('hex') }, privateKey, fee);
-  const success = `{"success":${result.code==0}}`
-  
-  txOutput(result,success,argv.output,argv.verbose)
-}
+  const success = `{"success":${result.code === 0}}`;
+
+  txOutput(result, success, argv.output, argv.verbose);
+};

@@ -12,7 +12,7 @@ export const handler = async (argv: Arguments) => {
   const name = argv.name as string;
   assert(name, 'Invalid Name.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -24,4 +24,4 @@ export const handler = async (argv: Arguments) => {
   result = result.filter((v: any) => v);
 
   queryOutput(result, argv.output);
-}
+};

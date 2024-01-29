@@ -1,6 +1,7 @@
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
+// eslint-disable-next-line no-unused-expressions
 yargs(hideBin(process.argv))
   .options({
     verbose: {

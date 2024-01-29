@@ -6,6 +6,6 @@ export const desc = 'Record operations.';
 
 exports.builder = (yargs: yargs.Argv) => {
   return yargs.commandDir('record-cmds')
-    .parserConfiguration({'unknown-options-as-args': true})
-    .demandCommand()
-}
+    .parserConfiguration({ 'unknown-options-as-args': true })
+    .demandCommand();
+};

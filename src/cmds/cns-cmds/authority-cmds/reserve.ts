@@ -13,14 +13,14 @@ export const builder = {
     type: 'string',
     default: ''
   }
-}
+};
 
 export const handler = async (argv: Arguments) => {
   const name = argv.name as string;
   const owner = argv.owner as string;
   assert(name, 'Invalid authority name.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -31,6 +31,6 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.reserveAuthority({ name, owner }, privateKey, fee);
 
-  const success = `{"success":${result.code==0}}`
-  txOutput(result,success,argv.output,argv.verbose)
-}
+  const success = `{"success":${result.code === 0}}`;
+  txOutput(result, success, argv.output, argv.verbose);
+};

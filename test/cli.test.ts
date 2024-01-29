@@ -191,7 +191,7 @@ describe('Test laconic CLI commands', () => {
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected account
-        const expectedAccount = getAccountObj({ address: testAccount })
+        const expectedAccount = getAccountObj({ address: testAccount });
 
         expect(outputObj.length).toEqual(1);
         expect(outputObj[0]).toMatchObject(expectedAccount);
@@ -213,7 +213,7 @@ describe('Test laconic CLI commands', () => {
         // Expected acconts
         const expectedAccounts = [
           getAccountObj({ address: testAccount, balance: balanceAfterSend }),
-          getAccountObj({ address: testAccount2, balance: sendAmount }),
+          getAccountObj({ address: testAccount2, balance: sendAmount })
         ];
 
         expect(outputObj.length).toEqual(2);
@@ -282,7 +282,6 @@ describe('Test laconic CLI commands', () => {
 
           expect(recordOutputObj.length).toEqual(1);
           expect(recordOutputObj[0]).toMatchObject(expectedRecord);
-
         });
 
         test('laconic cns bond associate --id <record_id> --bond-id <bond_id>', async () => {

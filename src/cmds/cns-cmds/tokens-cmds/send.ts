@@ -15,7 +15,7 @@ export const builder = {
   quantity: {
     type: 'string'
   }
-}
+};
 
 export const handler = async (argv: Arguments) => {
   const destinationAddress = argv.address as string;
@@ -26,7 +26,7 @@ export const handler = async (argv: Arguments) => {
   assert(denom, 'Invalid Type.');
   assert(amount, 'Invalid Quantity.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -40,5 +40,5 @@ export const handler = async (argv: Arguments) => {
   const fee = getGasAndFees(argv, cnsConfig);
   await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
   const result = await registry.getAccounts([fromAddress, destinationAddress]);
-  queryOutput(result,argv.output)
-}
+  queryOutput(result, argv.output);
+};

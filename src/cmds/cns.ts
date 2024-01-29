@@ -11,13 +11,13 @@ exports.builder = (yargs: yargs.Argv) => {
       'tx-key': { type: 'string' },
       'bond-id': { type: 'string' },
       'chain-id': { type: 'string' },
-      'filename': { alias: 'f' },
-      'id': { type: 'string' },
-      'address': { type: 'string' },
-      'gas': { type: 'string' },
-      'fees': { type: 'string' }
+      filename: { alias: 'f' },
+      id: { type: 'string' },
+      address: { type: 'string' },
+      gas: { type: 'string' },
+      fees: { type: 'string' }
     })
     .commandDir('cns-cmds')
     .demandCommand()
-    .help()
-}
+    .help();
+};

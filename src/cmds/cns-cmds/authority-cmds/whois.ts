@@ -12,7 +12,7 @@ export const handler = async (argv: Arguments) => {
   const name = argv.name as string;
   assert(name, 'Invalid authority name.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -21,5 +21,5 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const result = await registry.lookupAuthorities([name], true);
 
-  queryOutput(result,argv.output)
-}
+  queryOutput(result, argv.output);
+};

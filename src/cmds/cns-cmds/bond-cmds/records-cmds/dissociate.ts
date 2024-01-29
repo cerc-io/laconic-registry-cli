@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/laconic-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees,txOutput } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
 
 export const command = 'dissociate';
 
@@ -12,13 +12,13 @@ export const builder = {
   'bond-id': {
     type: 'string'
   }
-}
+};
 
 export const handler = async (argv: Arguments) => {
   const bondId = argv.bondId as string;
   assert(bondId, 'Invalid Bond ID.');
 
-  const { services: { cns: cnsConfig } } = getConfig(argv.config as string)
+  const { services: { cns: cnsConfig } } = getConfig(argv.config as string);
   const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, cnsConfig);
   assert(restEndpoint, 'Invalid CNS REST endpoint.');
   assert(gqlEndpoint, 'Invalid CNS GQL endpoint.');
@@ -28,7 +28,6 @@ export const handler = async (argv: Arguments) => {
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
   const result = await registry.dissociateRecords({ bondId }, privateKey, fee);
-  const success = `{"success":${result.code==0}}`
-  txOutput(result,success,argv.output,argv.verbose)
-
-}
+  const success = `{"success":${result.code === 0}}`;
+  txOutput(result, success, argv.output, argv.verbose);
+};
