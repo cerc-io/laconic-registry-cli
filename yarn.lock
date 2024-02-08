@@ -302,10 +302,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cerc-io/laconic-sdk@^0.1.14":
-  version "0.1.14"
-  resolved "https://git.vdb.to/api/packages/cerc-io/npm/%40cerc-io%2Flaconic-sdk/-/0.1.14/laconic-sdk-0.1.14.tgz#67a255133c8907657878270f02b7084e11e23736"
-  integrity sha512-B9iR/PYripQwkXYuJBubz6IojixWLuJb7WZosCuitn+2hroH8+K/VhkBhdKHpJGMs6Z+3GneOzhu7XrLhn1j6Q==
+"@cerc-io/laconic-sdk@^0.1.15":
+  version "0.1.15"
+  resolved "https://git.vdb.to/api/packages/cerc-io/npm/%40cerc-io%2Flaconic-sdk/-/0.1.15/laconic-sdk-0.1.15.tgz#1011a07933c6f1525e05e1ba7dd6a4e4df9b6edb"
+  integrity sha512-Ifl4JUGpckZsu2RkaGyGlObpu9B9GhwFVoDCt8WM9ApdtFnGEVSbDzRuh4f2vLj9WaZkbfdSI/Xci1Fugj3lZg==
   dependencies:
     "@cosmjs/amino" "^0.28.1"
     "@cosmjs/crypto" "^0.28.1"
