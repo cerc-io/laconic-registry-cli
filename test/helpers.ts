@@ -3,7 +3,7 @@ import yaml from 'js-yaml';
 import { SpawnSyncReturns, spawnSync } from 'child_process';
 
 export const CHAIN_ID = 'laconic_9000-1';
-export const TOKEN_TYPE = 'aphoton';
+export const TOKEN_TYPE = 'photon';
 
 export const AUCTION_FEES = {
   commit: 1000000,
@@ -21,7 +21,6 @@ export function checkResultAndRetrieveOutput (result: SpawnSyncReturns<Buffer>):
 
   const output = result.stdout.toString().trim();
   expect(output.length).toBeGreaterThan(0);
-
   return JSON.parse(output);
 }
 

@@ -10,7 +10,10 @@ export const parseGasAndFees = (gas: string, fees = '') => {
     .filter(([_, amount, denom]) => (denom && amount))
     .map(([_, amount, denom]) => ({ denom, amount }));
 
-  return { amount, denom, gas };
+  return {
+    amount: [{ denom, amount }],
+    gas
+  };
 };
 
 export const getGasAndFees = (argv: Arguments, config: any = {}) => {

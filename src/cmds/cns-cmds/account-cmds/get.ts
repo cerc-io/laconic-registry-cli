@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import { Account, Registry } from '@cerc-io/laconic-sdk';
+import { Account, Registry } from '@cerc-io/registry-sdk';
 
 import { getConfig, getConnectionInfo, queryOutput } from '../../../util';
 
@@ -18,7 +18,7 @@ export const handler = async (argv: Arguments) => {
   assert(chainId, 'Invalid CNS Chain ID.');
 
   if (!address && privateKey) {
-    address = new Account(Buffer.from(privateKey, 'hex')).getCosmosAddress();
+    address = new Account(Buffer.from(privateKey, 'hex')).address;
   }
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);

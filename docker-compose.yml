@@ -1,14 +1,14 @@
 services:
-  laconicd:
+  laconic2d:
     restart: unless-stopped
-    image: cerc/laconicd:local
+    image: cerc/laconic2d:local
     command: ["sh", "/docker-entrypoint-scripts.d/create-fixturenet.sh"]
     environment:
       - TEST_AUCTION_ENABLED
       - TEST_REGISTRY_EXPIRY
       - LOGLEVEL
     volumes:
-      - ./laconicd/init.sh:/docker-entrypoint-scripts.d/create-fixturenet.sh
+      - ./laconic2d/scripts/init.sh:/docker-entrypoint-scripts.d/create-fixturenet.sh
     healthcheck:
       test: ["CMD", "curl", "-v", "http://127.0.0.1:6060"]
       interval: 1s
@@ -17,10 +17,11 @@ services:
     ports:
       - "9473:9473"
       - "1317:1317"
+      - "26657:26657"
 
   cli-test-runner:
     image: cerc/laconic-registry-cli:local
     depends_on:
-      laconicd:
+      laconic2d:
         condition: service_healthy
     command: tail -F /dev/null

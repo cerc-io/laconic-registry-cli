@@ -1,7 +1,7 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
 import path from 'path';
-import { Registry } from '@cerc-io/laconic-sdk';
+import { Registry } from '@cerc-io/registry-sdk';
 import fs from 'fs';
 
 import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
@@ -28,7 +28,7 @@ export const handler = async (argv: Arguments) => {
 
   const reveal = fs.readFileSync(path.resolve(filePath));
   const result = await registry.revealBid({ auctionId, reveal: reveal.toString('hex') }, privateKey, fee);
-  const success = `{"success":${result.code === 0}}`;
+  const success = '{"success": true}';
 
   txOutput(result, success, argv.output, argv.verbose);
 };

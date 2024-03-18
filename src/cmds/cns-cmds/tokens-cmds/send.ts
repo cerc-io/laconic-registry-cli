@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import { Account, Registry } from '@cerc-io/laconic-sdk';
+import { Account, Registry } from '@cerc-io/registry-sdk';
 
 import { getConfig, getConnectionInfo, getGasAndFees, queryOutput } from '../../../util';
 
@@ -34,7 +34,8 @@ export const handler = async (argv: Arguments) => {
   assert(chainId, 'Invalid CNS Chain ID.');
 
   const account = new Account(Buffer.from(privateKey, 'hex'));
-  const fromAddress = account.formattedCosmosAddress;
+  await account.init();
+  const fromAddress = account.address;
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);

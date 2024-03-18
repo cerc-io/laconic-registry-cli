@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import yaml from 'js-yaml';
 import fs from 'fs';
-import { Registry } from '@cerc-io/laconic-sdk';
+import { Registry } from '@cerc-io/registry-sdk';
 
 import { getConfig, getGasAndFees, getConnectionInfo, txOutput } from '../../../util';
 
@@ -45,7 +45,7 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
   const fee = getGasAndFees(argv, cnsConfig);
-  const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey as string, fee);
+  const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey || userKey, fee);
 
-  txOutput(result, JSON.stringify(result.data, undefined, 2), argv.output, argv.verbose);
+  txOutput(result, JSON.stringify(result, undefined, 2), argv.output, argv.verbose);
 };

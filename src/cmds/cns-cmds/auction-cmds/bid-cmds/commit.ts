@@ -1,7 +1,7 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
 import path from 'path';
-import { Account, createBid, Registry } from '@cerc-io/laconic-sdk';
+import { Account, createBid, Registry } from '@cerc-io/registry-sdk';
 import { ensureDir } from 'fs-extra';
 import fs from 'fs';
 
@@ -29,7 +29,8 @@ export const handler = async (argv: Arguments) => {
   assert(chainId, 'Invalid CNS Chain ID.');
 
   const account = new Account(Buffer.from(privateKey, 'hex'));
-  const bidderAddress = account.formattedCosmosAddress;
+  await account.init();
+  const bidderAddress = account.address;
   const bidAmount = `${quantity}${denom}`;
   const { reveal, commitHash } = await createBid(chainId, auctionId, bidderAddress, bidAmount);
 

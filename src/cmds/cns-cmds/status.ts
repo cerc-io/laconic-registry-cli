@@ -1,6 +1,6 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import { Registry } from '@cerc-io/laconic-sdk';
+import { Registry } from '@cerc-io/registry-sdk';
 
 import { getConfig, getConnectionInfo } from '../../util';
 

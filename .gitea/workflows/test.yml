@@ -35,21 +35,21 @@ jobs:
       - name: Install registry-cli
         run: yarn global add file:$PWD
 
-      - name: Checkout laconicd
+      - name: Checkout laconic2d
         uses: actions/checkout@v3
         with:
-          path: "./laconicd/"
-          repository: cerc-io/laconicd
+          path: "./laconic2d/"
+          repository: cerc-io/laconic2d
           fetch-depth: 0
           ref: main
 
-      - name: Build laconicd container
-        working-directory: ./laconicd/tests/sdk_tests
-        run: ./build-laconicd-container.sh
-      - name: Start laconicd container
+      - name: Build laconic2d container
+        working-directory: ./laconic2d/tests/sdk_tests
+        run: ./build-laconic2d-container.sh
+      - name: Start laconic2d container
         env:
           TEST_AUCTION_ENABLED: true
-        run: docker compose up laconicd -d
+        run: docker compose up laconic2d -d
 
       - name: Run registry-cli tests
         run: ./test/run-tests.sh
