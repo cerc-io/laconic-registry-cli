@@ -15,7 +15,7 @@ laconic2d_gql_endpoint=http://127.0.0.1:9473/api
 config_file="config.yml"
 config=$(cat <<EOL
 services:
-  cns:
+  registry:
     restEndpoint: $laconic2d_rpc_endpoint
     gqlEndpoint: $laconic2d_gql_endpoint
     userKey: $laconic2d_key

@@ -25,7 +25,7 @@ export function checkResultAndRetrieveOutput (result: SpawnSyncReturns<Buffer>):
 }
 
 export function createBond (quantity: number): { bondId: string } {
-  const result = spawnSync('laconic', ['cns', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', quantity.toString(), '--gas', '200000', '--fees', `200000${TOKEN_TYPE}`]);
+  const result = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', quantity.toString(), '--gas', '200000', '--fees', `200000${TOKEN_TYPE}`]);
   const output = result.stdout.toString().trim();
 
   return JSON.parse(output);

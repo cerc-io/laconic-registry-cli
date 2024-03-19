@@ -31,8 +31,8 @@ describe('Test laconic CLI commands', () => {
     expect(errorOutput).toContain('laconic <command>');
   });
 
-  test('laconic cns', async () => {
-    const result = spawnSync('laconic', ['cns']);
+  test('laconic registry', async () => {
+    const result = spawnSync('laconic', ['registry']);
     expect(result.status).toBe(1);
 
     const output = result.stdout.toString().trim();
@@ -40,15 +40,15 @@ describe('Test laconic CLI commands', () => {
 
     // Expect error with usage string
     expect(output).toBe('');
-    expect(errorOutput).toContain('laconic cns');
-    expect(errorOutput).toContain('CNS tools');
+    expect(errorOutput).toContain('laconic registry');
+    expect(errorOutput).toContain('Registry tools');
     expect(errorOutput).toContain('Commands:');
   });
 
   // TODO: Break up tests into separate files
-  // TODO: Add tests for CNS commands with all available flags
+  // TODO: Add tests for registry commands with all available flags
 
-  describe('laconic CNS commands', () => {
+  describe('laconic registry commands', () => {
     const testAccount = process.env.TEST_ACCOUNT;
     assert(testAccount, 'TEST_ACCOUNT not set in env');
     const testAccount2 = 'laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd';
@@ -58,11 +58,11 @@ describe('Test laconic CLI commands', () => {
     const testRecordFilePath = 'test/data/watcher-record.yml';
     let testAuctionId: string, testRecordId: string, testRecordBondId: string;
 
-    test('laconic cns status', async () => {
-      const result = spawnSync('laconic', ['cns', 'status']);
+    test('laconic registry status', async () => {
+      const result = spawnSync('laconic', ['registry', 'status']);
       const outputObj = checkResultAndRetrieveOutput(result);
 
-      // Expect output object to have CNS status props
+      // Expect output object to have registry status props
       expect(outputObj).toHaveProperty('version');
       expect(outputObj).toHaveProperty('node');
       expect(outputObj).toHaveProperty('node.network', CHAIN_ID);
@@ -80,8 +80,9 @@ describe('Test laconic CLI commands', () => {
       let bondBalance = 1000000000;
       let bondId: string;
 
-      test('laconic cns bond create --type <type> --quantity <quantity> --gas <gas> --fees <fees>', async () => {
-        const result = spawnSync('laconic', ['cns', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondBalance.toString(), '--gas', '200000', '--fees', `200000${TOKEN_TYPE}`]);
+      test('laconic registry bond create --type <type> --quantity <quantity> --gas <gas> --fees <fees>', async () => {
+        const result = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondBalance.toString(), '--gas', '200000', '--fees', `200000${TOKEN_TYPE}`]);
+
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expect output object to have resultant bond id
@@ -90,8 +91,8 @@ describe('Test laconic CLI commands', () => {
         bondId = outputObj.bondId;
       });
 
-      test('laconic cns bond list', async () => {
-        const result = spawnSync('laconic', ['cns', 'bond', 'list']);
+      test('laconic registry bond list', async () => {
+        const result = spawnSync('laconic', ['registry', 'bond', 'list']);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected bond
@@ -101,8 +102,8 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toEqual(expectedBond);
       });
 
-      test('laconic cns bond list --owner <owner_address>', async () => {
-        const result = spawnSync('laconic', ['cns', 'bond', 'list', '--owner', bondOwner]);
+      test('laconic registry bond list --owner <owner_address>', async () => {
+        const result = spawnSync('laconic', ['registry', 'bond', 'list', '--owner', bondOwner]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected bond
@@ -112,8 +113,8 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toEqual(expectedBond);
       });
 
-      test('laconic cns bond get --id <bond_id>', async () => {
-        const result = spawnSync('laconic', ['cns', 'bond', 'get', '--id', bondId]);
+      test('laconic registry bond get --id <bond_id>', async () => {
+        const result = spawnSync('laconic', ['registry', 'bond', 'get', '--id', bondId]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected bond
@@ -123,18 +124,18 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toEqual(expectedBond);
       });
 
-      test('laconic cns bond refill --id <bond_id> --type <type> --quantity <quantity>', async () => {
+      test('laconic registry bond refill --id <bond_id> --type <type> --quantity <quantity>', async () => {
         const bondRefillAmount = 1000;
         bondBalance += bondRefillAmount;
 
-        const result = spawnSync('laconic', ['cns', 'bond', 'refill', '--id', bondId, '--type', TOKEN_TYPE, '--quantity', bondRefillAmount.toString()]);
+        const result = spawnSync('laconic', ['registry', 'bond', 'refill', '--id', bondId, '--type', TOKEN_TYPE, '--quantity', bondRefillAmount.toString()]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check updated bond
-        const bondResult = spawnSync('laconic', ['cns', 'bond', 'get', '--id', bondId]);
+        const bondResult = spawnSync('laconic', ['registry', 'bond', 'get', '--id', bondId]);
         const bondOutputObj = checkResultAndRetrieveOutput(bondResult);
 
         // Expected bond
@@ -144,18 +145,18 @@ describe('Test laconic CLI commands', () => {
         expect(bondOutputObj[0]).toEqual(expectedBond);
       });
 
-      test('laconic cns bond withdraw --id <bond_id> --type <type> --quantity <quantity>', async () => {
+      test('laconic registry bond withdraw --id <bond_id> --type <type> --quantity <quantity>', async () => {
         const bondWithdrawAmount = 500;
         bondBalance -= bondWithdrawAmount;
 
-        const result = spawnSync('laconic', ['cns', 'bond', 'withdraw', '--id', bondId, '--type', TOKEN_TYPE, '--quantity', bondWithdrawAmount.toString()]);
+        const result = spawnSync('laconic', ['registry', 'bond', 'withdraw', '--id', bondId, '--type', TOKEN_TYPE, '--quantity', bondWithdrawAmount.toString()]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check updated bond
-        const bondResult = spawnSync('laconic', ['cns', 'bond', 'get', '--id', bondId]);
+        const bondResult = spawnSync('laconic', ['registry', 'bond', 'get', '--id', bondId]);
         const bondOutputObj = checkResultAndRetrieveOutput(bondResult);
 
         // Expected bond
@@ -166,15 +167,15 @@ describe('Test laconic CLI commands', () => {
         expect(bondOutputObj[0]).toEqual(expectedBond);
       });
 
-      test('laconic cns bond cancel --id <bond_id>', async () => {
-        const result = spawnSync('laconic', ['cns', 'bond', 'cancel', '--id', bondId]);
+      test('laconic registry bond cancel --id <bond_id>', async () => {
+        const result = spawnSync('laconic', ['registry', 'bond', 'cancel', '--id', bondId]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check updated bond
-        const bondResult = spawnSync('laconic', ['cns', 'bond', 'get', '--id', bondId]);
+        const bondResult = spawnSync('laconic', ['registry', 'bond', 'get', '--id', bondId]);
         const bondOutputObj = checkResultAndRetrieveOutput(bondResult);
 
         // Expect empty object
@@ -186,8 +187,8 @@ describe('Test laconic CLI commands', () => {
     describe('Account and tokens operations', () => {
       let balanceBeforeSend: number;
 
-      test('laconic cns account get --address <account_address>', async () => {
-        const result = spawnSync('laconic', ['cns', 'account', 'get', '--address', testAccount]);
+      test('laconic registry account get --address <account_address>', async () => {
+        const result = spawnSync('laconic', ['registry', 'account', 'get', '--address', testAccount]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected account
@@ -203,11 +204,11 @@ describe('Test laconic CLI commands', () => {
         expect(balanceBeforeSend).toBeLessThan(initialAccountBalance);
       });
 
-      test('laconic cns tokens send --address <account_address> --type <token_type> --quantity <quantity>', async () => {
+      test('laconic registry tokens send --address <account_address> --type <token_type> --quantity <quantity>', async () => {
         const sendAmount = 1000000000;
         const balanceAfterSend = balanceBeforeSend - sendAmount;
 
-        const result = spawnSync('laconic', ['cns', 'tokens', 'send', '--address', testAccount2, '--type', TOKEN_TYPE, '--quantity', sendAmount.toString()]);
+        const result = spawnSync('laconic', ['registry', 'tokens', 'send', '--address', testAccount2, '--type', TOKEN_TYPE, '--quantity', sendAmount.toString()]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected acconts
@@ -225,11 +226,10 @@ describe('Test laconic CLI commands', () => {
       const gas = 250000;
       const bondBalance = 1000000000;
 
-      test('laconic cns record publish --filename <record_file> --bond-id <bond_id> --gas <gas>', async () => {
+      test('laconic registry record publish --filename <record_file> --bond-id <bond_id> --gas <gas>', async () => {
         // Create a new bond to be associated with the record
         ({ bondId: testRecordBondId } = createBond(bondBalance));
-
-        const result = spawnSync('laconic', ['cns', 'record', 'publish', '--filename', testRecordFilePath, '--bond-id', testRecordBondId, '--gas', gas.toString()]);
+        const result = spawnSync('laconic', ['registry', 'record', 'publish', '--filename', testRecordFilePath, '--bond-id', testRecordBondId, '--gas', gas.toString()]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expect output object to resultant bond id
@@ -238,8 +238,8 @@ describe('Test laconic CLI commands', () => {
         testRecordId = outputObj.id;
       });
 
-      test('laconic cns record list', async () => {
-        const result = spawnSync('laconic', ['cns', 'record', 'list']);
+      test('laconic registry record list', async () => {
+        const result = spawnSync('laconic', ['registry', 'record', 'list']);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected record
@@ -253,8 +253,8 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0].owners.length).toEqual(1);
       });
 
-      test('laconic cns record get --id <record_id>', async () => {
-        const result = spawnSync('laconic', ['cns', 'record', 'get', '--id', testRecordId]);
+      test('laconic registry record get --id <record_id>', async () => {
+        const result = spawnSync('laconic', ['registry', 'record', 'get', '--id', testRecordId]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected record
@@ -267,14 +267,14 @@ describe('Test laconic CLI commands', () => {
       describe('Bond records operations', () => {
         let testRecordBondId2: string;
 
-        test('laconic cns bond dissociate --id <record_id>', async () => {
-          const result = spawnSync('laconic', ['cns', 'bond', 'dissociate', '--id', testRecordId]);
+        test('laconic registry bond dissociate --id <record_id>', async () => {
+          const result = spawnSync('laconic', ['registry', 'bond', 'dissociate', '--id', testRecordId]);
           const outputObj = checkResultAndRetrieveOutput(result);
 
           // Expected output
           expect(outputObj).toEqual({ success: true });
 
-          const recordResult = spawnSync('laconic', ['cns', 'record', 'get', '--id', testRecordId]);
+          const recordResult = spawnSync('laconic', ['registry', 'record', 'get', '--id', testRecordId]);
           const recordOutputObj = checkResultAndRetrieveOutput(recordResult);
 
           // Expected record
@@ -284,17 +284,17 @@ describe('Test laconic CLI commands', () => {
           expect(recordOutputObj[0]).toMatchObject(expectedRecord);
         });
 
-        test('laconic cns bond associate --id <record_id> --bond-id <bond_id>', async () => {
+        test('laconic registry bond associate --id <record_id> --bond-id <bond_id>', async () => {
           // Create a new bond to be associated with the record
           ({ bondId: testRecordBondId2 } = createBond(bondBalance));
 
-          const result = spawnSync('laconic', ['cns', 'bond', 'associate', '--id', testRecordId, '--bond-id', testRecordBondId2]);
+          const result = spawnSync('laconic', ['registry', 'bond', 'associate', '--id', testRecordId, '--bond-id', testRecordBondId2]);
           const outputObj = checkResultAndRetrieveOutput(result);
 
           // Expected output
           expect(outputObj).toEqual({ success: true });
 
-          const recordResult = spawnSync('laconic', ['cns', 'record', 'get', '--id', testRecordId]);
+          const recordResult = spawnSync('laconic', ['registry', 'record', 'get', '--id', testRecordId]);
           const recordOutputObj = checkResultAndRetrieveOutput(recordResult);
 
           // Expected record
@@ -304,14 +304,14 @@ describe('Test laconic CLI commands', () => {
           expect(recordOutputObj[0]).toMatchObject(expectedRecord);
         });
 
-        test('laconic cns bond records reassociate --old-bond-id <old_bond_id> --new-bond-id <new_bond_id>', async () => {
-          const result = spawnSync('laconic', ['cns', 'bond', 'records', 'reassociate', '--old-bond-id', testRecordBondId2, '--new-bond-id', testRecordBondId]);
+        test('laconic registry bond records reassociate --old-bond-id <old_bond_id> --new-bond-id <new_bond_id>', async () => {
+          const result = spawnSync('laconic', ['registry', 'bond', 'records', 'reassociate', '--old-bond-id', testRecordBondId2, '--new-bond-id', testRecordBondId]);
           const outputObj = checkResultAndRetrieveOutput(result);
 
           // Expected output
           expect(outputObj).toEqual({ success: true });
 
-          const recordResult = spawnSync('laconic', ['cns', 'record', 'get', '--id', testRecordId]);
+          const recordResult = spawnSync('laconic', ['registry', 'record', 'get', '--id', testRecordId]);
           const recordOutputObj = checkResultAndRetrieveOutput(recordResult);
 
           // Expected record
@@ -324,18 +324,17 @@ describe('Test laconic CLI commands', () => {
     });
 
     describe('Name authority operations (pre auction)', () => {
-      test('laconic cns authority reserve <authority_name>', async () => {
-        const result = spawnSync('laconic', ['cns', 'authority', 'reserve', testAuthorityName]);
+      test('laconic registry authority reserve <authority_name>', async () => {
+        const result = spawnSync('laconic', ['registry', 'authority', 'reserve', testAuthorityName]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expect result
         expect(outputObj).toEqual({ success: true });
       });
 
-      test('laconic cns authority whois <authority_name>', async () => {
-        const result = spawnSync('laconic', ['cns', 'authority', 'whois', testAuthorityName]);
+      test('laconic registry authority whois <authority_name>', async () => {
+        const result = spawnSync('laconic', ['registry', 'authority', 'whois', testAuthorityName]);
         const outputObj = checkResultAndRetrieveOutput(result);
-
         // Expected authority (still in auction)
         const expectedAuthority = getAuthorityObj({ owner: '', status: 'auction', auction: getAuctionObj({ owner: testAccount }) });
 
@@ -352,8 +351,8 @@ describe('Test laconic CLI commands', () => {
       const bidAmount = 25000000;
       let bidRevealFilePath: string;
 
-      test('laconic cns auction get <auction_id>', async () => {
-        const result = spawnSync('laconic', ['cns', 'auction', 'get', testAuctionId]);
+      test('laconic registry auction get <auction_id>', async () => {
+        const result = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected auction (still in commit stage)
@@ -363,8 +362,8 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toMatchObject(expectedAuction);
       });
 
-      test('laconic cns auction bid commit <auction_id> <quantity> <type>', async () => {
-        const result = spawnSync('laconic', ['cns', 'auction', 'bid', 'commit', testAuctionId, bidAmount.toString(), TOKEN_TYPE]);
+      test('laconic registry auction bid commit <auction_id> <quantity> <type>', async () => {
+        const result = spawnSync('laconic', ['registry', 'auction', 'bid', 'commit', testAuctionId, bidAmount.toString(), TOKEN_TYPE]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
@@ -373,11 +372,11 @@ describe('Test laconic CLI commands', () => {
         bidRevealFilePath = outputObj.reveal_file;
       });
 
-      test('laconic cns auction bid reveal <auction_id> <file_path>', async () => {
+      test('laconic registry auction bid reveal <auction_id> <file_path>', async () => {
         // Wait for auction commits duration (60s)
         await delay(AUCTION_COMMIT_DURATION * 1000);
 
-        const auctionResult = spawnSync('laconic', ['cns', 'auction', 'get', testAuctionId]);
+        const auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
         const auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
 
         const expectedAuction = getAuctionObj({ owner: testAccount, status: 'reveal' });
@@ -387,7 +386,7 @@ describe('Test laconic CLI commands', () => {
         expect(auctionOutputObj[0].bids[0]).toMatchObject(expectedBid);
 
         // Reveal bid
-        const result = spawnSync('laconic', ['cns', 'auction', 'bid', 'reveal', testAuctionId, bidRevealFilePath]);
+        const result = spawnSync('laconic', ['registry', 'auction', 'bid', 'reveal', testAuctionId, bidRevealFilePath]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
@@ -407,11 +406,11 @@ describe('Test laconic CLI commands', () => {
       const testSubAuthorityName = 'echo.laconic';
       const testSubAuthorityName2 = 'kube.laconic';
 
-      test('laconic cns authority whois <authority_name>', async () => {
+      test('laconic registry authority whois <authority_name>', async () => {
         // Wait for auction reveals duration (60s)
         await delay(AUCTION_REVEAL_DURATION * 1000);
 
-        const result = spawnSync('laconic', ['cns', 'authority', 'whois', testAuthorityName]);
+        const result = spawnSync('laconic', ['registry', 'authority', 'whois', testAuthorityName]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected authority (active)
@@ -421,19 +420,19 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toMatchObject(expectedAuthority);
       }, (AUCTION_REVEAL_DURATION + 5) * 1000);
 
-      test('laconic cns authority bond set laconic <bond_id>', async () => {
+      test('laconic registry authority bond set laconic <bond_id>', async () => {
         // Create a new bond to be set on the authority
         const bondBalance = 1000000000;
         const { bondId } = createBond(bondBalance);
 
-        const result = spawnSync('laconic', ['cns', 'authority', 'bond', 'set', testAuthorityName, bondId]);
+        const result = spawnSync('laconic', ['registry', 'authority', 'bond', 'set', testAuthorityName, bondId]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check updated authority
-        const authorityResult = spawnSync('laconic', ['cns', 'authority', 'whois', testAuthorityName]);
+        const authorityResult = spawnSync('laconic', ['registry', 'authority', 'whois', testAuthorityName]);
         const authorityOutputObj = checkResultAndRetrieveOutput(authorityResult);
 
         // Expected authority (active with bond)
@@ -443,15 +442,15 @@ describe('Test laconic CLI commands', () => {
         expect(authorityOutputObj[0]).toMatchObject(expectedAuthority);
       });
 
-      test('laconic cns authority reserve <sub_authority> (same owner)', async () => {
-        const result = spawnSync('laconic', ['cns', 'authority', 'reserve', testSubAuthorityName]);
+      test('laconic registry authority reserve <sub_authority> (same owner)', async () => {
+        const result = spawnSync('laconic', ['registry', 'authority', 'reserve', testSubAuthorityName]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check updated authority
-        const authorityResult = spawnSync('laconic', ['cns', 'authority', 'whois', testSubAuthorityName]);
+        const authorityResult = spawnSync('laconic', ['registry', 'authority', 'whois', testSubAuthorityName]);
         const authorityOutputObj = checkResultAndRetrieveOutput(authorityResult);
 
         // Expected authority (active with bond)
@@ -461,15 +460,15 @@ describe('Test laconic CLI commands', () => {
         expect(authorityOutputObj[0]).toMatchObject(expectedAuthority);
       });
 
-      test('laconic cns authority reserve <sub_authority> --owner <owner_address> (different owner)', async () => {
-        const result = spawnSync('laconic', ['cns', 'authority', 'reserve', testSubAuthorityName2, '--owner', testAccount2]);
+      test('laconic registry authority reserve <sub_authority> --owner <owner_address> (different owner)', async () => {
+        const result = spawnSync('laconic', ['registry', 'authority', 'reserve', testSubAuthorityName2, '--owner', testAccount2]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check updated authority
-        const authorityResult = spawnSync('laconic', ['cns', 'authority', 'whois', testSubAuthorityName2]);
+        const authorityResult = spawnSync('laconic', ['registry', 'authority', 'whois', testSubAuthorityName2]);
         const authorityOutputObj = checkResultAndRetrieveOutput(authorityResult);
 
         // Expected authority (active with bond)
@@ -483,16 +482,16 @@ describe('Test laconic CLI commands', () => {
     describe('Name operations', () => {
       const testName = 'lrn://laconic/watcher/erc20';
 
-      test('laconic cns name set <name> <record_id>', async () => {
-        const result = spawnSync('laconic', ['cns', 'name', 'set', testName, testRecordId]);
+      test('laconic registry name set <name> <record_id>', async () => {
+        const result = spawnSync('laconic', ['registry', 'name', 'set', testName, testRecordId]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
       });
 
-      test('laconic cns name lookup <name>', async () => {
-        const result = spawnSync('laconic', ['cns', 'name', 'lookup', testName]);
+      test('laconic registry name lookup <name>', async () => {
+        const result = spawnSync('laconic', ['registry', 'name', 'lookup', testName]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
@@ -500,8 +499,8 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toMatchObject({ latest: { id: testRecordId } });
       });
 
-      test('laconic cns name resolve <name>', async () => {
-        const result = spawnSync('laconic', ['cns', 'name', 'resolve', testName]);
+      test('laconic registry name resolve <name>', async () => {
+        const result = spawnSync('laconic', ['registry', 'name', 'resolve', testName]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected resolved record
@@ -511,15 +510,15 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj[0]).toMatchObject(expectedRecord);
       });
 
-      test('laconic cns name delete <name>', async () => {
-        const result = spawnSync('laconic', ['cns', 'name', 'delete', testName]);
+      test('laconic registry name delete <name>', async () => {
+        const result = spawnSync('laconic', ['registry', 'name', 'delete', testName]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expected output
         expect(outputObj).toEqual({ success: true });
 
         // Check that name doesn't resolve
-        const resolveResult = spawnSync('laconic', ['cns', 'name', 'resolve', testName]);
+        const resolveResult = spawnSync('laconic', ['registry', 'name', 'resolve', testName]);
         const resolveOutputObj = checkResultAndRetrieveOutput(resolveResult);
         expect(resolveOutputObj.length).toEqual(0);
       });

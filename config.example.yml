@@ -1,5 +1,5 @@
 services:
-  cns:
+  registry:
     restEndpoint: 'http://localhost:1317'
     gqlEndpoint: 'http://localhost:9473/api'
     userKey:

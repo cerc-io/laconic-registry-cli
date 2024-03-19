@@ -1,6 +1,6 @@
-# laconic-cns-client
+# laconic-registry-client
 
-CLI utility written in TS, used to interact with laconicd. Depends on [laconic-sdk](https://github.com/cerc-io/laconic-sdk).
+CLI utility written in TS, used to interact with laconicd. Depends on [registry-sdk](https://git.vdb.to/cerc-io/registry-sdk).
 
 ## Setup
 
@@ -18,7 +18,7 @@ Run the chain:
     TEST_AUCTION_ENABLED=true ./init.sh
     ```
 
-Registering records in CNS requires an account. To get account private key run:
+Registering records in registry requires an account. To get account private key run:
 
 ```bash
 $ laconicd keys export mykey --unarmored-hex --unsafe
@@ -38,7 +38,7 @@ The `gas` and `fees` can be set to some default values in the config, and can be
 Example:
 
 ```bash
-$ laconic cns bond create --type aphoton --quantity 1000000000 --gas 200000 --fees 200000aphoton
+$ laconic registry bond create --type photon --quantity 1000000000 --gas 200000 --fees 200000photon
 ```
 
 ## Operations
@@ -48,7 +48,7 @@ These commands require a `config.yml` file present in the current working direct
 Get node status:
 
 ```bash
-$ laconic cns status
+$ laconic registry status
 {
   "version": "0.3.0",
   "node": {
@@ -82,7 +82,7 @@ $ laconic cns status
 Get account details:
 
 ```bash
-$ laconic cns account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
+$ laconic registry account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
 [
   {
     "address": "ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52",
@@ -91,7 +91,7 @@ $ laconic cns account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
     "sequence": "37",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "89998999999999991999799300"
       }
     ]
@@ -102,7 +102,7 @@ $ laconic cns account get --address ethm133y09mveksh76uc99h4rl38nd033tk4e3y2z52
 Send tokens:
 
 ```bash
-$ laconic cns tokens send --address ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu --type aphoton --quantity 1000000000
+$ laconic registry tokens send --address ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu --type photon --quantity 1000000000
 [
   {
     "address": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
@@ -111,7 +111,7 @@ $ laconic cns tokens send --address ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu 
     "sequence": "16",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "99998999999999997973999700"
       }
     ]
@@ -123,7 +123,7 @@ $ laconic cns tokens send --address ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu 
     "sequence": "0",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "1000000000"
       }
     ]
@@ -147,7 +147,7 @@ record:
 Publish record (see below for commands to create/query bonds):
 
 ```bash
-$ laconic cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000
+$ laconic registry record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000
 
 { id: 'bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba' }
 ```
@@ -155,7 +155,7 @@ $ laconic cns record publish --filename watcher.yml --bond-id 58508984500aa2ed18
 Get record:
 
 ```bash
-$ laconic cns record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic registry record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 [
   {
     "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -196,19 +196,19 @@ $ laconic cns record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln
 List records:
 
 ```bash
-$ laconic cns record list
+$ laconic registry record list
 ```
 
 Reserve authority:
 
 ```bash
-$ laconic cns authority reserve laconic
+$ laconic registry authority reserve laconic
 ```
 
 Check authority information:
 
 ```bash
-$ laconic cns authority whois laconic
+$ laconic registry authority whois laconic
 [
   {
     "ownerAddress": "",
@@ -225,15 +225,15 @@ $ laconic cns authority whois laconic
       "commitsEndTime": "2022-04-26T11:44:45.679728594",
       "revealsEndTime": "2022-04-26T11:45:45.679728594",
       "commitFee": {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "1000000"
       },
       "revealFee": {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "1000000"
       },
       "minimumBid": {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "5000000"
       },
       "winnerAddress": "",
@@ -254,7 +254,7 @@ $ laconic cns authority whois laconic
 Get authority auction info:
 
 ```bash
-$ laconic cns auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48
+$ laconic registry auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48
 [
   {
     "id": "0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48",
@@ -264,15 +264,15 @@ $ laconic cns auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5
     "commitsEndTime": "2022-04-26T11:44:45.679728594",
     "revealsEndTime": "2022-04-26T11:45:45.679728594",
     "commitFee": {
-      "type": "aphoton",
+      "type": "photon",
       "quantity": "1000000"
     },
     "revealFee": {
-      "type": "aphoton",
+      "type": "photon",
       "quantity": "1000000"
     },
     "minimumBid": {
-      "type": "aphoton",
+      "type": "photon",
       "quantity": "5000000"
     },
     "winnerAddress": "",
@@ -292,7 +292,7 @@ $ laconic cns auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5
 Commit an auction bid:
 
 ```bash
-$ laconic cns auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 aphoton
+$ laconic registry auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 photon
 
 Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
@@ -300,37 +300,37 @@ Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.j
 Reveal an auction bid:
 
 ```bash
-$ laconic cns auction bid reveal 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
+$ laconic registry auction bid reveal 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
 
 Set authority bond (after winning auction):
 
 ```bash
-$ laconic cns authority bond set laconic 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic registry authority bond set laconic 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 ```
 
 Create sub-authority (same owner as parent authority):
 
 ```bash
-$ laconic cns authority reserve echo.laconic
+$ laconic registry authority reserve echo.laconic
 ```
 
 Create sub-authority (custom owner for sub-authority):
 
 ```bash
-$ laconic cns authority reserve kube.laconic --owner ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu
+$ laconic registry authority reserve kube.laconic --owner ethm1vc62ysqu504at932jjq8pwrqgjt67rx6ggn5yu
 ```
 
 Set name:
 
 ```bash
-$ laconic cns name set crn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic registry name set lrn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Lookup name information:
 
 ```bash
-$ laconic cns name lookup crn://laconic/watcher/erc20
+$ laconic registry name lookup lrn://laconic/watcher/erc20
 [
   {
     "latest": {
@@ -344,7 +344,7 @@ $ laconic cns name lookup crn://laconic/watcher/erc20
 Resolve name:
 
 ```bash
-$ laconic cns name resolve crn://laconic/watcher/erc20
+$ laconic registry name resolve lrn://laconic/watcher/erc20
 [
     {
         "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -385,9 +385,9 @@ $ laconic cns name resolve crn://laconic/watcher/erc20
 Delete name:
 
 ```bash
-$ laconic cns name delete crn://laconic/watcher/erc20
+$ laconic registry name delete lrn://laconic/watcher/erc20
 
-$ laconic cns name resolve crn://laconic/watcher/erc20
+$ laconic registry name resolve lrn://laconic/watcher/erc20
 [
     null
 ]
@@ -396,20 +396,20 @@ $ laconic cns name resolve crn://laconic/watcher/erc20
 Create bond:
 
 ```bash
-$ laconic cns bond create --type aphoton --quantity 1000
+$ laconic registry bond create --type photon --quantity 1000
 ```
 
 List bonds:
 
 ```bash
-$ laconic cns bond list
+$ laconic registry bond list
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
     "owner": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "698000000"
       }
     ]
@@ -419,7 +419,7 @@ $ laconic cns bond list
     "owner": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "1000"
       }
     ]
@@ -430,14 +430,14 @@ $ laconic cns bond list
 Get bond:
 
 ```bash
-$ laconic cns bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic registry bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
     "owner": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "691000000"
       }
     ]
@@ -448,14 +448,14 @@ $ laconic cns bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335
 Query bonds by owner:
 
 ```bash
-$ laconic cns bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
+$ laconic registry bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
     "owner": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "684000000"
       }
     ]
@@ -465,7 +465,7 @@ $ laconic cns bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
     "owner": "ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8",
     "balance": [
       {
-        "type": "aphoton",
+        "type": "photon",
         "quantity": "1000"
       }
     ]
@@ -476,41 +476,41 @@ $ laconic cns bond list --owner ethm1lfekr7gvqtnhpp2kwdc6u2n569cqsp4ww0m4y8
 Refill bond:
 
 ```bash
-$ laconic cns bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type aphoton --quantity 1000
+$ laconic registry bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type photon --quantity 1000
 ```
 
 Withdraw funds from bond:
 
 ```bash
-$ laconic cns bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type aphoton --quantity 500
+$ laconic registry bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type photon --quantity 500
 ```
 
 Cancel bond:
 
 ```bash
-$ laconic cns bond cancel --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+$ laconic registry bond cancel --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 ```
 
 Associate bond (with record):
 
 ```bash
-$ laconic cns bond associate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
+$ laconic registry bond associate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
 ```
 
 Disassociate bond (from record):
 
 ```bash
-$ laconic cns bond dissociate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+$ laconic registry bond dissociate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Dissociate all records from bond:
 
 ```bash
-$ laconic cns bond records dissociate --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
+$ laconic registry bond records dissociate --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
 ```
 
 Reassociate records (switch bond):
 
 ```bash
-$ laconic cns bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
+$ laconic registry bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
 ```
