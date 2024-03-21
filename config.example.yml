@@ -1,7 +1,9 @@
 services:
   registry:
-    restEndpoint: 'http://localhost:1317'
+    restEndpoint: 'http://localhost:26657'
     gqlEndpoint: 'http://localhost:9473/api'
     userKey:
     bondId:
     chainId: laconic_9000-1
+    gas: 200000
+    fees: 200000photon
