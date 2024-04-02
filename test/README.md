@@ -17,7 +17,7 @@
 * Get account address of test account:
 
   ```bash
-  laconic2d keys list --keyring-backend test
+  laconicd keys list --keyring-backend test
 
   # - address: laconic10er85pyd7ukw732e88fzv7k0jq205764hye2dx
   #   name: alice

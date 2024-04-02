@@ -26,13 +26,13 @@ export const handler = async (argv: Arguments) => {
   assert(amount, 'Invalid Quantity.');
 
   const { services: { registry: registryConfig } } = getConfig(config as string);
-  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, registryConfig);
-  assert(restEndpoint, 'Invalid registry REST endpoint.');
+  const { rpcEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, registryConfig);
+  assert(rpcEndpoint, 'Invalid registry RPC endpoint.');
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(privateKey, 'Invalid Transaction Key.');
   assert(chainId, 'Invalid registry Chain ID.');
 
-  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
   const fee = getGasAndFees(argv, registryConfig);
   const bondId = await registry.getNextBondId(privateKey);
   const result = await registry.createBond({ denom, amount }, privateKey, fee);

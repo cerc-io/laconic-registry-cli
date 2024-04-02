@@ -29,7 +29,7 @@ export const builder = {
 
 export const handler = async (argv: Arguments) => {
   const { services: { registry: registryConfig } } = getConfig(argv.config as string);
-  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, registryConfig);
+  const { rpcEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, registryConfig);
   const { type, name, bondId, owner, all } = argv;
   const filters: any = {};
 
@@ -38,11 +38,11 @@ export const handler = async (argv: Arguments) => {
     filters[String(filterArgs[i]).replace(/^-+/, '')] = filterArgs[i + 1];
   }
 
-  assert(restEndpoint, 'Invalid registry REST endpoint.');
+  assert(rpcEndpoint, 'Invalid registry RPC endpoint.');
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(chainId, 'Invalid registry Chain ID.');
 
-  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
 
   let result = await registry.queryRecords({ ...filters, type, name }, all as boolean);
 

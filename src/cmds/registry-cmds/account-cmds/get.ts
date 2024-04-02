@@ -12,8 +12,8 @@ export const handler = async (argv: Arguments) => {
   let address = argv.address as string;
 
   const { services: { registry: registryConfig } } = getConfig(argv.config as string);
-  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, registryConfig);
-  assert(restEndpoint, 'Invalid registry REST endpoint.');
+  const { rpcEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, registryConfig);
+  assert(rpcEndpoint, 'Invalid registry RPC endpoint.');
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(chainId, 'Invalid registry Chain ID.');
 
@@ -21,7 +21,7 @@ export const handler = async (argv: Arguments) => {
     address = new Account(Buffer.from(privateKey, 'hex')).address;
   }
 
-  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
   const result = await registry.getAccounts([address]);
 
   queryOutput(result, argv.output);

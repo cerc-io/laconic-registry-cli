@@ -51,7 +51,7 @@ Run the chain:
 Registering records in registry requires an account. To get account private key run:
 
 ```bash
-laconic2d keys export alice --keyring-backend test  --unarmored-hex --unsafe
+laconicd keys export alice --keyring-backend test  --unarmored-hex --unsafe
 ```
 
 In `config.yml` file assign the account private key to `userKey`.

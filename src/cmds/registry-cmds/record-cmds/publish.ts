@@ -19,9 +19,9 @@ export const builder = {
 export const handler = async (argv: Arguments) => {
   const { txKey, filename, config } = argv;
   const { services: { registry: registryConfig } } = getConfig(config as string);
-  const { restEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, registryConfig);
+  const { rpcEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, registryConfig);
 
-  assert(restEndpoint, 'Invalid registry REST endpoint.');
+  assert(rpcEndpoint, 'Invalid registry RPC endpoint.');
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(userKey, 'Invalid User Key.');
   assert(bondId, 'Invalid Bond ID.');
@@ -43,7 +43,7 @@ export const handler = async (argv: Arguments) => {
     }
   }
 
-  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
   const fee = getGasAndFees(argv, registryConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey || userKey, fee);
 

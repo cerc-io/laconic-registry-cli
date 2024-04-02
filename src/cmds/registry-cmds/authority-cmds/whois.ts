@@ -13,12 +13,12 @@ export const handler = async (argv: Arguments) => {
   assert(name, 'Invalid authority name.');
 
   const { services: { registry: registryConfig } } = getConfig(argv.config as string);
-  const { restEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, registryConfig);
-  assert(restEndpoint, 'Invalid registry REST endpoint.');
+  const { rpcEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, registryConfig);
+  assert(rpcEndpoint, 'Invalid registry RPC endpoint.');
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(chainId, 'Invalid registry Chain ID.');
 
-  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
   const result = await registry.lookupAuthorities([name], true);
 
   queryOutput(result, argv.output);

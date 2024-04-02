@@ -1,6 +1,6 @@
 services:
   registry:
-    restEndpoint: 'http://localhost:26657'
+    rpcEndpoint: 'http://localhost:26657'
     gqlEndpoint: 'http://localhost:9473/api'
     userKey:
     bondId:

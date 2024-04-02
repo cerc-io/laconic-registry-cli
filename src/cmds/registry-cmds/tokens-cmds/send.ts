@@ -27,8 +27,8 @@ export const handler = async (argv: Arguments) => {
   assert(amount, 'Invalid Quantity.');
 
   const { services: { registry: registryConfig } } = getConfig(argv.config as string);
-  const { restEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, registryConfig);
-  assert(restEndpoint, 'Invalid registry REST endpoint.');
+  const { rpcEndpoint, gqlEndpoint, privateKey, chainId } = getConnectionInfo(argv, registryConfig);
+  assert(rpcEndpoint, 'Invalid registry RPC endpoint.');
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(privateKey, 'Invalid Transaction Key.');
   assert(chainId, 'Invalid registry Chain ID.');
@@ -37,7 +37,7 @@ export const handler = async (argv: Arguments) => {
   await account.init();
   const fromAddress = account.address;
 
-  const registry = new Registry(gqlEndpoint, restEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
   const fee = getGasAndFees(argv, registryConfig);
   await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
   const result = await registry.getAccounts([fromAddress, destinationAddress]);
