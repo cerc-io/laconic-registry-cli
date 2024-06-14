@@ -514,3 +514,4 @@ Reassociate records (switch bond):
 ```bash
 $ laconic cns bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
 ```
+
