@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set -e
+
+# Wait for the laconid endpoint to come up
+docker compose exec laconicd sh -c "curl --retry 20 --retry-delay 3 --retry-connrefused http://127.0.0.1:9473/api"
+
 # Get the key from laconicd
 laconicd_key=$(yes | docker compose exec laconicd laconicd keys export mykey --unarmored-hex --unsafe)
 
@@ -26,9 +31,6 @@ services:
 EOL
 )
 echo "$config" > "$config_file"
-
-# Wait for the laconid endpoint to come up
-docker compose exec laconicd sh -c "curl --retry 10 --retry-delay 3 --retry-connrefused http://127.0.0.1:9473/api"
 
 # Run tests
 TEST_ACCOUNT=$laconicd_account_address yarn test
