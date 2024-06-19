@@ -1,6 +1,6 @@
 {
   "name": "@cerc-io/laconic-registry-cli",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "main": "index.js",
   "repository": "git@github.com:cerc-io/laconic-registry-cli.git",
   "author": "",
