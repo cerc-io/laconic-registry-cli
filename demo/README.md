@@ -57,12 +57,12 @@
 
 ### Example
 
-* Query for `ajna-watcher` deployment(s):
+* Query for `azimuth-watcher` deployment(s):
 
-  * Find the `WatcherRecord` for `ajna-watcher`:
+  * Find the `WatcherRecord` for `azimuth-watcher`:
 
     ```bash
-    WATCHER_RECORD_ID=$(laconic registry record list --all --type WatcherRecord --name ajna-watcher | jq -r '.[].id')
+    WATCHER_RECORD_ID=$(laconic registry record list --all --type WatcherRecord --name azimuth-watcher | jq -r '.[].id')
     ```
 
   * Find corresponding deployment(s):
@@ -74,7 +74,7 @@
     laconic registry record list --all --type WatcherDeploymentRecord watcher $WATCHER_RECORD_ID | jq -r '.[].attributes.url'
 
     # Expected output:
-    https://ajna-watcher-endpoint.example.com
+    https://azimuth-watcher-endpoint.example.com
     ```
 
 * Query for `sushiswap-v3-subgraph` deployment(s):

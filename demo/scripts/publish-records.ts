@@ -4,14 +4,23 @@ import path from 'path';
 import assert from 'assert';
 import { hideBin } from 'yargs/helpers';
 
+import { StdFee } from '@cosmjs/stargate';
 import { Registry } from '@cerc-io/registry-sdk';
 
 import { getConfig, getGasAndFees, getConnectionInfo, txOutput } from '../../src/util';
 
+enum RecordType {
+  RepositoryRecord = 'RepositoryRecord',
+  ServiceRecord = 'ServiceRecord',
+  StackRecord = 'StackRecord',
+  SubgraphRecord = 'SubgraphRecord',
+  WatcherRecord = 'WatcherRecord',
+}
+
 const recordTypeToRecordField = new Map<string, string>([
-  ['WatcherRecord', 'watcher'],
-  ['SubgraphRecord', 'subgraph'],
-  ['ServiceRecord', 'service']
+  [RecordType.WatcherRecord, 'watcher'],
+  [RecordType.SubgraphRecord, 'subgraph'],
+  [RecordType.ServiceRecord, 'service']
 ]);
 
 let registry: Registry;
@@ -81,7 +90,7 @@ async function publishRecordsFromDir (recordsDir: string): Promise<void> {
     const record = readRecord(filePath);
 
     // Publish record
-    const result = await registry.setRecord({ privateKey: userKey, record, bondId }, userKey, fee);
+    const result = await publishRecord(userKey, bondId, fee, record);
 
     console.log(`Published record ${file}`);
     txOutput(result, JSON.stringify(result, undefined, 2), '', false);
@@ -91,7 +100,7 @@ async function publishRecordsFromDir (recordsDir: string): Promise<void> {
 
   // Check if deployment record files exist
   const deploymentRecordsDir = path.resolve(recordsDir, 'deployments');
-  if (!fs.statSync(deploymentRecordsDir).isDirectory()) {
+  if (!fs.existsSync(deploymentRecordsDir) || !fs.statSync(deploymentRecordsDir).isDirectory()) {
     return;
   }
   console.log('--------------------------------------');
@@ -140,6 +149,25 @@ function readRecord (filePath: string): any {
   }
 
   return record;
+}
+
+async function publishRecord (userKey: string, bondId: string, fee: StdFee, record: any): Promise<any> {
+  if (record.repository) {
+    const repoUrl = record.repository;
+
+    const queryResult = await registry.queryRecords({ type: RecordType.RepositoryRecord, url: repoUrl }, true);
+    if (queryResult.length === 0) {
+      throw new Error(`Record not found, type: ${RecordType.RepositoryRecord}, url: ${repoUrl}`);
+    }
+
+    // Assume the first query result
+    const repoRecordId = queryResult[0].id;
+
+    // Replace repository URL with the repo record id
+    record.repository = repoRecordId;
+  }
+
+  return registry.setRecord({ privateKey: userKey, record, bondId }, userKey, fee);
 }
 
 function getArgs (): any {
