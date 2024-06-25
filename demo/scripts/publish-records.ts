@@ -1,6 +1,7 @@
 import yargs from 'yargs';
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 import assert from 'assert';
 import { hideBin } from 'yargs/helpers';
 
@@ -54,10 +55,8 @@ async function main () {
 async function processDir (directoryPath: string): Promise<void> {
   const files = fs.readdirSync(directoryPath);
 
-  // Check if any JSON record file exists in the directory
-  if (files.some(file => file.endsWith('.json'))) {
-    await publishRecordsFromDir(directoryPath);
-
+  const dirHasRecords = await publishRecordsFromDir(directoryPath);
+  if (dirHasRecords) {
     // Skip further recursion in the current dir
     return;
   }
@@ -73,21 +72,25 @@ async function processDir (directoryPath: string): Promise<void> {
   }
 }
 
-async function publishRecordsFromDir (recordsDir: string): Promise<void> {
+async function publishRecordsFromDir (recordsDir: string): Promise<boolean> {
   // List record files
   const files = fs.readdirSync(recordsDir);
-  const jsonFiles = files.filter(file => path.extname(file).toLowerCase() === '.json');
+  const recordFiles = files.filter(file => ['.json', '.yaml', '.yml'].includes(path.extname(file).toLowerCase()));
+
+  if (recordFiles.length === 0) {
+    return false;
+  }
 
   // Read record from each JSON file
   console.log('**************************************');
   console.log(`Publishing records from ${recordsDir}`);
 
   let recordType;
-  for (let i = 0; i < jsonFiles.length; i++) {
-    const file = jsonFiles[i];
+  for (let i = 0; i < recordFiles.length; i++) {
+    const file = recordFiles[i];
 
     const filePath = path.resolve(recordsDir, file);
-    const record = readRecord(filePath);
+    const record = await readRecord(filePath);
 
     // Publish record
     const result = await publishRecord(userKey, bondId, fee, record);
@@ -101,7 +104,7 @@ async function publishRecordsFromDir (recordsDir: string): Promise<void> {
   // Check if deployment record files exist
   const deploymentRecordsDir = path.resolve(recordsDir, 'deployments');
   if (!fs.existsSync(deploymentRecordsDir) || !fs.statSync(deploymentRecordsDir).isDirectory()) {
-    return;
+    return true;
   }
   console.log('--------------------------------------');
   console.log(`Publishing deployment records from ${deploymentRecordsDir}`);
@@ -114,7 +117,7 @@ async function publishRecordsFromDir (recordsDir: string): Promise<void> {
     const file = deploymentJsonFiles[i];
 
     const filePath = path.resolve(deploymentRecordsDir, file);
-    const deploymentRecord = readRecord(filePath);
+    const deploymentRecord = await readRecord(filePath);
 
     // Find record using name and given type
     const recordName = deploymentRecord.name;
@@ -137,13 +140,30 @@ async function publishRecordsFromDir (recordsDir: string): Promise<void> {
     console.log(`Published record ${file}`);
     txOutput(deploymentResult, JSON.stringify(deploymentResult, undefined, 2), '', false);
   }
+
+  return true;
 }
 
-function readRecord (filePath: string): any {
+async function readRecord (filePath: string): Promise<any> {
   let record;
   try {
+    const fileExt = path.extname(filePath).toLowerCase();
     const data = fs.readFileSync(filePath, 'utf8');
-    record = JSON.parse(data);
+
+    if (fileExt === '.json') {
+      // JSON file
+      record = JSON.parse(data);
+    } else {
+      // YAML file
+      ({ record } = await yaml.load(data) as any);
+
+      // Convert sub-objects (other than arrays) to a JSON automatically.
+      for (const [k, v] of Object.entries(record)) {
+        if (v && typeof v === 'object' && !Array.isArray(v)) {
+          record[k] = JSON.stringify(v);
+        }
+      }
+    }
   } catch (err) {
     console.error(`Error reading file ${filePath}:`, err);
   }
@@ -152,7 +172,8 @@ function readRecord (filePath: string): any {
 }
 
 async function publishRecord (userKey: string, bondId: string, fee: StdFee, record: any): Promise<any> {
-  if (record.repository) {
+  // Replace repository URL with record id (if type is one of RecordType)
+  if (record.repository && Object.values(RecordType).includes(record.type)) {
     const repoUrl = record.repository;
 
     const queryResult = await registry.queryRecords({ type: RecordType.RepositoryRecord, url: repoUrl }, true);
