@@ -67,12 +67,12 @@ describe('Test laconic CLI commands', () => {
       expect(outputObj).toHaveProperty('node');
       expect(outputObj).toHaveProperty('node.network', CHAIN_ID);
       expect(outputObj).toHaveProperty('sync');
-      expect(Number(outputObj.sync.latest_block_height)).toBeGreaterThan(0);
+      expect(Number(outputObj.sync.latestBlockHeight)).toBeGreaterThan(0);
       expect(outputObj).toHaveProperty('validator');
       expect(outputObj).toHaveProperty('validators');
-      expect(outputObj).toHaveProperty('num_peers');
+      expect(outputObj).toHaveProperty('numPeers');
       expect(outputObj).toHaveProperty('peers');
-      expect(outputObj).toHaveProperty('disk_usage');
+      expect(outputObj).toHaveProperty('diskUsage');
     });
 
     describe('Bond operations', () => {

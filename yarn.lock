@@ -302,10 +302,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cerc-io/registry-sdk@^0.2.1":
-  version "0.2.1"
-  resolved "https://git.vdb.to/api/packages/cerc-io/npm/%40cerc-io%2Fregistry-sdk/-/0.2.1/registry-sdk-0.2.1.tgz#c25cbfc89e469197b18e960baa4204e9e5c5511c"
-  integrity sha512-rshIFOaYVyKJu4MU0OATN0JLYrjue9xvQ4Eqnd2z03lS8WMh0gt1eJHzp8A8sxs1IP/jpb6mWXhmu0oQujO2Sg==
+"@cerc-io/registry-sdk@^0.2.2":
+  version "0.2.2"
+  resolved "https://git.vdb.to/api/packages/cerc-io/npm/%40cerc-io%2Fregistry-sdk/-/0.2.2/registry-sdk-0.2.2.tgz#2e8a533f069b4bb9f4cd4798e783f52e29167d0d"
+  integrity sha512-ocRMbWtdewOg02ORfK1U+qbTqB46anHP4ApXokGkY4d+mFSApR3sdUEi2geHcs8oh+SG8YAp7LUJ9AAJneNY8g==
   dependencies:
     "@cosmjs/amino" "^0.28.1"
     "@cosmjs/crypto" "^0.28.1"

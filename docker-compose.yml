@@ -2,7 +2,7 @@ services:
   laconicd:
     restart: unless-stopped
     image: cerc/laconicd:local
-    command: ["sh", "/docker-entrypoint-scripts.d/create-fixturenet.sh"]
+    command: ["bash", "/docker-entrypoint-scripts.d/create-fixturenet.sh"]
     environment:
       - TEST_AUCTION_ENABLED
       - TEST_REGISTRY_EXPIRY
@@ -10,7 +10,7 @@ services:
     volumes:
       - ./laconicd/scripts/init.sh:/docker-entrypoint-scripts.d/create-fixturenet.sh
     healthcheck:
-      test: ["CMD", "curl", "-v", "http://127.0.0.1:6060"]
+      test: ["CMD", "curl", "-v", "http://127.0.0.1", "6060"]
       interval: 1s
       timeout: 5s
       retries: 30
