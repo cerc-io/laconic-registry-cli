@@ -33,6 +33,4 @@ jobs:
           npm config set -- '//git.vdb.to/api/packages/cerc-io/npm/:_authToken' "${{ secrets.CICD_PUBLISH_TOKEN }}"
       - name: npm publish
         run: |
-          # Use beta dist-tag
-          # See https://docs.npmjs.com/cli/v10/commands/npm-dist-tag and https://docs.npmjs.com/adding-dist-tags-to-packages
-          npm publish --tag beta
+          npm publish
