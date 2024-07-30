@@ -3,7 +3,7 @@ import yaml from 'js-yaml';
 import { SpawnSyncReturns, spawnSync } from 'child_process';
 
 export const CHAIN_ID = 'laconic_9000-1';
-export const TOKEN_TYPE = 'photon';
+export const TOKEN_TYPE = 'alnt';
 
 export const AUCTION_FEES = {
   commit: 1000000,

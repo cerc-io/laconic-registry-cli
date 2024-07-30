@@ -34,7 +34,7 @@
   # userKey: <ALICE_PRIVATE_KEY>
 
   # Create a bond
-  laconic --config config.yml registry bond create --type photon --quantity 100000000000
+  laconic --config config.yml registry bond create --type alnt --quantity 100000000000
 
   # Get the bond id
   laconic --config config.yml registry bond list | jq -r '.[].id'

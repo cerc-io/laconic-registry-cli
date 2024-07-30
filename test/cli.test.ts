@@ -52,7 +52,7 @@ describe('Test laconic CLI commands', () => {
     const testAccount = process.env.TEST_ACCOUNT;
     assert(testAccount, 'TEST_ACCOUNT not set in env');
     const testAccount2 = 'laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd';
-    const initialAccountBalance = Number('100000000000000000000000000');
+    const initialAccountBalance = Number('1000000000000000000000000000000');
 
     const testAuthorityName = 'laconic';
     const testRecordFilePath = 'test/data/watcher-record.yml';
@@ -224,12 +224,13 @@ describe('Test laconic CLI commands', () => {
 
     describe('Record operations', () => {
       const gas = 250000;
+      const fees = `250000${TOKEN_TYPE}`;
       const bondBalance = 1000000000;
 
-      test('laconic registry record publish --filename <record_file> --bond-id <bond_id> --gas <gas>', async () => {
+      test('laconic registry record publish --filename <record_file> --bond-id <bond_id> --gas <gas> --fees <fees>', async () => {
         // Create a new bond to be associated with the record
         ({ bondId: testRecordBondId } = createBond(bondBalance));
-        const result = spawnSync('laconic', ['registry', 'record', 'publish', '--filename', testRecordFilePath, '--bond-id', testRecordBondId, '--gas', gas.toString()]);
+        const result = spawnSync('laconic', ['registry', 'record', 'publish', '--filename', testRecordFilePath, '--bond-id', testRecordBondId, '--gas', gas.toString(), '--fees', fees]);
         const outputObj = checkResultAndRetrieveOutput(result);
 
         // Expect output object to resultant bond id
@@ -397,7 +398,7 @@ describe('Test laconic CLI commands', () => {
           chainId: CHAIN_ID,
           auctionId: testAuctionId,
           bidderAddress: testAccount,
-          bidAmount: `${bidAmount}photon`
+          bidAmount: `${bidAmount}alnt`
         });
       }, (AUCTION_COMMIT_DURATION + 5) * 1000);
     });

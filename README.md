@@ -68,7 +68,7 @@ The `gas` and `fees` can be set to some default values in the config, and can be
 Example:
 
 ```bash
-$ laconic registry bond create --type photon --quantity 1000000000 --gas 200000 --fees 200000photon
+$ laconic registry bond create --type alnt --quantity 100000000000 --gas 200000 --fees 200000alnt
 ```
 
 ## Operations
@@ -121,7 +121,7 @@ $ laconic registry account get --address laconic15za32wly5exgcrt2zfr8php4ya49n5y
     "sequence": "37",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "89998999999999991999799300"
       }
     ]
@@ -132,7 +132,7 @@ $ laconic registry account get --address laconic15za32wly5exgcrt2zfr8php4ya49n5y
 Send tokens:
 
 ```bash
-$ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k --type photon --quantity 1000000000
+$ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k --type alnt --quantity 1000000000
 [
   {
     "address": "laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd",
@@ -141,7 +141,7 @@ $ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y
     "sequence": "16",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "99998999999999997973999700"
       }
     ]
@@ -153,7 +153,7 @@ $ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y
     "sequence": "0",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "1000000000"
       }
     ]
@@ -177,7 +177,7 @@ record:
 Publish record (see below for commands to create/query bonds):
 
 ```bash
-$ laconic registry record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000
+$ laconic registry record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000 --fees 250000alnt
 
 { id: 'bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba' }
 ```
@@ -255,15 +255,15 @@ $ laconic registry authority whois laconic
       "commitsEndTime": "2022-04-26T11:44:45.679728594",
       "revealsEndTime": "2022-04-26T11:45:45.679728594",
       "commitFee": {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "1000000"
       },
       "revealFee": {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "1000000"
       },
       "minimumBid": {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "5000000"
       },
       "winnerAddress": "",
@@ -294,15 +294,15 @@ $ laconic registry auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2
     "commitsEndTime": "2022-04-26T11:44:45.679728594",
     "revealsEndTime": "2022-04-26T11:45:45.679728594",
     "commitFee": {
-      "type": "photon",
+      "type": "alnt",
       "quantity": "1000000"
     },
     "revealFee": {
-      "type": "photon",
+      "type": "alnt",
       "quantity": "1000000"
     },
     "minimumBid": {
-      "type": "photon",
+      "type": "alnt",
       "quantity": "5000000"
     },
     "winnerAddress": "",
@@ -322,7 +322,7 @@ $ laconic registry auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2
 Commit an auction bid:
 
 ```bash
-$ laconic registry auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 photon
+$ laconic registry auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 alnt
 
 Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
@@ -426,7 +426,7 @@ $ laconic registry name resolve lrn://laconic/watcher/erc20
 Create bond:
 
 ```bash
-$ laconic registry bond create --type photon --quantity 1000
+$ laconic registry bond create --type alnt --quantity 1000
 ```
 
 List bonds:
@@ -439,7 +439,7 @@ $ laconic registry bond list
     "owner": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "698000000"
       }
     ]
@@ -449,7 +449,7 @@ $ laconic registry bond list
     "owner": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "1000"
       }
     ]
@@ -467,7 +467,7 @@ $ laconic registry bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa1953
     "owner": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "691000000"
       }
     ]
@@ -485,7 +485,7 @@ $ laconic registry bond list --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7mas
     "owner": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "684000000"
       }
     ]
@@ -495,7 +495,7 @@ $ laconic registry bond list --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7mas
     "owner": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
     "balance": [
       {
-        "type": "photon",
+        "type": "alnt",
         "quantity": "1000"
       }
     ]
@@ -506,13 +506,13 @@ $ laconic registry bond list --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7mas
 Refill bond:
 
 ```bash
-$ laconic registry bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type photon --quantity 1000
+$ laconic registry bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type alnt --quantity 1000
 ```
 
 Withdraw funds from bond:
 
 ```bash
-$ laconic registry bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type photon --quantity 500
+$ laconic registry bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type alnt --quantity 500
 ```
 
 Cancel bond:

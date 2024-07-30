@@ -28,7 +28,7 @@ services:
     bondId:
     chainId: $cosmos_chain_id
     gas: 200000
-    fees: 200000photon
+    fees: 200000alnt
 EOL
 )
 echo "$config" > "$config_file"
