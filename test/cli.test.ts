@@ -478,6 +478,47 @@ describe('Test laconic CLI commands', () => {
         expect(authorityOutputObj.length).toEqual(1);
         expect(authorityOutputObj[0]).toMatchObject(expectedAuthority);
       });
+
+      test('laconic registry authority list', async () => {
+        const result = spawnSync('laconic', ['registry', 'authority', 'list']);
+        const authoritiesOutputObj = checkResultAndRetrieveOutput(result);
+
+        // Expected authorities
+        const expectedAuthorities = [
+          { name: 'echo.laconic', entry: { ownerAddress: testAccount, status: 'active' } },
+          { name: 'kube.laconic', entry: { ownerAddress: testAccount2, status: 'active' } },
+          { name: 'laconic', entry: { ownerAddress: testAccount, status: 'active' } }
+        ];
+
+        // Expected output
+        expect(authoritiesOutputObj.length).toEqual(3);
+        expect(authoritiesOutputObj).toMatchObject(expectedAuthorities);
+      });
+
+      test('laconic registry authority list --owner <owner_address>', async () => {
+        let result = spawnSync('laconic', ['registry', 'authority', 'list', '--owner', testAccount]);
+        const authoritiesByOwner1 = checkResultAndRetrieveOutput(result);
+
+        // Expected output
+        const expectedAuthoritiesByOwner1 = [
+          { name: 'echo.laconic', entry: { ownerAddress: testAccount, status: 'active' } },
+          { name: 'laconic', entry: { ownerAddress: testAccount, status: 'active' } }
+        ];
+
+        expect(authoritiesByOwner1.length).toEqual(2);
+        expect(authoritiesByOwner1).toMatchObject(expectedAuthoritiesByOwner1);
+
+        result = spawnSync('laconic', ['registry', 'authority', 'list', '--owner', testAccount2]);
+        const authoritiesByOwner2 = checkResultAndRetrieveOutput(result);
+
+        // Expected output
+        const expectedAuthoritiesByOwner2 = [
+          { name: 'kube.laconic', entry: { ownerAddress: testAccount2, status: 'active' } }
+        ];
+
+        expect(authoritiesByOwner2.length).toEqual(1);
+        expect(authoritiesByOwner2).toMatchObject(expectedAuthoritiesByOwner2);
+      });
     });
 
     describe('Name operations', () => {

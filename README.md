@@ -351,6 +351,18 @@ Create sub-authority (custom owner for sub-authority):
 $ laconic registry authority reserve kube.laconic --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
 ```
 
+Get all the authorities:
+
+```bash
+$ laconic registry authority list
+```
+
+Get all the authorities by owner:
+
+```bash
+$ laconic registry authority list --owner laconic1zayjut6pd4xy9dguut56v55hktzmeq6r777hmd
+```
+
 Set name:
 
 ```bash
