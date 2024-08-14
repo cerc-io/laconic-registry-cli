@@ -54,7 +54,15 @@ Registering records in registry requires an account. To get account private key 
 laconicd keys export alice --keyring-backend test  --unarmored-hex --unsafe
 ```
 
-In `config.yml` file assign the account private key to `userKey`.
+In `config.yml` file assign the account private key to `userKey`:
+
+```yml
+services:
+  registry:
+    ..
+    userKey: "<user-key>"
+    ..
+```
 
 ## Gas and Fees
 
