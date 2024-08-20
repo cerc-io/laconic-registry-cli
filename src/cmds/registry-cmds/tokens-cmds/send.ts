@@ -3,6 +3,7 @@ import assert from 'assert';
 import { Account, Registry } from '@cerc-io/registry-sdk';
 
 import { getConfig, getConnectionInfo, getGasAndFees, queryOutput } from '../../../util';
+import { DeliverTxResponse } from '@cosmjs/stargate';
 
 export const command = 'send';
 
@@ -38,8 +39,38 @@ export const handler = async (argv: Arguments) => {
   const fromAddress = account.address;
 
   const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const laconicClient = await registry.getLaconicClient(account);
   const fee = getGasAndFees(argv, registryConfig);
-  await registry.sendCoins({ denom, amount, destinationAddress }, privateKey, fee);
-  const result = await registry.getAccounts([fromAddress, destinationAddress]);
-  queryOutput(result, argv.output);
+
+  const txResponse: DeliverTxResponse = await laconicClient.sendTokens(
+    account.address,
+    destinationAddress,
+    [
+      {
+        denom,
+        amount
+      }
+    ],
+    fee);
+
+  assert(txResponse.code === 0, `TX Failed - Hash: ${txResponse.transactionHash}, Code: ${txResponse.code}, Message: ${txResponse.rawLog}`);
+
+  const transfer = txResponse.events.find(e => e.type === 'transfer' ? e.attributes.find(a => a.key === 'msg_index') : null);
+  const accountResponse = await registry.getAccounts([fromAddress, destinationAddress]);
+
+  const output = {
+    tx: {
+      hash: txResponse.transactionHash,
+      height: txResponse.height,
+      index: txResponse.txIndex,
+      code: txResponse.code,
+      log: txResponse.rawLog,
+      sender: transfer?.attributes.find(a => a.key === 'sender')?.value,
+      recipient: transfer?.attributes.find(a => a.key === 'recipient')?.value,
+      amount: transfer?.attributes.find(a => a.key === 'amount')?.value
+    },
+    accounts: accountResponse
+  };
+
+  queryOutput(output, argv.output);
 };

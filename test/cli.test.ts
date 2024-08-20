@@ -217,8 +217,28 @@ describe('Test laconic CLI commands', () => {
           getAccountObj({ address: testAccount2, balance: sendAmount })
         ];
 
-        expect(outputObj.length).toEqual(2);
-        expect(outputObj).toMatchObject(expectedAccounts);
+        expect(outputObj.tx.code).toEqual(0);
+        expect(outputObj.tx.amount).toEqual(`${sendAmount}${TOKEN_TYPE}`);
+        expect(outputObj.tx.sender).toEqual(testAccount);
+        expect(outputObj.tx.recipient).toEqual(testAccount2);
+        expect(outputObj.accounts.length).toEqual(2);
+        expect(outputObj.accounts).toMatchObject(expectedAccounts);
+      });
+      test('laconic registry tokens gettx --hash <hash>', async () => {
+        const sendAmount = 1000000000;
+
+        const sendResult = spawnSync('laconic', ['registry', 'tokens', 'send', '--address', testAccount2, '--type', TOKEN_TYPE, '--quantity', sendAmount.toString()]);
+        const sendOutput = checkResultAndRetrieveOutput(sendResult);
+        expect(sendOutput.tx.code).toEqual(0);
+
+        const gettxResult = spawnSync('laconic', ['registry', 'tokens', 'gettx', '--hash', sendOutput.tx.hash]);
+        const gettxOutput = checkResultAndRetrieveOutput(gettxResult);
+
+        expect(gettxOutput.hash).toEqual(sendOutput.tx.hash);
+        expect(gettxOutput.code).toEqual(0);
+        expect(gettxOutput.amount).toEqual(`${sendAmount}${TOKEN_TYPE}`);
+        expect(gettxOutput.sender).toEqual(testAccount);
+        expect(gettxOutput.recipient).toEqual(testAccount2);
       });
     });
 
