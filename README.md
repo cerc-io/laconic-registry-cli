@@ -141,32 +141,61 @@ Send tokens:
 
 ```bash
 $ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k --type alnt --quantity 1000000000
-[
-  {
-    "address": "laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd",
-    "pubKey": "A68/q7/xazFzNj+rrvE07ALxkMgqw1ugL35VECkWAYvt",
-    "number": "0",
-    "sequence": "16",
-    "balance": [
-      {
-        "type": "alnt",
-        "quantity": "99998999999999997973999700"
-      }
-    ]
+{
+  "tx": {
+    "hash": "977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC",
+    "height": 343369,
+    "index": 0,
+    "code": 0,
+    "log": "",
+    "sender": "laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd",
+    "recipient": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
+    "amount": "1000000000alnt"
   },
-  {
-    "address": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
-    "pubKey": null,
-    "number": "12",
-    "sequence": "0",
-    "balance": [
-      {
-        "type": "alnt",
-        "quantity": "1000000000"
-      }
-    ]
-  }
-]
+  "accounts": [
+    {
+      "address": "laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd",
+      "pubKey": "A68/q7/xazFzNj+rrvE07ALxkMgqw1ugL35VECkWAYvt",
+      "number": "0",
+      "sequence": "16",
+      "balance": [
+        {
+          "type": "alnt",
+          "quantity": "99998999999999997973999700"
+        }
+      ]
+    },
+    {
+      "address": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
+      "pubKey": null,
+      "number": "12",
+      "sequence": "0",
+      "balance": [
+        {
+          "type": "alnt",
+          "quantity": "1000000000"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Get token TX details:
+
+```bash
+$ laconic registry tokens gettx --hash 977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC
+{
+  "hash": "977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC",
+  "height": 343369,
+  "index": 0,
+  "code": 0,
+  "log": "",
+  "sender": "laconic1pmuxrcnuhhf8qdllzuf2ctj2tnwwcg6yswqnyd",
+  "recipient": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
+  "amount": "1000000000alnt",
+  "raw": "0A91010A8E010A1C2F636F736D6F732E62616E6B2E763162657461312E4D736753656E64126E0A2E6C61636F6E696331347763303777613372377270707275343367396A786B7A68716E686D76666D34646765793673122E6C61636F6E6963317971706337637966657470676D71746B6B30756B657675676561617539703063776D6A6C73751A0C0A04616C6E7412043130303012680A500A460A1F2F636F736D6F732E63727970746F2E736563703235366B312E5075624B657912230A2102F3A1D077638F9FD828C4CF126FE82E0BE98388083F5BC1E1DD4D84132AEBFF8112040A020801185A12140A0E0A04616C6E7412063430303030301080B5181A4088DF7BA4B63EA68E185AB2887C9EC29EBC4158874BC037816B8494AD36D3B2433B5223CECC336D4624BB7FEF4DBB4A8B5F4707ACD8E55443312009E9473DF821"
+}
 ```
 
 Create record (generic):
