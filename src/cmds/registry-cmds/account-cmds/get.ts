@@ -18,7 +18,9 @@ export const handler = async (argv: Arguments) => {
   assert(chainId, 'Invalid registry Chain ID.');
 
   if (!address && privateKey) {
-    address = new Account(Buffer.from(privateKey, 'hex')).address;
+    const account = new Account(Buffer.from(privateKey, 'hex'));
+    await account.init();
+    address = account.address;
   }
 
   const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
