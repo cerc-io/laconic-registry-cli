@@ -16,6 +16,7 @@ enum RecordType {
   StackRecord = 'StackRecord',
   SubgraphRecord = 'SubgraphRecord',
   WatcherRecord = 'WatcherRecord',
+  DockerImageRecord = 'DockerImageRecord'
 }
 
 const recordTypeToRecordField = new Map<string, string>([
@@ -186,6 +187,46 @@ async function publishRecord (userKey: string, bondId: string, fee: StdFee, reco
 
     // Replace repository URL with the repo record id
     record.repository = repoRecordId;
+  }
+
+  // For stack records, check for attributes
+  if (record.type === RecordType.StackRecord) {
+    const watcherName = record.meta?.watcher;
+    const dockerImages = record.docker_images;
+
+    // If .docker_images present, check for image records
+    if (Array.isArray(dockerImages) && dockerImages.length > 0) {
+      const dockerImageRecordsIdPromises = dockerImages.map(async (dockerImage) => {
+        // Find the required docker image record
+        const queryResult = await registry.queryRecords({ type: RecordType.DockerImageRecord, name: dockerImage }, true);
+        if (queryResult.length === 0) {
+          throw new Error(`Record not found, type: ${RecordType.DockerImageRecord}, name: ${dockerImage}`);
+        }
+
+        // Assume the first query result
+        const dockerImageRecordId = queryResult[0].id;
+
+        // Replace watcher name with the watcher record id
+        return dockerImageRecordId;
+      });
+
+      record.docker_images = await Promise.all(dockerImageRecordsIdPromises);
+    }
+
+    // If .meta.watcher present, check for watcher record
+    if (watcherName) {
+      // Find the required watcher record
+      const queryResult = await registry.queryRecords({ type: RecordType.WatcherRecord, name: watcherName }, true);
+      if (queryResult.length === 0) {
+        throw new Error(`Record not found, type: ${RecordType.WatcherRecord}, name: ${watcherName}`);
+      }
+
+      // Assume the first query result
+      const watcherRecordId = queryResult[0].id;
+
+      // Replace watcher name with the watcher record id
+      record.meta.watcher = watcherRecordId;
+    }
   }
 
   return registry.setRecord({ privateKey: userKey, record, bondId }, userKey, fee);
