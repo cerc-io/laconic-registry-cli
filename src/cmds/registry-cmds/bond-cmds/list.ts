@@ -23,8 +23,15 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
 
+  let result: any;
+
   const { owner } = argv;
-  const result = await registry.queryBonds({ owner });
+  if (owner) {
+    const [bondsByOwnerResult] = await registry.queryBondsByOwner([String(owner)]);
+    result = bondsByOwnerResult.bonds;
+  } else {
+    result = await registry.queryBonds();
+  }
 
   queryOutput(result, argv.output);
 };

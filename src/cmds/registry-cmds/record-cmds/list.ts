@@ -24,13 +24,23 @@ export const builder = {
   all: {
     type: 'boolean',
     default: false
+  },
+  refs: {
+    type: 'boolean',
+    default: false
+  },
+  limit: {
+    type: 'number'
+  },
+  offset: {
+    type: 'number'
   }
 };
 
 export const handler = async (argv: Arguments) => {
   const { services: { registry: registryConfig } } = getConfig(argv.config as string);
   const { rpcEndpoint, gqlEndpoint, chainId } = getConnectionInfo(argv, registryConfig);
-  const { type, name, bondId, owner, all } = argv;
+  const { type, name, bondId, owner, all, refs, limit, offset } = argv;
   const filters: any = {};
 
   const filterArgs = argv._.slice(3);
@@ -44,7 +54,7 @@ export const handler = async (argv: Arguments) => {
 
   const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
 
-  let result = await registry.queryRecords({ ...filters, type, name }, all as boolean);
+  let result = await registry.queryRecords({ ...filters, type, name }, all as boolean, refs as boolean, limit as number, offset as number);
 
   // Apply ex post filters.
   if (bondId) {
