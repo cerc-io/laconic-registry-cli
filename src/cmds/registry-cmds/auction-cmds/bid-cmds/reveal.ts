@@ -4,7 +4,7 @@ import path from 'path';
 import { Registry } from '@cerc-io/registry-sdk';
 import fs from 'fs';
 
-import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, getGasPrice, txOutput } from '../../../../util';
 
 export const command = 'reveal [auction-id] [file-path]';
 
@@ -23,7 +23,8 @@ export const handler = async (argv: Arguments) => {
   assert(privateKey, 'Invalid Transaction Key.');
   assert(chainId, 'Invalid registry Chain ID.');
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const gasPrice = getGasPrice(argv, registryConfig);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId, gasPrice });
   const fee = getGasAndFees(argv, registryConfig);
 
   const reveal = fs.readFileSync(path.resolve(filePath));

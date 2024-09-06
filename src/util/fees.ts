@@ -2,23 +2,36 @@
 import assert from 'assert';
 import { Arguments } from 'yargs';
 
-export const parseGasAndFees = (gas: string, fees = '') => {
+import { StdFee, GasPrice, parseCoins } from '@cosmjs/stargate';
+
+export const parseGasAndFees = (gas?: string, fees?: string): StdFee | number | undefined => {
+  // If fees is not given or a number, treat it as a gas estimation multiplier
+  if (fees === null || fees === undefined) {
+    return undefined;
+  }
+
+  const isFeesANumber = !isNaN(Number(fees));
+  if (isFeesANumber) {
+    return Number(fees);
+  }
+
+  // If fees is not a gas estimation multiplier, gas is required
   assert(gas, 'Invalid gas.');
 
-  const [{ amount, denom }] = fees.trim().split(',')
-    .map(fee => fee.trim().split(/(\d+)/))
-    .filter(([_, amount, denom]) => (denom && amount))
-    .map(([_, amount, denom]) => ({ denom, amount }));
-
   return {
-    amount: [{ denom, amount }],
-    gas
+    amount: parseCoins(String(fees)),
+    gas: String(gas)
   };
 };
 
-export const getGasAndFees = (argv: Arguments, config: any = {}) => {
+export const getGasAndFees = (argv: Arguments, config: any = {}): StdFee | number | undefined => {
   return parseGasAndFees(
-    String(argv.gas || config.gas),
-    String(argv.fees || config.fees)
+    argv.gas || config.gas,
+    argv.fees || config.fees
   );
+};
+
+export const getGasPrice = (argv: Arguments, config: any = {}): GasPrice | undefined => {
+  const gasPriceString = argv.gasPrice || config.gasPrice;
+  return gasPriceString != null ? GasPrice.fromString(String(gasPriceString)) : undefined;
 };

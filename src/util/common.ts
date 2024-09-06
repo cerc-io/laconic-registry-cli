@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import clean from 'lodash-clean';
 
 export const getConnectionInfo = (argv: Arguments, config: any) => {
-  const { server, userKey, bondId, txKey, chainId, fees, gas } = argv;
+  const { server, userKey, bondId, txKey, chainId, fees, gas, gasPrice } = argv;
 
   const result = {
     ...config,
@@ -10,7 +10,8 @@ export const getConnectionInfo = (argv: Arguments, config: any) => {
     ...clean({ server, userKey, bondId, txKey, chainId }),
     privateKey: stripHexPrefix(txKey || userKey || config.userKey),
     gas: String(gas || config.gas),
-    fees: String(fees || config.fees)
+    fees: String(fees || config.fees),
+    gasPrice: String(gasPrice || config.gasPrice)
   };
 
   return result;

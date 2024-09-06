@@ -5,7 +5,7 @@ import { Account, createBid, Registry } from '@cerc-io/registry-sdk';
 import { ensureDir } from 'fs-extra';
 import fs from 'fs';
 
-import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, getGasPrice, txOutput } from '../../../../util';
 
 const OUT_DIR = 'out';
 
@@ -40,7 +40,8 @@ export const handler = async (argv: Arguments) => {
   await ensureDir(outDirPath);
   fs.writeFileSync(revealFilePath, JSON.stringify(reveal, undefined, 2));
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const gasPrice = getGasPrice(argv, registryConfig);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId, gasPrice });
   const fee = getGasAndFees(argv, registryConfig);
 
   const result = await registry.commitBid({ auctionId, commitHash }, privateKey, fee);

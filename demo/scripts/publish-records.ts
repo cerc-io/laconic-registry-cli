@@ -46,7 +46,7 @@ async function main () {
   let rpcEndpoint, gqlEndpoint, chainId: string;
   ({ rpcEndpoint, gqlEndpoint, userKey, bondId, chainId } = getConnectionInfo(argv, registryConfig));
 
-  registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId });
   fee = getGasAndFees(argv, registryConfig);
 
   await processDir(path.resolve(recordsDir));

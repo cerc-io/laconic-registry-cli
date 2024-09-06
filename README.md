@@ -4,7 +4,7 @@ CLI utility written in TS, used to interact with laconicd. Depends on [registry-
 
 ## Install
 
-- Add `.npmrc` file in desired project to resolve package
+* Add `.npmrc` file in desired project to resolve package
 
   ```bash
   @cerc-io:registry=https://git.vdb.to/api/packages/cerc-io/npm/
@@ -12,13 +12,13 @@ CLI utility written in TS, used to interact with laconicd. Depends on [registry-
 
   This will set the registry for `cerc-io` scoped packages in the project
 
-- Install the CLI using package manager
+* Install the CLI using package manager
 
   ```bash
   yarn add @cerc-io/laconic-registry-cli
   ```
 
-- For installing CLI globally add `.npmrc` file above in home directory and run
+* For installing CLI globally add `.npmrc` file above in home directory and run
 
   ```bash
   yarn global add @cerc-io/laconic-registry-cli
@@ -42,7 +42,7 @@ CLI utility written in TS, used to interact with laconicd. Depends on [registry-
 
 Run the chain:
 
-  - In laconicd repo run:
+* In laconicd repo run:
 
     ```bash
     TEST_AUCTION_ENABLED=true ./scripts/init.sh clean
@@ -66,18 +66,84 @@ services:
 
 ## Gas and Fees
 
-https://docs.evmos.org/users/basics/gas.html
+* Gas and fees in `cosmos-sdk`:
+  * <https://docs.cosmos.network/v0.50/learn/beginner/gas-fees>
+  * `gas` is a special unit that is used to track the consumption of resources during execution of a transaction
+    * The maximum value a tx is allowed to consume can be capped by setting `gas` in the config
+  * `fees` have to be paid by sender to allow the transaction into the mempool and is calculated using `gasPrice`:
 
-* Transactions require `gas`, set to the maximum value the transaction is allowed to consume.
-* Typically, validators also require transaction `fees` to be provided to allow the transaction into the mempool.
+    ```bash
+    fees = gas * gasPrice
+    ```
 
-The `gas` and `fees` can be set to some default values in the config, and can be overriden for each command using the `--gas` and `--fees` arguments.
+  * Typically, validators / full nodes set `min-gas-prices` to only allow txs providing minimum amount of fees
+* Using `cosmjs`, there are two ways max fees amount can be given for a tx:
+  * Either by specifying `fees` and `gas` (in which case `fees` should be >= `gas` * `min-gas-price`)
+  * Or by specifying a `gasPrice` (in which case `gasPrice` should be >= `min-gas-price` set by the node and fees is `auto` calculated by simulating the tx)
 
-Example:
+    When using the `auto` fees calculation, the gas estimation by tx simulation is typically multiplied by a multiplier
+* As such, following `gas`, `fees` and `gasPrice` combinations can be used in `laconic-registry-cli`:
+  * Gas set, fees set to `Xalnt`:
 
-```bash
-$ laconic registry bond create --type alnt --quantity 100000000000 --gas 200000 --fees 200000alnt
-```
+    ```bash
+    # Example
+    gas: 500000
+    fees: 500000alnt
+    gasPrice:
+    ```
+
+    * `gasPrice` config ignored
+    * tx rejected if given `fees` < `gas` * `min-gas-price` set by the node
+    * tx fails mid-execution if it runs out of given `gas`
+  * Fees not set, gas price set to `Xalnt`:
+
+    ```bash
+    # Example
+    gas:
+    fees:
+    gasPrice: 1alnt
+    ```
+
+    * `gas` config ignored
+    * uses `auto` fee calculation using gas estimation with [default multiplier](https://git.vdb.to/cerc-io/registry-sdk/src/branch/main/src/constants.ts) value from `registry-sdk`
+    * tx rejected if given `gasPrice` < `min-gas-price` set by the node
+    * tx fails mid-execution if it runs out of calculated gas
+  * Fees set to a `X` (without `alnt` suffix), gas price set to `Yalnt`:
+
+    ```bash
+    # Example
+    gas:
+    fees: 1.8
+    gasPrice: 1alnt
+    ```
+
+    * `gas` config ignored
+    * uses `auto` fee calculation using gas estimation with `fees` as the multiplier
+    * tx rejected if given `gasPrice` < `min-gas-price` set by the node
+    * tx fails mid-execution if it runs out of calculated gas, can be retried with a higher gas estimation multiplier (`fees`)
+  * Fees and gas price both not set:
+
+    ```bash
+    # Example
+    gas:
+    fees:
+    gasPrice:
+    ```
+
+    * `gas` config ignored
+    * uses `auto` fee calculation using gas estimation
+    * throws error:
+
+      ```bash
+      Gas price must be set in the client options when auto gas is used.
+      ```
+
+* The `gas`, `fees` and `gasPrice` can be set to some default values in the config as shown above, and can be overriden for each command using the `--gas`, `--fees` and `--gasPrice` arguments:
+
+  ```bash
+  # Example:
+  laconic registry bond create --type alnt --quantity 100000000000 --gas 200000 --fees 200000alnt
+  ```
 
 ## Operations
 
@@ -263,13 +329,13 @@ $ laconic registry record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf
 List records:
 
 ```bash
-$ laconic registry record list
+laconic registry record list
 ```
 
 Reserve authority:
 
 ```bash
-$ laconic registry authority reserve laconic
+laconic registry authority reserve laconic
 ```
 
 Check authority information:
@@ -367,43 +433,43 @@ Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.j
 Reveal an auction bid:
 
 ```bash
-$ laconic registry auction bid reveal 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
+laconic registry auction bid reveal 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
 
 Set authority bond (after winning auction):
 
 ```bash
-$ laconic registry authority bond set laconic 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+laconic registry authority bond set laconic 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 ```
 
 Create sub-authority (same owner as parent authority):
 
 ```bash
-$ laconic registry authority reserve echo.laconic
+laconic registry authority reserve echo.laconic
 ```
 
 Create sub-authority (custom owner for sub-authority):
 
 ```bash
-$ laconic registry authority reserve kube.laconic --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
+laconic registry authority reserve kube.laconic --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
 ```
 
 Get all the authorities:
 
 ```bash
-$ laconic registry authority list
+laconic registry authority list
 ```
 
 Get all the authorities by owner:
 
 ```bash
-$ laconic registry authority list --owner laconic1zayjut6pd4xy9dguut56v55hktzmeq6r777hmd
+laconic registry authority list --owner laconic1zayjut6pd4xy9dguut56v55hktzmeq6r777hmd
 ```
 
 Set name:
 
 ```bash
-$ laconic registry name set lrn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+laconic registry name set lrn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Lookup name information:
@@ -475,7 +541,7 @@ $ laconic registry name resolve lrn://laconic/watcher/erc20
 Create bond:
 
 ```bash
-$ laconic registry bond create --type alnt --quantity 1000
+laconic registry bond create --type alnt --quantity 1000
 ```
 
 List bonds:
@@ -555,41 +621,41 @@ $ laconic registry bond list --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7mas
 Refill bond:
 
 ```bash
-$ laconic registry bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type alnt --quantity 1000
+laconic registry bond refill --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type alnt --quantity 1000
 ```
 
 Withdraw funds from bond:
 
 ```bash
-$ laconic registry bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type alnt --quantity 500
+laconic registry bond withdraw --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --type alnt --quantity 500
 ```
 
 Cancel bond:
 
 ```bash
-$ laconic registry bond cancel --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+laconic registry bond cancel --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 ```
 
 Associate bond (with record):
 
 ```bash
-$ laconic registry bond associate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
+laconic registry bond associate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
 ```
 
 Disassociate bond (from record):
 
 ```bash
-$ laconic registry bond dissociate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+laconic registry bond dissociate --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 ```
 
 Dissociate all records from bond:
 
 ```bash
-$ laconic registry bond records dissociate --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
+laconic registry bond records dissociate --bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0
 ```
 
 Reassociate records (switch bond):
 
 ```bash
-$ laconic registry bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
+laconic registry bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
 ```

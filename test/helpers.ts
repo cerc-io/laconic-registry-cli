@@ -1,6 +1,9 @@
 import fs from 'fs';
+import path from 'path';
 import yaml from 'js-yaml';
 import { SpawnSyncReturns, spawnSync } from 'child_process';
+
+import { getConfig } from '../src/util';
 
 export const CHAIN_ID = 'laconic_9000-1';
 export const TOKEN_TYPE = 'alnt';
@@ -117,4 +120,34 @@ export function getBidObj (params: { bidder: string, status?: string }): any {
 
 export async function delay (ms: number): Promise<any> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function updateGasAndFeesConfig (gas?: string | null, fees?: string | null, gasPrice?: string | null): void {
+  const configFilePath = './config.yml';
+  const config = getConfig(path.resolve(configFilePath));
+
+  if (gas) {
+    config.services.registry.gas = gas;
+  } else if (gas === null) {
+    delete config.services.registry.gas;
+  }
+
+  if (fees) {
+    config.services.registry.fees = fees;
+  } else if (fees === null) {
+    delete config.services.registry.fees;
+  }
+
+  if (gasPrice) {
+    config.services.registry.gasPrice = gasPrice;
+  } else if (gasPrice === null) {
+    delete config.services.registry.gasPrice;
+  }
+
+  try {
+    fs.writeFileSync(configFilePath, yaml.dump(config), 'utf8');
+  } catch (e) {
+    console.error('Error writing config file:', e);
+    throw e;
+  }
 }

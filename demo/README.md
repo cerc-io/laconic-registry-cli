@@ -26,6 +26,7 @@
 
   # Update the gas value in config.yml
   # gas: 500000
+  # fees: 500000alnt
 
   # Get user private key
   laconicd keys export alice --unarmored-hex --unsafe --keyring-backend test --home ~/.laconicd

@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import { Registry } from '@cerc-io/registry-sdk';
 
-import { getConfig, getGasAndFees, getConnectionInfo, txOutput } from '../../../util';
+import { getConfig, getGasAndFees, getConnectionInfo, getGasPrice, txOutput } from '../../../util';
 
 export const command = 'publish';
 
@@ -43,7 +43,9 @@ export const handler = async (argv: Arguments) => {
     }
   }
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const gasPrice = getGasPrice(argv, registryConfig);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId, gasPrice });
+
   const fee = getGasAndFees(argv, registryConfig);
   const result = await registry.setRecord({ privateKey: userKey, record, bondId }, txKey || userKey, fee);
 

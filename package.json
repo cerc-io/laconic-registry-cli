@@ -1,6 +1,6 @@
 {
   "name": "@cerc-io/laconic-registry-cli",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "main": "index.js",
   "repository": "git@github.com:cerc-io/laconic-registry-cli.git",
   "author": "",
@@ -29,7 +29,8 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@cerc-io/registry-sdk": "^0.2.8",
+    "@cerc-io/registry-sdk": "^0.2.9",
+    "@cosmjs/stargate": "^0.32.2",
     "fs-extra": "^10.1.0",
     "js-yaml": "^3.14.1",
     "lodash": "^4.17.21",

@@ -15,7 +15,8 @@ import {
   getRecordObj,
   getAuthorityObj,
   getAuctionObj,
-  getBidObj
+  getBidObj,
+  updateGasAndFeesConfig
 } from './helpers';
 
 describe('Test laconic CLI commands', () => {
@@ -583,6 +584,54 @@ describe('Test laconic CLI commands', () => {
         const resolveResult = spawnSync('laconic', ['registry', 'name', 'resolve', testName]);
         const resolveOutputObj = checkResultAndRetrieveOutput(resolveResult);
         expect(resolveOutputObj.length).toEqual(0);
+      });
+    });
+
+    describe('Gas and fees config', () => {
+      const bondAmount = 1000;
+
+      test('gas set, fees set to Xalnt', async () => {
+        // gasPrice not set
+        const result = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondAmount.toString()]);
+
+        const outputObj = checkResultAndRetrieveOutput(result);
+        expect(outputObj.bondId).toBeDefined();
+
+        // gasPrice set (lower than min gas price)
+        updateGasAndFeesConfig(undefined, undefined, '0.00001alnt');
+        const result1 = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondAmount.toString()]);
+
+        const outputObj1 = checkResultAndRetrieveOutput(result1);
+        expect(outputObj1.bondId).toBeDefined();
+      });
+
+      test('gas not set, fees not set, gasPrice set', async () => {
+        updateGasAndFeesConfig(null, null, '1alnt');
+        const result = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondAmount.toString()]);
+
+        const outputObj = checkResultAndRetrieveOutput(result);
+        expect(outputObj.bondId).toBeDefined();
+      });
+
+      test('gas not set, fees set without token suffix, gasPrice set', async () => {
+        updateGasAndFeesConfig(null, '1.8', '1alnt');
+        const result = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondAmount.toString()]);
+
+        const outputObj = checkResultAndRetrieveOutput(result);
+        expect(outputObj.bondId).toBeDefined();
+      });
+
+      test('gas not set, fees not set, gasPrice not set', async () => {
+        updateGasAndFeesConfig(null, null, null);
+        const result = spawnSync('laconic', ['registry', 'bond', 'create', '--type', TOKEN_TYPE, '--quantity', bondAmount.toString()]);
+
+        expect(result.status).toBe(1);
+
+        const output = result.stdout.toString().trim();
+        const errorOutput = result.stderr.toString().trim();
+
+        expect(output).toBe('');
+        expect(errorOutput).toContain('Gas price must be set in the client options when auto gas is used.');
       });
     });
   });

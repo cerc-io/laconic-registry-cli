@@ -2,7 +2,7 @@ import { Arguments } from 'yargs';
 import assert from 'assert';
 import { Registry } from '@cerc-io/registry-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees, txOutput } from '../../../../util';
+import { getConfig, getConnectionInfo, getGasAndFees, getGasPrice, txOutput } from '../../../../util';
 
 export const command = 'dissociate';
 
@@ -25,7 +25,8 @@ export const handler = async (argv: Arguments) => {
   assert(privateKey, 'Invalid Transaction Key.');
   assert(chainId, 'Invalid registry Chain ID.');
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const gasPrice = getGasPrice(argv, registryConfig);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId, gasPrice });
   const fee = getGasAndFees(argv, registryConfig);
   const result = await registry.dissociateRecords({ bondId }, privateKey, fee);
   const success = '{"success": true}';

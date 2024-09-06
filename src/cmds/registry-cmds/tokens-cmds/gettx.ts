@@ -30,7 +30,7 @@ export const handler = async (argv: Arguments) => {
   const account = new Account(Buffer.from(privateKey, 'hex'));
   await account.init();
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId });
   const laconicClient = await registry.getLaconicClient(account);
 
   const txResponse: IndexedTx | null = await laconicClient.getTx(hash);

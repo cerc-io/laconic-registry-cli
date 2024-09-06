@@ -18,7 +18,7 @@ export const handler = async (argv: Arguments) => {
   assert(gqlEndpoint, 'Invalid registry GQL endpoint.');
   assert(chainId, 'Invalid registry Chain ID.');
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId });
   const result = await registry.lookupAuthorities([name], true);
 
   queryOutput(result, argv.output);

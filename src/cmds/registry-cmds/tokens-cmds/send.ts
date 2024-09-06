@@ -1,9 +1,10 @@
 import { Arguments } from 'yargs';
 import assert from 'assert';
-import { Account, Registry } from '@cerc-io/registry-sdk';
 
-import { getConfig, getConnectionInfo, getGasAndFees, queryOutput } from '../../../util';
+import { Account, Registry, DEFAULT_GAS_ESTIMATION_MULTIPLIER } from '@cerc-io/registry-sdk';
 import { DeliverTxResponse } from '@cosmjs/stargate';
+
+import { getConfig, getConnectionInfo, getGasAndFees, getGasPrice, queryOutput } from '../../../util';
 
 export const command = 'send';
 
@@ -38,7 +39,8 @@ export const handler = async (argv: Arguments) => {
   await account.init();
   const fromAddress = account.address;
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const gasPrice = getGasPrice(argv, registryConfig);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId, gasPrice });
   const laconicClient = await registry.getLaconicClient(account);
   const fee = getGasAndFees(argv, registryConfig);
 
@@ -51,7 +53,7 @@ export const handler = async (argv: Arguments) => {
         amount
       }
     ],
-    fee);
+    fee || DEFAULT_GAS_ESTIMATION_MULTIPLIER);
 
   assert(txResponse.code === 0, `TX Failed - Hash: ${txResponse.transactionHash}, Code: ${txResponse.code}, Message: ${txResponse.rawLog}`);
 

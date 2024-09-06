@@ -15,7 +15,8 @@ exports.builder = (yargs: yargs.Argv) => {
       id: { type: 'string' },
       address: { type: 'string' },
       gas: { type: 'string' },
-      fees: { type: 'string' }
+      fees: { type: 'string' },
+      gasPrice: { type: 'string' }
     })
     .commandDir('registry-cmds')
     .demandCommand()

@@ -23,7 +23,7 @@ export const handler = async (argv: Arguments) => {
     address = account.address;
   }
 
-  const registry = new Registry(gqlEndpoint, rpcEndpoint, chainId);
+  const registry = new Registry(gqlEndpoint, rpcEndpoint, { chainId });
   const result = await registry.getAccounts([address]);
 
   queryOutput(result, argv.output);
