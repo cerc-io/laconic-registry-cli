@@ -2,11 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import { SpawnSyncReturns, spawnSync } from 'child_process';
+import { Arguments } from 'yargs';
 
-import { getConfig } from '../src/util';
+import { StdFee } from '@cosmjs/stargate';
+
+import { getConfig, getGasAndFees } from '../src/util';
 
 export const CHAIN_ID = 'laconic_9000-1';
 export const TOKEN_TYPE = 'alnt';
+export const CONFIG_FILE = 'config.yml';
 
 export enum AUCTION_STATUS {
   COMMIT = 'commit',
@@ -133,9 +137,14 @@ export async function delay (ms: number): Promise<any> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export function getFeesConfig (): number {
+  const { services: { registry: registryConfig } } = getConfig(CONFIG_FILE);
+  const fee = getGasAndFees({} as Arguments, registryConfig);
+  return Number((fee as StdFee).amount[0].amount);
+}
+
 export function updateGasAndFeesConfig (gas?: string | null, fees?: string | null, gasPrice?: string | null): void {
-  const configFilePath = './config.yml';
-  const config = getConfig(path.resolve(configFilePath));
+  const config = getConfig(path.resolve(CONFIG_FILE));
 
   if (gas) {
     config.services.registry.gas = gas;
@@ -156,7 +165,7 @@ export function updateGasAndFeesConfig (gas?: string | null, fees?: string | nul
   }
 
   try {
-    fs.writeFileSync(configFilePath, yaml.dump(config), 'utf8');
+    fs.writeFileSync(CONFIG_FILE, yaml.dump(config), 'utf8');
   } catch (e) {
     console.error('Error writing config file:', e);
     throw e;

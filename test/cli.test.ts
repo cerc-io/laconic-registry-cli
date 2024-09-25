@@ -19,7 +19,8 @@ import {
   getAuctionObj,
   getBidObj,
   updateGasAndFeesConfig,
-  AUCTION_STATUS
+  AUCTION_STATUS,
+  getFeesConfig
 } from './helpers';
 
 describe('Test laconic CLI commands', () => {
@@ -715,13 +716,14 @@ describe('Test laconic CLI commands', () => {
       }, (AUCTION_COMMIT_DURATION + 5) * 1000);
     });
 
-    describe.only('Provider Auction operations', () => {
+    describe('Provider Auction operations', () => {
+      const txFees = getFeesConfig();
+
       const commitFee = 1000;
       const revealFee = 1000;
       const maxPrice = 1000000;
       const numProviders = 2;
       const bidderInitialBlanace = 1000000000;
-      const txFees = 200000;
       testAuctionId = '5e9dd5501e965f25db4fa62635d0ce5f6c59d73ab1a2ea999f8c5bf2f6fb6350';
 
       const bidderAccounts = [
