@@ -8,6 +8,12 @@ import { getConfig } from '../src/util';
 export const CHAIN_ID = 'laconic_9000-1';
 export const TOKEN_TYPE = 'alnt';
 
+export enum AUCTION_STATUS {
+  COMMIT = 'commit',
+  REVEAL = 'reveal',
+  COMPLETED = 'completed'
+}
+
 export const AUCTION_FEES = {
   commit: 1000000,
   reveal: 1000000,
@@ -17,6 +23,10 @@ export const AUCTION_COMMIT_DURATION = 60; // 60s
 export const AUCTION_REVEAL_DURATION = 60; // 60s
 
 export function checkResultAndRetrieveOutput (result: SpawnSyncReturns<Buffer>): any {
+  if (result.status !== 0) {
+    console.log('stderr', result.stderr.toString().trim());
+  }
+
   expect(result.status).toBe(0);
 
   const errorOutput = result.stderr.toString().trim();
@@ -95,7 +105,8 @@ export function getAuctionObj (params: { owner: string, status?: string }): any 
       type: TOKEN_TYPE,
       quantity: AUCTION_FEES.minimumBid
     },
-    winnerAddress: ''
+    winnerAddresses: [],
+    winnerBids: []
   };
 }
 

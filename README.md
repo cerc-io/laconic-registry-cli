@@ -152,7 +152,7 @@ These commands require a `config.yml` file present in the current working direct
 Get node status:
 
 ```bash
-$ laconic registry status
+laconic registry status
 {
   "version": "0.3.0",
   "node": {
@@ -186,7 +186,7 @@ $ laconic registry status
 Get account details:
 
 ```bash
-$ laconic registry account get --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
+laconic registry account get --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
 [
   {
     "address": "laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k",
@@ -206,7 +206,7 @@ $ laconic registry account get --address laconic15za32wly5exgcrt2zfr8php4ya49n5y
 Send tokens:
 
 ```bash
-$ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k --type alnt --quantity 1000000000
+laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k --type alnt --quantity 1000000000
 {
   "tx": {
     "hash": "977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC",
@@ -250,7 +250,7 @@ $ laconic registry tokens send --address laconic15za32wly5exgcrt2zfr8php4ya49n5y
 Get token TX details:
 
 ```bash
-$ laconic registry tokens gettx --hash 977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC
+laconic registry tokens gettx --hash 977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC
 {
   "hash": "977152CBE474613E1BBAFEF286F12134829FAF3C9E7C8349149DE3E687B816FC",
   "height": 343369,
@@ -280,7 +280,7 @@ record:
 Publish record (see below for commands to create/query bonds):
 
 ```bash
-$ laconic registry record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000 --fees 250000alnt
+laconic registry record publish --filename watcher.yml --bond-id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785 --gas 250000 --fees 250000alnt
 
 { id: 'bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba' }
 ```
@@ -288,7 +288,7 @@ $ laconic registry record publish --filename watcher.yml --bond-id 58508984500aa
 Get record:
 
 ```bash
-$ laconic registry record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
+laconic registry record get --id bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba
 [
   {
     "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -341,7 +341,7 @@ laconic registry authority reserve laconic
 Check authority information:
 
 ```bash
-$ laconic registry authority whois laconic
+laconic registry authority whois laconic
 [
   {
     "ownerAddress": "",
@@ -387,7 +387,7 @@ $ laconic registry authority whois laconic
 Get authority auction info:
 
 ```bash
-$ laconic registry auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48
+laconic registry auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48
 [
   {
     "id": "0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48",
@@ -425,7 +425,7 @@ $ laconic registry auction get 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2
 Commit an auction bid:
 
 ```bash
-$ laconic registry auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 alnt
+laconic registry auction bid commit 0294fb2e3659c347b53a6faf4bef041fd934f0f3ab13df6d2468d5d63abacd48 25000000 alnt
 
 Reveal file: ./out/bafyreiay2rccax64yn4ljhvzvm3jkbebvzheyucuma5jlbpzpzd5i5gjuy.json
 ```
@@ -475,7 +475,7 @@ laconic registry name set lrn://laconic/watcher/erc20 bafyreic3auqajvgszh3vfjsou
 Lookup name information:
 
 ```bash
-$ laconic registry name lookup lrn://laconic/watcher/erc20
+laconic registry name lookup lrn://laconic/watcher/erc20
 [
   {
     "latest": {
@@ -489,7 +489,7 @@ $ laconic registry name lookup lrn://laconic/watcher/erc20
 Resolve name:
 
 ```bash
-$ laconic registry name resolve lrn://laconic/watcher/erc20
+laconic registry name resolve lrn://laconic/watcher/erc20
 [
     {
         "id": "bafyreic3auqajvgszh3vfjsouew2rsctswukc346dmlf273ln4g6iyyhba",
@@ -530,9 +530,9 @@ $ laconic registry name resolve lrn://laconic/watcher/erc20
 Delete name:
 
 ```bash
-$ laconic registry name delete lrn://laconic/watcher/erc20
+laconic registry name delete lrn://laconic/watcher/erc20
 
-$ laconic registry name resolve lrn://laconic/watcher/erc20
+laconic registry name resolve lrn://laconic/watcher/erc20
 [
     null
 ]
@@ -547,7 +547,7 @@ laconic registry bond create --type alnt --quantity 1000
 List bonds:
 
 ```bash
-$ laconic registry bond list
+laconic registry bond list
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
@@ -575,7 +575,7 @@ $ laconic registry bond list
 Get bond:
 
 ```bash
-$ laconic registry bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
+laconic registry bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
@@ -593,7 +593,7 @@ $ laconic registry bond get --id 58508984500aa2ed18e059fa8203b40fbc9828e3bfa1953
 Query bonds by owner:
 
 ```bash
-$ laconic registry bond list --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
+laconic registry bond list --owner laconic15za32wly5exgcrt2zfr8php4ya49n5y7masu7k
 [
   {
     "id": "58508984500aa2ed18e059fa8203b40fbc9828e3bfa195361335c4e4524c4785",
@@ -658,4 +658,108 @@ Reassociate records (switch bond):
 
 ```bash
 laconic registry bond records reassociate --old-bond-id 5c40abd336ae1561f2a1b55be73b12f5a083080bf879b4c9288d182d238badb0 --new-bond-id 3e11c61f179897e4b12e9b63de35d36f88ac146755e7a28ce0bcdd07cf3a03ae
+```
+
+Create a `provider` auction:
+
+```bash
+laconic registry auction create --kind provider --commits-duration 60 --reveals-duration 60 --denom alnt --commit-fee 1000 --reveal-fee 1000 --max-price 100000 --num-providers 5
+
+{"auctionId":"73c5fa4b91bb973641ccbb6901a8404745fb8793c95485b00d5a791e6b6c1630"}
+
+# Set auction id in a variable
+AUCTION=
+```
+
+Commit an auction bid:
+
+```bash
+laconic registry auction bid commit $AUCTION 25000 alnt
+
+{"reveal_file":"/home/user/laconic-registry-cli/out/bafyreiai5upey4562ont54pe7m3buiphtd6n3q2vr5lxdcj3gpyklbbgvy.json"}
+```
+
+Reveal an auction bid:
+
+```bash
+laconic registry auction bid reveal $AUCTION /home/user/laconic-registry-cli/out/bafyreiai5upey4562ont54pe7m3buiphtd6n3q2vr5lxdcj3gpyklbbgvy.json
+
+{"success": true}
+```
+
+Check the auction state on completion:
+
+```bash
+laconic registry auction get $AUCTION
+
+[
+  {
+    "id": "b66b74048fc360de6a926123b760e6485276d90ad2274b5386c02664cd04bace",
+    "kind": "provider",
+    "status": "completed",
+    "ownerAddress": "laconic1maqfgs93hnvzqh5mfj9kxt4e3n27vhd0w7emrx",
+    "createTime": "2024-09-17T09:51:48.605610628",
+    "commitsEndTime": "2024-09-17T09:52:48.605610628",
+    "revealsEndTime": "2024-09-17T09:53:48.605610628",
+    "commitFee": {
+      "type": "alnt",
+      "quantity": 1000
+    },
+    "revealFee": {
+      "type": "alnt",
+      "quantity": 1000
+    },
+    "minimumBid": {
+      "type": "",
+      "quantity": 0
+    },
+    "winnerAddresses": [
+      "laconic13qrlfkgl02wgwpw0n4j8kswygwnukphy92249r"
+    ],
+    "winnerBids": [
+      {
+        "type": "alnt",
+        "quantity": 25000
+      }
+    ],
+    "winnerPrice": {
+      "type": "alnt",
+      "quantity": 25000
+    },
+    "maxPrice": {
+      "type": "alnt",
+      "quantity": 100000
+    },
+    "numProviders": 5,
+    "bids": [
+      {
+        "bidderAddress": "laconic13qrlfkgl02wgwpw0n4j8kswygwnukphy92249r",
+        "status": "reveal",
+        "commitHash": "bafyreifjkhiakayvvaasnsw7ufaax54ncow4xuycqnox7hxay34c6yod7a",
+        "commitTime": "2024-09-17T09:52:03.665761945",
+        "revealTime": "2024-09-17T09:53:00.904061323",
+        "commitFee": {
+          "type": "alnt",
+          "quantity": 1000
+        },
+        "revealFee": {
+          "type": "alnt",
+          "quantity": 1000
+        },
+        "bidAmount": {
+          "type": "alnt",
+          "quantity": 25000
+        }
+      }
+    ]
+  }
+]
+```
+
+Release provider winning funds:
+
+```bash
+laconic registry auction release-funds $AUCTION
+
+{"success": true}
 ```

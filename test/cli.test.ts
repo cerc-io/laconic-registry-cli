@@ -2,6 +2,8 @@ import fs from 'fs';
 import assert from 'assert';
 import { spawnSync } from 'child_process';
 
+import { AUCTION_KIND_PROVIDER, AUCTION_KIND_VICKREY } from '@cerc-io/registry-sdk';
+
 import {
   CHAIN_ID,
   TOKEN_TYPE,
@@ -16,7 +18,8 @@ import {
   getAuthorityObj,
   getAuctionObj,
   getBidObj,
-  updateGasAndFeesConfig
+  updateGasAndFeesConfig,
+  AUCTION_STATUS
 } from './helpers';
 
 describe('Test laconic CLI commands', () => {
@@ -225,6 +228,7 @@ describe('Test laconic CLI commands', () => {
         expect(outputObj.accounts.length).toEqual(2);
         expect(outputObj.accounts).toMatchObject(expectedAccounts);
       });
+
       test('laconic registry tokens gettx --hash <hash>', async () => {
         const sendAmount = 1000000000;
 
@@ -369,7 +373,7 @@ describe('Test laconic CLI commands', () => {
       });
     });
 
-    describe('Auction operations', () => {
+    describe('Authority auction operations', () => {
       const bidAmount = 25000000;
       let bidRevealFilePath: string;
 
@@ -584,6 +588,330 @@ describe('Test laconic CLI commands', () => {
         const resolveResult = spawnSync('laconic', ['registry', 'name', 'resolve', testName]);
         const resolveOutputObj = checkResultAndRetrieveOutput(resolveResult);
         expect(resolveOutputObj.length).toEqual(0);
+      });
+    });
+
+    describe('Vickrey Auction operations', () => {
+      const commitFee = 1000;
+      const revealFee = 1000;
+      const minimumBid = 100000;
+
+      const bidAmount = 25000000;
+      let bidRevealFilePath: string;
+
+      test('laconic registry auction create --kind <kind> --commits-duration <commits_duration> --reveals-duration <reveals_duration> --denom <denom> --commit-fee <commit_fee> --reveal-fee <reveal_fee> --minimum-bid <minimum_bid>', async () => {
+        const createAuctionResult = spawnSync('laconic', [
+          'registry',
+          'auction',
+          'create',
+          '--kind', AUCTION_KIND_VICKREY,
+          '--commits-duration', AUCTION_COMMIT_DURATION.toString(),
+          '--reveals-duration', AUCTION_REVEAL_DURATION.toString(),
+          '--denom', TOKEN_TYPE,
+          '--commit-fee', commitFee.toString(),
+          '--reveal-fee', revealFee.toString(),
+          '--minimum-bid', minimumBid.toString()
+        ]);
+        const outputObj = checkResultAndRetrieveOutput(createAuctionResult);
+
+        expect(outputObj).toHaveProperty('auctionId');
+
+        testAuctionId = outputObj.auctionId;
+        const getAuctionResult = spawnSync('laconic', ['registry', 'auction', 'get', '--id', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(getAuctionResult);
+
+        const expectedAuctionObjPartial = {
+          kind: AUCTION_KIND_VICKREY,
+          status: AUCTION_STATUS.COMMIT,
+          ownerAddress: testAccount,
+          commitFee: { quantity: commitFee },
+          revealFee: { quantity: revealFee },
+          minimumBid: { quantity: minimumBid },
+          winnerAddresses: [],
+          winnerBids: [],
+          maxPrice: { quantity: 0 },
+          numProviders: 0,
+          bids: []
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+      });
+
+      test('laconic registry auction bid commit <auction_id> <quantity> <type>', async () => {
+        const result = spawnSync('laconic', ['registry', 'auction', 'bid', 'commit', testAuctionId, bidAmount.toString(), TOKEN_TYPE]);
+        const outputObj = checkResultAndRetrieveOutput(result);
+
+        // Expected output
+        expect(outputObj.reveal_file).toBeDefined();
+
+        bidRevealFilePath = outputObj.reveal_file;
+      });
+
+      test('laconic registry auction bid reveal <auction_id> <file_path>', async () => {
+        // Wait for auction commits duration (60s)
+        await delay(AUCTION_COMMIT_DURATION * 1000);
+
+        let auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        let auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedAuctionObjPartial = {
+          status: AUCTION_STATUS.REVEAL,
+          ownerAddress: testAccount,
+          winnerAddresses: [],
+          winnerBids: [],
+          bids: [{
+            bidderAddress: testAccount,
+            status: AUCTION_STATUS.COMMIT,
+            bidAmount: { quantity: 0 }
+          }]
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+
+        // Reveal bid
+        const result = spawnSync('laconic', ['registry', 'auction', 'bid', 'reveal', testAuctionId, bidRevealFilePath]);
+        const outputObj = checkResultAndRetrieveOutput(result);
+
+        // Expected output
+        expect(outputObj).toEqual({ success: true });
+
+        const revealObject = JSON.parse(fs.readFileSync(bidRevealFilePath, 'utf8'));
+        expect(revealObject).toMatchObject({
+          chainId: CHAIN_ID,
+          auctionId: testAuctionId,
+          bidderAddress: testAccount,
+          bidAmount: `${bidAmount}${TOKEN_TYPE}`
+        });
+
+        // Get auction with revealed bid
+        auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedAuctionObjPartialOnBidReveal = {
+          status: AUCTION_STATUS.REVEAL,
+          winnerAddresses: [],
+          bids: [{
+            bidderAddress: testAccount,
+            status: AUCTION_STATUS.REVEAL,
+            bidAmount: { quantity: bidAmount }
+          }]
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartialOnBidReveal);
+      }, (AUCTION_COMMIT_DURATION + 5) * 1000);
+
+      test('laconic registry auction get <auction_id>', async () => {
+        // Wait for auction reveals duration (60s)
+        await delay(AUCTION_REVEAL_DURATION * 1000);
+
+        const auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedAuctionObjPartial = {
+          status: AUCTION_STATUS.COMPLETED,
+          ownerAddress: testAccount,
+          winnerAddresses: [testAccount],
+          winnerBids: [{ quantity: bidAmount }],
+          winnerPrice: { quantity: bidAmount }
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+      }, (AUCTION_COMMIT_DURATION + 5) * 1000);
+    });
+
+    describe.only('Provider Auction operations', () => {
+      const commitFee = 1000;
+      const revealFee = 1000;
+      const maxPrice = 1000000;
+      const numProviders = 2;
+      const bidderInitialBlanace = 1000000000;
+      const txFees = 200000;
+      testAuctionId = '5e9dd5501e965f25db4fa62635d0ce5f6c59d73ab1a2ea999f8c5bf2f6fb6350';
+
+      const bidderAccounts = [
+        {
+          privateKey: 'f40f8e2c9ba70595b6d1cf3bcc47ba539e7d6ad2bcdb16e26c1e369378fd5a55',
+          address: 'laconic13cd6ntlcf5y0zmafg6wf96y6vsnq46xagpmjtc',
+          bidAmount: 25000
+        },
+        {
+          privateKey: '2c70e81c285e12f196837911aa258b11dff7e4189fc0f11e28cb228956807881',
+          address: 'laconic15x7sw49w3x2pahjlr48hunp5gpr7hm54eg3f8h',
+          bidAmount: 25300
+        },
+        {
+          privateKey: '1d3a47900e1a5980b171419ac700e779330bc0f85389a4113ff608ca314e25bb',
+          address: 'laconic1lkgay8ejvcwmngj3jua2ancdxxkukecz7hty89',
+          bidAmount: 25200
+        }
+      ];
+      const winnerAccounts = [bidderAccounts[0], bidderAccounts[2]];
+      const winnerPrice = bidderAccounts[2].bidAmount;
+
+      const bidRevealFilePaths: string[] = [];
+
+      beforeAll(() => {
+        // Fund all bidder accounts
+        bidderAccounts.forEach(account => {
+          spawnSync('laconic', ['registry', 'tokens', 'send', '--address', account.address, '--type', TOKEN_TYPE, '--quantity', bidderInitialBlanace.toString()]);
+        });
+      });
+
+      test('laconic registry auction create --kind <kind> --commits-duration <commits_duration> --reveals-duration <reveals_duration> --denom <denom> --commit-fee <commit_fee> --reveal-fee <reveal_fee> --max-price <max_price> --num-providers <num_providers>', async () => {
+        const createAuctionResult = spawnSync('laconic', [
+          'registry',
+          'auction',
+          'create',
+          '--kind', AUCTION_KIND_PROVIDER,
+          '--commits-duration', AUCTION_COMMIT_DURATION.toString(),
+          '--reveals-duration', AUCTION_REVEAL_DURATION.toString(),
+          '--denom', TOKEN_TYPE,
+          '--commit-fee', commitFee.toString(),
+          '--reveal-fee', revealFee.toString(),
+          '--max-price', maxPrice.toString(),
+          '--num-providers', numProviders.toString()
+        ]);
+
+        const outputObj = checkResultAndRetrieveOutput(createAuctionResult);
+
+        expect(outputObj).toHaveProperty('auctionId');
+
+        testAuctionId = outputObj.auctionId;
+        const getAuctionResult = spawnSync('laconic', ['registry', 'auction', 'get', '--id', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(getAuctionResult);
+
+        const expectedAuctionObjPartial = {
+          kind: AUCTION_KIND_PROVIDER,
+          status: AUCTION_STATUS.COMMIT,
+          ownerAddress: testAccount,
+          commitFee: { quantity: commitFee },
+          revealFee: { quantity: revealFee },
+          minimumBid: { quantity: 0 },
+          winnerAddresses: [],
+          winnerBids: [],
+          maxPrice: { quantity: maxPrice },
+          numProviders: numProviders,
+          bids: []
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+      });
+
+      test('laconic registry auction bid commit <auction_id> <quantity> <type>', async () => {
+        for (const bidderAccount of bidderAccounts) {
+          const result = spawnSync('laconic', ['registry', 'auction', 'bid', 'commit', testAuctionId, bidderAccount.bidAmount.toString(), TOKEN_TYPE, '--txKey', bidderAccount.privateKey]);
+          const outputObj = checkResultAndRetrieveOutput(result);
+
+          // Expected output
+          expect(outputObj.reveal_file).toBeDefined();
+
+          bidRevealFilePaths.push(outputObj.reveal_file);
+        }
+
+        const auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedBids = bidderAccounts.map(account => ({
+          bidderAddress: account.address,
+          status: AUCTION_STATUS.COMMIT,
+          bidAmount: { quantity: 0 }
+        }));
+        const expectedAuctionObjPartial = {
+          status: AUCTION_STATUS.COMMIT,
+          ownerAddress: testAccount,
+          winnerAddresses: [],
+          winnerBids: [],
+          bids: expectedBids
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+      });
+
+      test('laconic registry auction bid reveal <auction_id> <file_path>', async () => {
+        // Wait for auction commits duration (60s)
+        await delay(AUCTION_COMMIT_DURATION * 1000);
+
+        // Reveal bid
+        for (let i = 0; i < bidderAccounts.length; i++) {
+          const result = spawnSync('laconic', ['registry', 'auction', 'bid', 'reveal', testAuctionId, bidRevealFilePaths[i], '--txKey', bidderAccounts[i].privateKey]);
+          const outputObj = checkResultAndRetrieveOutput(result);
+
+          // Expected output
+          expect(outputObj).toEqual({ success: true });
+
+          const revealObject = JSON.parse(fs.readFileSync(bidRevealFilePaths[i], 'utf8'));
+          expect(revealObject).toMatchObject({
+            chainId: CHAIN_ID,
+            auctionId: testAuctionId,
+            bidderAddress: bidderAccounts[i].address,
+            bidAmount: `${bidderAccounts[i].bidAmount}${TOKEN_TYPE}`
+          });
+        }
+
+        // Get auction with revealed bid
+        const auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedBids = bidderAccounts.map(account => ({
+          bidderAddress: account.address,
+          status: AUCTION_STATUS.REVEAL,
+          bidAmount: { quantity: account.bidAmount }
+        }));
+        const expectedAuctionObjPartialOnBidReveal = {
+          status: AUCTION_STATUS.REVEAL,
+          winnerAddresses: [],
+          bids: expectedBids
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartialOnBidReveal);
+      }, (AUCTION_COMMIT_DURATION + 60) * 1000);
+
+      test('laconic registry auction get <auction_id>', async () => {
+        // Wait for auction reveals duration (60s)
+        await delay(AUCTION_REVEAL_DURATION * 1000);
+
+        const auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedWinnerAddresses = winnerAccounts.map(account => account.address);
+        const expectedWinnerBids = winnerAccounts.map(account => ({ quantity: account.bidAmount }));
+
+        const expectedAuctionObjPartial = {
+          status: AUCTION_STATUS.COMPLETED,
+          ownerAddress: testAccount,
+          winnerAddresses: expectedWinnerAddresses,
+          winnerBids: expectedWinnerBids,
+          winnerPrice: { quantity: winnerPrice },
+          fundsReleased: false
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+      }, (AUCTION_REVEAL_DURATION + 5) * 1000);
+
+      test('laconic registry auction release-funds <auction_id>', async () => {
+        const result = spawnSync('laconic', ['registry', 'auction', 'release-funds', testAuctionId]);
+        const outputObj = checkResultAndRetrieveOutput(result);
+
+        expect(outputObj).toEqual({ success: true });
+
+        const auctionResult = spawnSync('laconic', ['registry', 'auction', 'get', testAuctionId]);
+        const auctionOutputObj = checkResultAndRetrieveOutput(auctionResult);
+
+        const expectedAuctionObjPartial = {
+          status: AUCTION_STATUS.COMPLETED,
+          ownerAddress: testAccount,
+          fundsReleased: true
+        };
+        expect(auctionOutputObj[0]).toMatchObject(expectedAuctionObjPartial);
+
+        const expectedBalances = [
+          bidderInitialBlanace - (commitFee) - (2 * txFees) + winnerPrice,
+          bidderInitialBlanace - (commitFee) - (2 * txFees),
+          bidderInitialBlanace - (commitFee) - (2 * txFees) + winnerPrice
+        ];
+
+        for (let i = 0; i < bidderAccounts.length; i++) {
+          const result = spawnSync('laconic', ['registry', 'account', 'get', '--address', bidderAccounts[i].address]);
+          const outputObj = checkResultAndRetrieveOutput(result);
+
+          // Expected account
+          const expectedAccount = getAccountObj({ address: bidderAccounts[i].address, balance: expectedBalances[i] });
+
+          expect(outputObj.length).toEqual(1);
+          expect(outputObj[0]).toMatchObject(expectedAccount);
+        }
       });
     });
 

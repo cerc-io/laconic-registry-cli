@@ -1,4 +1,4 @@
-## Run CLI tests
+# Run CLI tests
 
 * Follow the project `Setup` and `Account Setup` from root [README](./../README.md)
 
