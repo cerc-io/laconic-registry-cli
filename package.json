@@ -29,7 +29,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@cerc-io/registry-sdk": "^0.2.10",
+    "@cerc-io/registry-sdk": "^0.2.11",
     "@cosmjs/stargate": "^0.32.2",
     "fs-extra": "^10.1.0",
     "js-yaml": "^3.14.1",
